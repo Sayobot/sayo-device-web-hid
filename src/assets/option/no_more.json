@@ -1,0 +1,13 @@
+{
+    "version":"1.0",
+    "title":"空",
+    "multiple_choice":false,
+    "input_type":"input",
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":""
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "version": "1.0",
+    "title": "打开的LED",
+    "multiple_choice": false,
+    "input_type": "choice",
+    "defVal": 0,
+    "data": [
+        {
+            "code": 0,
+            "name": "none"
+        },
+        {
+            "code": 1,
+            "name": "Num Lock"
+        },
+        {
+            "code": 2,
+            "name": "Caps Lock"
+        },
+        {
+            "code": 4,
+            "name": "Scroll Lock"
+        }
+    ]
+}

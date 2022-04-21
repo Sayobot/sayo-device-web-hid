@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"间隔时间",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"int",
+    "defVal":30,
+    "min":0,
+    "max":255,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

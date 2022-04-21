@@ -1,0 +1,21 @@
+{
+    "version":"1.0",
+    "title":"选择轴",
+    "multiple_choice":false,
+    "input_type":"choice",
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"X轴"
+        },
+        {
+            "code":1,
+            "name":"Y轴"
+        },
+        {
+            "code":2,
+            "name":"滚轮"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+﻿{
+    "version":"1.0",
+    "title":"选择颜色",
+    "input_type":"color",
+    "defVal":80,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

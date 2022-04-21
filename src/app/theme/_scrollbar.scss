@@ -1,4 +1,4 @@
-@import './variables';
+@use 'theme';
 
 *::-webkit-scrollbar {
   width: 4px;
@@ -18,7 +18,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: $primary;
+  background: theme.$primary;
 }
 
 *::-webkit-scrollbar-corner {

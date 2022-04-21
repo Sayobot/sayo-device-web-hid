@@ -1,0 +1,13 @@
+{
+    "version":"1.0",
+    "title":"颜色",
+    "input_type":"color2arr",
+    "defVal":80,
+    "lock":false,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

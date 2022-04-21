@@ -1,0 +1,17 @@
+{
+    "version":"1.0",
+    "title":"自动回车",
+    "multiple_choice":false,
+    "input_type":"choice",
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"是"
+        },
+        {
+            "code":1,
+            "name":"否"
+        }
+    ]
+}

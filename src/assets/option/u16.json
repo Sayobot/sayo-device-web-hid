@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"0~65535",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"int",
+    "min":0,
+    "max":65535,
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

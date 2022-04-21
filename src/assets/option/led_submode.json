@@ -1,0 +1,37 @@
+{
+    "version":"1.0",
+    "title":"事件",
+    "multiple_choice":false,
+    "input_type":"choice",
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        },
+        {
+            "code":1,
+            "name":"按下亮 抬起灭"
+        },
+        {
+            "code":2,
+            "name":"按下灭 抬起亮"
+        },
+        {
+            "code":3,
+            "name":"按下渐隐 抬起渐显"
+        },
+        {
+            "code":4,
+            "name":"按下渐显 抬起渐隐"
+        },
+        {
+            "code":5,
+            "name":"按下后执行灯光配置"
+        },
+        {
+            "code":6,
+            "name":"抬起后执行灯光配置"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "version":"1.0",
+    "title":"指示灯",
+    "input_type":"choice",
+    "multiple_choice":false,
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"请设定"
+        },
+        {
+            "code":1,
+            "name":"NumLock"
+        },
+        {
+            "code":2,
+            "name":"CapsLock"
+        },
+        {
+            "code":4,
+            "name":"ScrollLock"
+        },
+        {
+            "code":8,
+            "name":"ComLock"
+        },
+        {
+            "code":16,
+            "name":"KANA Lock"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "version":"1.0",
+    "title":"HID功能",
+    "multiple_choice":true,
+    "input_type":"choice",
+    "defVal":0,
+    "data": [
+        {
+            "code": 1,
+            "name": "相对鼠标"
+        },
+        {
+            "code": 2,
+            "name": "多媒体控制"
+        },
+        {
+            "code": 4,
+            "name": "joystick"
+        },
+        {
+            "code": 8,
+            "name": "绝对鼠标"
+        }
+    ]
+}

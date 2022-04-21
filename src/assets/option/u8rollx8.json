@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"random 0~x * 8 ms",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"int",
+    "min":0,
+    "max":255,
+    "defVal":8,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

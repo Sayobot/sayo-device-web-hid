@@ -1,0 +1,29 @@
+{
+    "version":"1.0",
+    "title":"选择按键层",
+    "multiple_choice":false,
+    "input_type":"choice",
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"层0"
+        },
+        {
+            "code":1,
+            "name":"层1"
+        },
+        {
+            "code":2,
+            "name":"层2"
+        },
+        {
+            "code":3,
+            "name":"层3"
+        },
+        {
+            "code":4,
+            "name":"层4"
+        }
+    ]
+}

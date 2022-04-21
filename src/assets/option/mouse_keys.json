@@ -1,0 +1,21 @@
+﻿{
+    "version":"1.0",
+    "title":"鼠标键",
+    "multiple_choice":true,
+    "input_type":"choice",
+    "defVal":1,
+    "data": [
+        {
+            "code": 1,
+            "name": "左键"
+        },
+        {
+            "code": 2,
+            "name": "右键"
+        },
+        {
+            "code": 4,
+            "name": "中键"
+        }
+    ]
+}

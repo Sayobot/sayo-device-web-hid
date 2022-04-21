@@ -1,0 +1,21 @@
+{
+    "version":"1.0",
+    "title":"选项字",
+    "multiple_choice":true,
+    "input_type":"choice",
+    "defVal":0,
+    "data": [
+        {
+            "code": 1,
+            "name": "启动延时"
+        },
+        {
+            "code": 2,
+            "name": "启用joystick"
+        },
+        {
+            "code": 4,
+            "name": "KVM兼容模式"
+        }
+    ]
+}

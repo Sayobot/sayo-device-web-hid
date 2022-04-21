@@ -1,0 +1,25 @@
+{
+    "version":"1.0",
+    "title":"颜色模式",
+    "input_type":"choice",
+    "multiple_choice":false,
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"指定颜色"
+        },
+        {
+            "code":16,
+            "name":"色表循环"
+        },
+        {
+            "code":32,
+            "name":"色表随机"
+        },
+        {
+            "code":48,
+            "name":"随机颜色"
+        }
+    ]
+}

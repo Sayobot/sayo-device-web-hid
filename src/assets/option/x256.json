@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"x * 256 ms,1=0.256s",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"int",
+    "min":0,
+    "max":255,
+    "defVal":4,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

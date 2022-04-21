@@ -1,0 +1,45 @@
+{
+    "version":"1.0",
+    "title":"自启动脚本",
+    "multiple_choice":true,
+    "input_type":"choice",
+    "defVal":0,
+    "data": [
+        {
+            "code": 0,
+            "name": "不设置"
+        },
+        {
+            "code": 1,
+            "name": "按键1"
+        },
+        {
+            "code": 2,
+            "name": "按键2"
+        },
+        {
+            "code": 4,
+            "name": "按键3"
+        },
+        {
+            "code": 8,
+            "name": "按键4"
+        },
+        {
+            "code": 16,
+            "name": "按键5"
+        },
+        {
+            "code": 32,
+            "name": "按键6"
+        },
+        {
+            "code": 64,
+            "name": "按键7"
+        },
+        {
+            "code": 128,
+            "name": "按键8"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"脚本名称",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"string",
+    "defVal":"",
+    "min":0,
+    "max":30,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

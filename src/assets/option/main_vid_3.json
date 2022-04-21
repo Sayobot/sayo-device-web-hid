@@ -1,0 +1,727 @@
+{
+    "version": "1.0",
+    "title": "emmmm",
+    "uri": "/api/devices",
+    "methods": [
+        "read",
+        "write",
+        "save"
+    ],
+    "data": [
+        {
+            "title": "按键",
+            "cmd": "buttons",
+            "cmd_code": 6,
+            "format":null,
+            "mode": [
+                {
+                    "name": "默认",
+                    "code": 0,
+                    "note": "包含键盘组合键、普通按键的一种模式",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
+                    "name": "鼠标模式",
+                    "code": 2,
+                    "note": "完整的鼠标控制，包括光标和按键",
+                    "values": [
+                        "mouse_keys.json",
+                        "mouse_x.json",
+                        "mouse_y.json",
+                        "mouse_scroll.json"
+                    ]
+                },
+                {
+                    "name": "多媒体控制",
+                    "code": 3,
+                    "note": "一些系统控制选项",
+                    "values": [
+                        "consumer_control.json"
+                    ]
+                },
+                {
+                    "name": "二步操作",
+                    "code": 4,
+                    "note": "",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json",
+                        "modifier_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
+                    "name": "游戏控制器-轴",
+                    "code": 5,
+                    "note": "",
+                    "values": [
+                        "joystick.json",
+                        "u8.json"
+                    ]
+                },
+                {
+                    "name": "游戏控制器-按键",
+                    "code": 6,
+                    "note": "",
+                    "values": [
+                        "joystick_key.json"
+                    ]
+                },
+                {
+                    "name": "键盘+LED控制",
+                    "code": 7,
+                    "note": "",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json",
+                        "kb_led_on.json",
+                        "kb_led_off.json"
+                    ]
+                },
+                {
+                    "name": "一键密码",
+                    "code": 8,
+                    "note": "自动输入一系列的字符，请在“密码”选项卡修改",
+                    "values": [
+                        "pwd.json",
+                        "auto_enter.json",
+                        "pwd_interval_time.json"
+                    ]
+                },
+                {
+                    "name": "一键字符",
+                    "code": 9,
+                    "note": "",
+                    "values": [
+                        "unicode_text_2.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "自锁模式",
+                    "code": 10,
+                    "note": "按一下自动按住，再按一下取消",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
+                    "name": "多媒体控制-完整版",
+                    "code": 11,
+                    "note": "",
+                    "values": [
+                        "mu_keys.json"
+                    ]
+                },
+                {
+                    "name": "未命名",
+                    "code": 12,
+                    "note": "",
+                    "values": [
+                        "general_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
+                    "name": "一键密码V2",
+                    "code": 13,
+                    "note": "自动输入一系列的字符，请在“密码”选项卡修改",
+                    "values": [
+                        "pwd.json",
+                        "general_keys.json",
+                        "pwd_interval_time.json"
+                    ]
+                },
+                {
+                    "name": "shortcut *3",
+                    "code": 14,
+                    "note": "",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json",
+                        "general_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
+                    "name": "Custom mode",
+                    "code": 16,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "灯光",
+            "cmd": "lighting",
+            "cmd_code": 7,
+            "format":null,
+            "mode": [
+                {
+                    "name": "指定颜色",
+                    "code": 0,
+                    "note": "貌似没啥好解释的2333",
+                    "values": [
+                        "color.json",
+                        "no_more.json",
+                        "col_event.json",
+                        "no_more.json",
+                        "col_cmd_len_5.json"
+                    ]
+                },
+                {
+                    "name": "指示灯",
+                    "code": 1,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "no_more.json",
+                        "indicator_light.json",
+                        "no_more.json",
+                        "col_cmd_len_5.json"
+                    ]
+                },
+                {
+                    "name": "指定颜色-呼吸(双停止间隔)",
+                    "code": 2,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "指定颜色-呼吸(常亮间隔)",
+                    "code": 3,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "指定颜色-呼吸(熄灭间隔)",
+                    "code": 5,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "指定颜色-闪烁",
+                    "code": 48,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-呼吸(双停止间隔)",
+                    "code": 20,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-呼吸(常亮间隔)",
+                    "code": 21,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-呼吸(熄灭间隔)",
+                    "code": 22,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-切换",
+                    "code": 37,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-渐变",
+                    "code": 29,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "随机颜色-闪烁",
+                    "code": 52,
+                    "note": "",
+                    "values": [
+                        "color.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-呼吸(双停止间隔)",
+                    "code": 9,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-呼吸(常亮间隔)",
+                    "code": 12,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-呼吸(熄灭间隔)",
+                    "code": 15,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-渐变",
+                    "code": 27,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-切换",
+                    "code": 35,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色间隔-闪烁",
+                    "code": 50,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-呼吸(双停止间隔)",
+                    "code": 8,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-呼吸(常亮间隔)",
+                    "code": 11,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-呼吸(熄灭间隔)",
+                    "code": 14,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-渐变",
+                    "code": 26,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-切换",
+                    "code": 34,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                },
+                {
+                    "name": "12色相邻-闪烁",
+                    "code": 49,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "col_speed.json",
+                        "col_event.json",
+                        "col_interval_time.json",
+                        "col_cmd_len_6.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "灯光v2",
+            "cmd": "api_code",
+            "cmd_code": 16,
+            "format":null,
+            "mode": [
+                {
+                    "name": "静态",
+                    "code": 0,
+                    "note": "貌似没啥好解释的2333",
+                    "values": [
+                        "led_mode_color.json",
+                        "no_more.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "指示灯",
+                    "code": 1,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "no_more.json",
+                        "indicator_light.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "呼吸",
+                    "code": 2,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "keep_off_time.json"
+                    ]
+                },
+                {
+                    "name": "呼吸一次",
+                    "code": 3,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "渐变",
+                    "code": 4,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "切换",
+                    "code": 6,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "切换一次",
+                    "code": 7,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "闪烁",
+                    "code": 8,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "keep_off_time.json"
+                    ]
+                },
+                {
+                    "name": "闪烁一次",
+                    "code": 9,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "渐隐",
+                    "code": 14,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                },
+                {
+                    "name": "渐显",
+                    "code": 15,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "密码",
+            "cmd": "ok_pwd",
+            "cmd_code": 11,
+            "format":null,
+            "ban_release_number":48,
+            "mode": [
+                {
+                    "name": "请输入密码",
+                    "code": 0,
+                    "note": "最多29个ASCII字符;对于O2C,与自定义设备名冲突",
+                    "values": [
+                        "string_ascii.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "设备名称",
+            "cmd": "dev_name",
+            "cmd_code": 8,
+            "format":null,
+            "mode": [
+                {
+                    "name": "请输入设备名称~",
+                    "code": 0,
+                    "note": "最多15个Unicode字符;对于O2C,与一键密码冲突",
+                    "values": [
+                        "string_unicode.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "触摸灵敏度",
+            "cmd": "api_code",
+            "cmd_code":10,
+            "format":null,
+            "mode": [
+                {
+                    "name": "在右边输入数值，数值越小灵敏度越高",
+                    "code": 0,
+                    "note": "",
+                    "values": [
+                        "no_more.json",
+                        "u8.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "选项字节",
+            "cmd": "api_code",
+            "cmd_code":252,
+            "format":null,
+            "mode": [
+                {
+                    "name": "",
+                    "code": 0,
+                    "note": "",
+                    "values": [
+                        "mini_opt_1.json",
+                        "key_delay.json",
+                        "mini_opt_2.json"
+                    ]
+                }
+            ]
+        }
+    ]
+}

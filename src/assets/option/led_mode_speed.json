@@ -1,0 +1,25 @@
+{
+    "version":"1.0",
+    "title":"速度设定",
+    "input_type":"choice",
+    "multiple_choice":false,
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"8x"
+        },
+        {
+            "code":64,
+            "name":"4x"
+        },
+        {
+            "code":128,
+            "name":"2x"
+        },
+        {
+            "code":192,
+            "name":"1x"
+        }
+    ]
+}

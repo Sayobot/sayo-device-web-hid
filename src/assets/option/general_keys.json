@@ -1,0 +1,942 @@
+{
+    "version": "1.0",
+    "title": "一般键",
+    "multiple_choice": false,
+    "input_type": "choice",
+    "defVal":0,
+    "data": [
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 41,
+            "name": "ESC"
+        },
+        {
+            "code": 58,
+            "name": "F1"
+        },
+        {
+            "code": 59,
+            "name": "F2"
+        },
+        {
+            "code": 60,
+            "name": "F3"
+        },
+        {
+            "code": 61,
+            "name": "F 4"
+        },
+        {
+            "code": 62,
+            "name": "F 5"
+        },
+        {
+            "code": 63,
+            "name": "F 6"
+        },
+        {
+            "code": 64,
+            "name": "F 7"
+        },
+        {
+            "code": 65,
+            "name": "F 8"
+        },
+        {
+            "code": 66,
+            "name": "F 9"
+        },
+        {
+            "code": 67,
+            "name": "F10"
+        },
+        {
+            "code": 68,
+            "name": "F11"
+        },
+        {
+            "code": 69,
+            "name": "F12"
+        },
+        {
+            "code": 70,
+            "name": "PS"
+        },
+        {
+            "code": 71,
+            "name": "SL"
+        },
+        {
+            "code": 72,
+            "name": "Pause"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 53,
+            "name": "·  ~"
+        },
+        {
+            "code": 30,
+            "name": "1!"
+        },
+        {
+            "code": 31,
+            "name": "2@"
+        },
+        {
+            "code": 32,
+            "name": "3#"
+        },
+        {
+            "code": 33,
+            "name": "4$"
+        },
+        {
+            "code": 34,
+            "name": "5%"
+        },
+        {
+            "code": 35,
+            "name": "6^"
+        },
+        {
+            "code": 36,
+            "name": "7&"
+        },
+        {
+            "code": 37,
+            "name": "8*"
+        },
+        {
+            "code": 38,
+            "name": "9("
+        },
+        {
+            "code": 39,
+            "name": "0)"
+        },
+        {
+            "code": 45,
+            "name": "- _"
+        },
+        {
+            "code": 46,
+            "name": "= +"
+        },
+        {
+            "code": 42,
+            "name": "Bs"
+        },
+        {
+            "code": 73,
+            "name": "Ins"
+        },
+        {
+            "code": 74,
+            "name": "Hm"
+        },
+        {
+            "code": 75,
+            "name": "PU"
+        },
+        {
+            "code": 83,
+            "name": "NL"
+        },
+        {
+            "code": 84,
+            "name": "/"
+        },
+        {
+            "code": 85,
+            "name": "*"
+        },
+        {
+            "code": 86,
+            "name": "-"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 43,
+            "name": "T A B"
+        },
+        {
+            "code": 20,
+            "name": "Qq"
+        },
+        {
+            "code": 26,
+            "name": "Ww"
+        },
+        {
+            "code": 8,
+            "name": "Ee"
+        },
+        {
+            "code": 21,
+            "name": "Rr"
+        },
+        {
+            "code": 23,
+            "name": "Tt"
+        },
+        {
+            "code": 28,
+            "name": "Yy"
+        },
+        {
+            "code": 24,
+            "name": "Uu"
+        },
+        {
+            "code": 12,
+            "name": "Ii"
+        },
+        {
+            "code": 18,
+            "name": "Oo"
+        },
+        {
+            "code": 19,
+            "name": "Pp"
+        },
+        {
+            "code": 47,
+            "name": "[{"
+        },
+        {
+            "code": 48,
+            "name": "]}"
+        },
+        {
+            "code": 49,
+            "name": "\\|"
+        },
+        {
+            "code": 76,
+            "name": "Del"
+        },
+        {
+            "code": 77,
+            "name": "End"
+        },
+        {
+            "code": 78,
+            "name": "PD"
+        },
+        {
+            "code": 95,
+            "name": "7n"
+        },
+        {
+            "code": 96,
+            "name": "8n"
+        },
+        {
+            "code": 97,
+            "name": "9n"
+        },
+        {
+            "code": 87,
+            "name": "+"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 57,
+            "name": "CapsLock"
+        },
+        {
+            "code": 4,
+            "name": "Aa"
+        },
+        {
+            "code": 22,
+            "name": "Ss"
+        },
+        {
+            "code": 7,
+            "name": "Dd"
+        },
+        {
+            "code": 9,
+            "name": "Ff"
+        },
+        {
+            "code": 10,
+            "name": "Gg"
+        },
+        {
+            "code": 11,
+            "name": "Hh"
+        },
+        {
+            "code": 13,
+            "name": "Jj"
+        },
+        {
+            "code": 14,
+            "name": "Kk"
+        },
+        {
+            "code": 15,
+            "name": "Ll"
+        },
+        {
+            "code": 51,
+            "name": ";:"
+        },
+        {
+            "code": 52,
+            "name": "'\""
+        },
+        {
+            "code": 40,
+            "name": "Enter"
+        },
+        {
+            "code": 0,
+            "name": "---------------------"
+        },
+        {
+            "code": 92,
+            "name": "4n"
+        },
+        {
+            "code": 93,
+            "name": "5n"
+        },
+        {
+            "code": 94,
+            "name": "6n"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 0,
+            "name": "--------------"
+        },
+        {
+            "code": 29,
+            "name": "Zz"
+        },
+        {
+            "code": 27,
+            "name": "Xx"
+        },
+        {
+            "code": 6,
+            "name": "Cc"
+        },
+        {
+            "code": 25,
+            "name": "Vv"
+        },
+        {
+            "code": 5,
+            "name": "Bb"
+        },
+        {
+            "code": 17,
+            "name": "Nn"
+        },
+        {
+            "code": 16,
+            "name": "Mm"
+        },
+        {
+            "code": 54,
+            "name": ",<"
+        },
+        {
+            "code": 55,
+            "name": ".>"
+        },
+        {
+            "code": 56,
+            "name": "/?"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 82,
+            "name": "↑↑"
+        },
+        {
+            "code": 0,
+            "name": "----"
+        },
+        {
+            "code": 89,
+            "name": "1n"
+        },
+        {
+            "code": 90,
+            "name": "2n"
+        },
+        {
+            "code": 91,
+            "name": "3n"
+        },
+        {
+            "code": 0,
+            "name": "----------------"
+        },
+        {
+            "code": 0,
+            "name": "------------------"
+        },
+        {
+            "code": 44,
+            "name": "------------------SpaceBar(空格)-----------------"
+        },
+        {
+            "code": 0,
+            "name": "--"
+        },
+        {
+            "code": 101,
+            "name": "MENU"
+        },
+        {
+            "code": 0,
+            "name": "--"
+        },
+        {
+            "code": 80,
+            "name": "←←"
+        },
+        {
+            "code": 81,
+            "name": "↓↓"
+        },
+        {
+            "code": 79,
+            "name": "→→"
+        },
+        {
+            "code": 98,
+            "name": "0 n"
+        },
+        {
+            "code": 99,
+            "name": "."
+        },
+        {
+            "code": 88,
+            "name": "EnterN"
+        },
+        {
+            "code": 0,
+            "name": "---------------------下面的按键在windows下不支持，linux下可用----------------------"
+        },
+        {
+            "code": 0,
+            "name": "---------------------下面的按键在windows下不支持，linux下可用----------------------"
+        },
+        {
+            "code": 0,
+            "name": "---------------------下面的按键在windows下不支持，linux下可用----------------------"
+        },
+        {
+            "code": 50,
+            "name": "Non-US#and~"
+        },
+        {
+            "code": 53,
+            "name": "GraveAccentandTilde"
+        },
+        {
+            "code": 100,
+            "name": "Non-US\\and|"
+        },
+        {
+            "code": 101,
+            "name": "Application"
+        },
+        {
+            "code": 102,
+            "name": "Power"
+        },
+        {
+            "code": 103,
+            "name": "="
+        },
+        {
+            "code": 104,
+            "name": "F13"
+        },
+        {
+            "code": 105,
+            "name": "F14"
+        },
+        {
+            "code": 106,
+            "name": "F15"
+        },
+        {
+            "code": 107,
+            "name": "F16"
+        },
+        {
+            "code": 108,
+            "name": "F17"
+        },
+        {
+            "code": 109,
+            "name": "F18"
+        },
+        {
+            "code": 110,
+            "name": "F19"
+        },
+        {
+            "code": 111,
+            "name": "F20"
+        },
+        {
+            "code": 112,
+            "name": "F21"
+        },
+        {
+            "code": 113,
+            "name": "F22"
+        },
+        {
+            "code": 114,
+            "name": "F23"
+        },
+        {
+            "code": 115,
+            "name": "F24"
+        },
+        {
+            "code": 116,
+            "name": "Execute"
+        },
+        {
+            "code": 117,
+            "name": "Help"
+        },
+        {
+            "code": 118,
+            "name": "Menu"
+        },
+        {
+            "code": 119,
+            "name": "Select"
+        },
+        {
+            "code": 120,
+            "name": "Stop"
+        },
+        {
+            "code": 121,
+            "name": "Again"
+        },
+        {
+            "code": 122,
+            "name": "Undo"
+        },
+        {
+            "code": 123,
+            "name": "Cut"
+        },
+        {
+            "code": 124,
+            "name": "Copy"
+        },
+        {
+            "code": 125,
+            "name": "Paste"
+        },
+        {
+            "code": 126,
+            "name": "Find"
+        },
+        {
+            "code": 127,
+            "name": "Mute"
+        },
+        {
+            "code": 128,
+            "name": "VolumeUp"
+        },
+        {
+            "code": 129,
+            "name": "VolumeDown"
+        },
+        {
+            "code": 130,
+            "name": "LockingCaps"
+        },
+        {
+            "code": 131,
+            "name": "LockingNum"
+        },
+        {
+            "code": 132,
+            "name": "LockingScroll"
+        },
+        {
+            "code": 133,
+            "name": "Comma"
+        },
+        {
+            "code": 134,
+            "name": "EqualSign"
+        },
+        {
+            "code": 135,
+            "name": "International1"
+        },
+        {
+            "code": 136,
+            "name": "International2"
+        },
+        {
+            "code": 137,
+            "name": "International3"
+        },
+        {
+            "code": 138,
+            "name": "International4"
+        },
+        {
+            "code": 139,
+            "name": "International5"
+        },
+        {
+            "code": 140,
+            "name": "International6"
+        },
+        {
+            "code": 141,
+            "name": "International7"
+        },
+        {
+            "code": 142,
+            "name": "International8"
+        },
+        {
+            "code": 143,
+            "name": "International9"
+        },
+        {
+            "code": 144,
+            "name": "LANG1"
+        },
+        {
+            "code": 145,
+            "name": "LANG2"
+        },
+        {
+            "code": 146,
+            "name": "LANG3"
+        },
+        {
+            "code": 147,
+            "name": "LANG4"
+        },
+        {
+            "code": 148,
+            "name": "LANG5"
+        },
+        {
+            "code": 149,
+            "name": "LANG6"
+        },
+        {
+            "code": 150,
+            "name": "LANG7"
+        },
+        {
+            "code": 151,
+            "name": "LANG8"
+        },
+        {
+            "code": 152,
+            "name": "LANG9"
+        },
+        {
+            "code": 153,
+            "name": "AlternateErase"
+        },
+        {
+            "code": 154,
+            "name": "SysReq/Attention"
+        },
+        {
+            "code": 155,
+            "name": "Cancel"
+        },
+        {
+            "code": 156,
+            "name": "Clear"
+        },
+        {
+            "code": 157,
+            "name": "Prior"
+        },
+        {
+            "code": 158,
+            "name": "Return"
+        },
+        {
+            "code": 159,
+            "name": "Separator"
+        },
+        {
+            "code": 160,
+            "name": "Out"
+        },
+        {
+            "code": 161,
+            "name": "Oper"
+        },
+        {
+            "code": 162,
+            "name": "Clear/Again"
+        },
+        {
+            "code": 163,
+            "name": "CrSel/Props"
+        },
+        {
+            "code": 164,
+            "name": "ExSel"
+        },
+        {
+            "code": 176,
+            "name": "00"
+        },
+        {
+            "code": 177,
+            "name": "000"
+        },
+        {
+            "code": 178,
+            "name": "ThousandsSeparator"
+        },
+        {
+            "code": 179,
+            "name": "DecimalSeparator"
+        },
+        {
+            "code": 180,
+            "name": "CurrencyUnit"
+        },
+        {
+            "code": 181,
+            "name": "CurrencySub-unit"
+        },
+        {
+            "code": 182,
+            "name": "("
+        },
+        {
+            "code": 183,
+            "name": ")"
+        },
+        {
+            "code": 184,
+            "name": "{"
+        },
+        {
+            "code": 185,
+            "name": "}"
+        },
+        {
+            "code": 186,
+            "name": "Tab"
+        },
+        {
+            "code": 187,
+            "name": "Backspace"
+        },
+        {
+            "code": 188,
+            "name": "A"
+        },
+        {
+            "code": 189,
+            "name": "B"
+        },
+        {
+            "code": 190,
+            "name": "C"
+        },
+        {
+            "code": 191,
+            "name": "D"
+        },
+        {
+            "code": 192,
+            "name": "E"
+        },
+        {
+            "code": 193,
+            "name": "F"
+        },
+        {
+            "code": 194,
+            "name": "XOR"
+        },
+        {
+            "code": 195,
+            "name": "^"
+        },
+        {
+            "code": 196,
+            "name": "%"
+        },
+        {
+            "code": 197,
+            "name": "<"
+        },
+        {
+            "code": 198,
+            "name": ">"
+        },
+        {
+            "code": 199,
+            "name": "&"
+        },
+        {
+            "code": 200,
+            "name": "&&"
+        },
+        {
+            "code": 201,
+            "name": "|"
+        },
+        {
+            "code": 202,
+            "name": "||"
+        },
+        {
+            "code": 203,
+            "name": ":"
+        },
+        {
+            "code": 204,
+            "name": "#"
+        },
+        {
+            "code": 205,
+            "name": "Space"
+        },
+        {
+            "code": 206,
+            "name": "@"
+        },
+        {
+            "code": 207,
+            "name": "!"
+        },
+        {
+            "code": 208,
+            "name": "MemoryStore"
+        },
+        {
+            "code": 209,
+            "name": "MemoryRecall"
+        },
+        {
+            "code": 210,
+            "name": "MemoryClear"
+        },
+        {
+            "code": 211,
+            "name": "MemoryAdd"
+        },
+        {
+            "code": 212,
+            "name": "MemorySubtract"
+        },
+        {
+            "code": 213,
+            "name": "MemoryMultiply"
+        },
+        {
+            "code": 214,
+            "name": "MemoryDivide"
+        },
+        {
+            "code": 215,
+            "name": "+/-"
+        },
+        {
+            "code": 216,
+            "name": "Clear"
+        },
+        {
+            "code": 217,
+            "name": "ClearEntry"
+        },
+        {
+            "code": 219,
+            "name": "Octal"
+        },
+        {
+            "code": 220,
+            "name": "Decimal"
+        },
+        {
+            "code": 221,
+            "name": "Hexadecimal"
+        },
+        {
+            "code": 224,
+            "name": "LeftControl"
+        },
+        {
+            "code": 225,
+            "name": "LeftShift"
+        },
+        {
+            "code": 226,
+            "name": "LeftAlt"
+        },
+        {
+            "code": 227,
+            "name": "LeftGUI"
+        },
+        {
+            "code": 228,
+            "name": "RightControl"
+        },
+        {
+            "code": 229,
+            "name": "RightShift"
+        },
+        {
+            "code": 230,
+            "name": "RightAlt"
+        },
+        {
+            "code": 231,
+            "name": "RightGUI"
+        }
+    ]
+
+}

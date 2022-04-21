@@ -1,7 +1,16 @@
-@import './theme/variables';
+@use './theme/mixin';
 
-.container {
+.page-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.menu-bar {
+  .menu-bar-item {
+    .mat-icon {
+      @include mixin.icon(16px);
+      margin-right: 8px;
+    }
+  }
 }

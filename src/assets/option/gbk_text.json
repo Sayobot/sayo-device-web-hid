@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"字符串",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"text_gbk",
+    "min":0,
+    "max":28,
+    "defVal":"",
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

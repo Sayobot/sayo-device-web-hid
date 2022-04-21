@@ -1,0 +1,74 @@
+{
+    "version": "1.0",
+    "title": "多媒体按键",
+    "multiple_choice": false,
+    "input_type": "choice",
+    "data_len":2,
+    "defVal":0,
+    "data": [
+        {
+            "code": 0,
+            "name": "不设置"
+        },
+        {
+            "code": 111,
+            "name": "屏幕亮度+"
+        },
+        {
+            "code": 112,
+            "name": "屏幕亮度-"
+        },
+        {
+            "code": 120,
+            "name": "禁用/启用相机"
+        },
+        {
+            "code": 209,
+            "name": "开始录屏"
+        },
+        {
+            "code": 210,
+            "name": "打开游戏栏"
+        },
+        {
+            "code": 211,
+            "name": "屏幕截图"
+        },
+        {
+            "code": 215,
+            "name": "开始直播"
+        },
+        {
+            "code": 226,
+            "name": "静音"
+        },
+        {
+            "code": 229,
+            "name": "低音增强"
+        },
+        {
+            "code": 233,
+            "name": "音量+"
+        },
+        {
+            "code": 234,
+            "name": "音量-"
+        },
+        {
+            "code": 205,
+            "name": "播放/暂停"
+        },
+        {
+            "code": 183,
+            "name": "停止"
+        },
+        {
+            "code": 182,
+            "name": "上一曲"
+        },
+        {
+            "code": 181,
+            "name": "下一曲"
+        }
+    ]
+}

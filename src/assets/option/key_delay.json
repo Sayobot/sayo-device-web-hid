@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"按键消抖时间",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"int",
+    "min":1,
+    "max":255,
+    "defVal":0,
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

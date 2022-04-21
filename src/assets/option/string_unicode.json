@@ -1,0 +1,16 @@
+{
+    "version":"1.0",
+    "title":"Unicode字符",
+    "multiple_choice":false,
+    "input_type":"input",
+    "subtype":"string",
+    "min":0,
+    "max":15,
+    "defVal":"",
+    "data":[
+        {
+            "code":0,
+            "name":"none"
+        }
+    ]
+}

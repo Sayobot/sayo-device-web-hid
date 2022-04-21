@@ -1,0 +1,25 @@
+{
+    "version":"1.0",
+    "title":"倍速",
+    "multiple_choice":false,
+    "input_type":"choice",
+    "defVal":128,
+    "data":[
+        {
+            "code":192,
+            "name":"1x"
+        },
+        {
+            "code":128,
+            "name":"2x"
+        },
+        {
+            "code":64,
+            "name":"4x"
+        },
+        {
+            "code":0,
+            "name":"8x"
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "version":"1.0",
+    "title":"组合键",
+    "multiple_choice":true,
+    "input_type":"choice",
+    "defVal":0,
+    "data":[
+        {
+            "code":1,
+            "name":"Left Ctrl"
+        },
+        {
+            "code":2,
+            "name":"Left Shift"
+        },
+        {
+            "code":4,
+            "name":"Left Alt"
+        },
+        {
+            "code":8,
+            "name":"Left GUI(win)"
+        },
+        {
+            "code":16,
+            "name":"Right Ctrl"
+        },
+        {
+            "code":32,
+            "name":"Right Shift"
+        },
+        {
+            "code":64,
+            "name":"Right Alt"
+        },
+        {
+            "code":128,
+            "name":"Right GUI(win)"
+        }
+    ]
+}
