@@ -16,7 +16,7 @@ export class DocService {
   private _paramMap: Map<string, DocParam> = new Map();
 
   constructor(private http: HttpClient, private device: DeviceService) {
-    this.device.pid.subscribe((pid) => {
+    this.device.pid$.subscribe((pid) => {
       console.log(`device change and pid is: ${pid}`);
 
       const file = pid === 3 ? 'main_vid_3.json' : 'main.json';

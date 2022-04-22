@@ -44,12 +44,6 @@
 
 
 /***************************************************************************************************
- * w3c-web-hid is required for DOM Web-HID API.
- */
-/// <reference types="w3c-web-hid" />
-
-
-/***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js';  // Included with Angular CLI.
