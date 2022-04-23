@@ -10,7 +10,7 @@ export class DeviceManagePage implements OnInit {
 
   ngOnInit(): void {}
 
-  search() {
-    this._device.select();
+  async search() {
+    await this._device.select();
   }
 }

@@ -1,0 +1,19 @@
+<ng-container *ngIf="keys.length > 0">
+  <div [ngStyle]="containerStyle" class="virtual-keyboard-container">
+    <div class="virtual-keyboard" [ngStyle]="vkeyboardStyle">
+      <ng-container *ngIf="keys.length > 0">
+        <Virtual-Key
+          *ngFor="let key of keys"
+          class="virtual-key"
+          [ngStyle]="vkeyStyle(key.pos.point)"
+          [width]="key.pos.size.width"
+          [height]="key.pos.size.height"
+          [raduis]="key.pos.size.radius"
+          [name]="'key'"
+          [tooltip]="'key tooltip'"
+          (clicked)="onClicked()"
+        ></Virtual-Key>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

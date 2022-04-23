@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { Protocol, Config as HID, metaInfoFromBuffer } from '../hid';
 
 @Injectable({
@@ -9,7 +9,7 @@ export class DeviceService {
   info?: DeviceInfo;
   device?: HIDDevice;
 
-  deviceChanged$ = new Subject<HIDDevice>();
+  deviceChanged$ = new ReplaySubject<HIDDevice>();
 
   constructor(private _protocol: Protocol) {}
 

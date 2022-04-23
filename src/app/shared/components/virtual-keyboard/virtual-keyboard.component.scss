@@ -1,0 +1,11 @@
+.virtual-keyboard {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+  box-shadow: 1px 3px 8px 2px;
+
+  .virtual-key {
+    position: absolute;
+  }
+}

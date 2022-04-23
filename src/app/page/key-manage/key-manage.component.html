@@ -1,2 +1,1 @@
-<button mat-button color="primary" (click)="getData()">Get</button>
-<button mat-button color="primary" (click)="setData()">Set</button>
+<Virtual-Keyboard [keys]="(data$ | async)!"></Virtual-Keyboard>

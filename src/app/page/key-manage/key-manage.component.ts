@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 
 @Component({
@@ -6,13 +7,15 @@ import { KeyService } from 'src/app/core/device/key.service';
   styleUrls: ['./key-manage.component.scss'],
 })
 export class KeyManagePage implements OnInit {
-  constructor(private _key: KeyService) {}
+  data$!: Observable<Key[]>;
 
-  ngOnInit(): void {}
-
-  async getData() {
-    await this._key.read();
+  constructor(private _key: KeyService) {
+    this.data$ = this._key.data$;
   }
 
-  setData() {}
+  ngOnInit(): void {
+    this._key.read();
+  }
+
+  onClicked() {}
 }

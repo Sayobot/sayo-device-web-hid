@@ -5,8 +5,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from './components/components.module';
 
-const All_Modules = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, MaterialUiModule];
+const All_Modules = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, MaterialUiModule, ComponentsModule];
 
 @NgModule({
   imports: All_Modules,

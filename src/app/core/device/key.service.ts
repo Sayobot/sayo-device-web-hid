@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { DeviceService } from './device.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyService {
-  data$ = new Subject<Key[]>();
+  data$ = new ReplaySubject<Key[]>(1);
 
   constructor(private _device: DeviceService) {}
 

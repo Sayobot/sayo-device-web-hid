@@ -10,26 +10,7 @@
           "strict": true
         },
         "@schematics/angular:component": {
-          "style": "scss",
-          "skipTests": false
-        },
-        "@schematics/angular:class": {
-          "skipTests": false
-        },
-        "@schematics/angular:directive": {
-          "skipTests": false
-        },
-        "@schematics/angular:guard": {
-          "skipTests": false
-        },
-        "@schematics/angular:module": {
-          "skipTests": false
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": false
-        },
-        "@schematics/angular:service": {
-          "skipTests": false
+          "style": "scss"
         }
       },
       "root": "",

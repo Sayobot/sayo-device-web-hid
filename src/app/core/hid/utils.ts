@@ -23,8 +23,8 @@ export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
 
   const pos: KeyPostion = {
     point: {
-      left: midX - width / 2,
-      top: midY - height / 2,
+      x: midX - width / 2,
+      y: midY - height / 2,
     },
     size: {
       width,

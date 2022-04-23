@@ -14,8 +14,8 @@ declare interface DeviceInfo {
 }
 
 declare interface Point {
-  left: number;
-  top: number;
+  x: number;
+  y: number;
 }
 
 declare interface Size {
