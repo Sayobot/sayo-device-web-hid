@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import * as HID from '../hid';
+import { Protocol, Config as HID } from '../hid';
 
 @Injectable({
   providedIn: 'root',
@@ -8,16 +8,13 @@ import * as HID from '../hid';
 export class DeviceService {
   device?: HIDDevice;
 
-  pid$ = new Subject<number>();
+  deviceChanged$ = new Subject<HIDDevice>();
 
-  inputReport$ = new Subject<DataView>();
-
-  constructor() {}
+  constructor(private _protocol: Protocol) {}
 
   async select() {
-    const filters: HIDDeviceFilter[] = [{ vendorId: HID.Config.vendorId }];
+    const filters: HIDDeviceFilter[] = [{ vendorId: HID.vendorId }];
     const devices = await navigator.hid.requestDevice({ filters });
-
 
     if (devices.length > 0) {
       if (this.device?.opened) {
@@ -32,5 +29,10 @@ export class DeviceService {
     } else {
       throw new Error('Not found device.');
     }
+  }
+
+  async key() {
+    if (!this.device) throw new Error('Please connect device.');
+    return await this._protocol.read_key(this.device);
   }
 }

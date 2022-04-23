@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config, Cmd, Method, Offset } from './const';
-import { fromBuffer_key } from './utils';
+import { keyFromBuffer } from './utils';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +23,36 @@ export class Protocol {
   }
 
   async read_key(device: HIDDevice) {
+    const buffer = await this.read(device, this.keyReadBuffer);
+    return buffer.map((key) => keyFromBuffer(key));
+  }
+
+  private keyReadBuffer(id: number) {
+    return this.readBuffer(Cmd.Key, id);
+  }
+
+  private readBuffer(cmd: Cmd, id: number) {
+    const checkOffset = Config.cmdSize + Config.checkSumStepSize;
+
+    let reportData = new Array(checkOffset).fill(0);
+    reportData[Offset.Cmd] = cmd;
+    reportData[Offset.Size] = Config.cmdSize;
+    reportData[Offset.Method] = Method.Read;
+    reportData[Offset.Id] = id;
+
+    reportData[checkOffset] = this.checkSum(reportData, checkOffset);
+
+    console.log(`CMD: ${Cmd.Key}, Report Data:`, reportData);
+
+    return new Uint8Array(reportData);
+  }
+
+  private async read(device: HIDDevice, bufferFunc: (id: number) => Uint8Array) {
     let response: Uint8Array[] = [];
     let done = false;
 
     const handleEvent = ({ data }: HIDInputReportEvent) => {
-      if (data.getUint8(0) === 0xff) {
+      if (data.getUint8(0) === 0xff || data.getUint8(0) === 0x04) {
         device.removeEventListener('inputreport', handleEvent);
         done = true;
       } else {
@@ -39,27 +64,11 @@ export class Protocol {
 
     let id = 0;
     while (!done) {
-      await device.sendReport(Config.reportId, this.key_buffer(id, Method.Read));
+      await device.sendReport(Config.reportId, bufferFunc(id));
       id++;
     }
 
-    return response.map(key => fromBuffer_key(key));
-  }
-
-  private key_buffer(id: number, method: Method) {
-    const checkBit = Config.cmdSize + Config.checkSumStepSize;
-
-    let reportData = new Array(checkBit).fill(0);
-    reportData[Offset.Cmd] = Cmd.Key;
-    reportData[Offset.Size] = Config.cmdSize;
-    reportData[Offset.Method] = method;
-    reportData[Offset.Id] = id;
-
-    reportData[checkBit] = this.checkSum(reportData, checkBit);
-
-    console.log(`CMD: ${Cmd.Key}, Report Data:`, reportData);
-
-    return new Uint8Array(reportData);
+    return response;
   }
 
   private checkSum(data: number[], checkBit: number) {

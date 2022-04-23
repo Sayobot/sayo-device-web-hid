@@ -1,8 +1,8 @@
 export const typeOf = (ev: HIDInputReportEvent) => {};
 
-export const toBuffer_key = (data: Key) => {};
+// export const bufferFromKey: (key:Key) => Uint8Array;
 
-export const fromBuffer_key: (data: Uint8Array) => Key = (data: Uint8Array) => {
+export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
   data = data.slice(2);
 
   const pos: KeyPostion = {
@@ -17,13 +17,12 @@ export const fromBuffer_key: (data: Uint8Array) => Key = (data: Uint8Array) => {
     },
   };
 
-  const functions: KeyFunction[] = [];
+  let functions: KeyFunction[] = [];
   for (let i = 16; i < data.length - 16; i += 6) {
-    const item: KeyFunction = {
+    functions.push({
       mode: data[i],
       values: [data[i + 2], data[i + 3], data[i + 4], data[i + 5]],
-    };
-    functions.push(item);
+    });
   }
 
   return { id: data[1], type: data[3], pos, functions };
