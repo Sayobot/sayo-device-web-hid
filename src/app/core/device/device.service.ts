@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Protocol, Config as HID } from '../hid';
+import { Protocol, Config as HID, metaInfoFromBuffer } from '../hid';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceService {
+  info?: DeviceInfo;
   device?: HIDDevice;
 
   deviceChanged$ = new Subject<HIDDevice>();
@@ -24,6 +25,10 @@ export class DeviceService {
 
       this.device = devices[0];
       await this.device.open();
+
+      const metaInfoBuffer = await this._protocol.read_metaInfo(this.device);
+
+      this.info = metaInfoFromBuffer(metaInfoBuffer);
 
       console.log('connect device: ', this.device.productName);
     } else {

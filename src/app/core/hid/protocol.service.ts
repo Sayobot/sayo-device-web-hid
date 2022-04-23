@@ -23,8 +23,25 @@ export class Protocol {
   }
 
   async read_key(device: HIDDevice) {
-    const buffer = await this.read(device, this.keyReadBuffer);
+    const buffer = await this.read(device, this.keyReadBuffer.bind(this));
     return buffer.map((key) => keyFromBuffer(key));
+  }
+
+  async read_metaInfo(device: HIDDevice) {
+    let done = false;
+    let response = new Uint8Array();
+
+    const handleEvent = ({ data }: HIDInputReportEvent) => {
+      response = new Uint8Array(data.buffer);
+      device.removeEventListener('inputreport', handleEvent);
+      done = true;
+    };
+
+    device.addEventListener('inputreport', handleEvent);
+
+    while (!done) await this.sendReport(device, new Uint8Array([Cmd.MetaInfo, 0, 0x02]));
+
+    return response;
   }
 
   private keyReadBuffer(id: number) {
@@ -39,10 +56,7 @@ export class Protocol {
     reportData[Offset.Size] = Config.cmdSize;
     reportData[Offset.Method] = Method.Read;
     reportData[Offset.Id] = id;
-
     reportData[checkOffset] = this.checkSum(reportData, checkOffset);
-
-    console.log(`CMD: ${Cmd.Key}, Report Data:`, reportData);
 
     return new Uint8Array(reportData);
   }

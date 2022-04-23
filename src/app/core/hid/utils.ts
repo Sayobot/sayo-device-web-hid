@@ -1,5 +1,16 @@
 export const typeOf = (ev: HIDInputReportEvent) => {};
 
+export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8Array) => {
+  const info: DeviceInfo = {
+    version: data[0] * 256 + data[1],
+    mode: 'app',
+    name: '',
+    api: [...data.slice(8, data[1])],
+  };
+
+  return info;
+};
+
 // export const bufferFromKey: (key:Key) => Uint8Array;
 
 export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {

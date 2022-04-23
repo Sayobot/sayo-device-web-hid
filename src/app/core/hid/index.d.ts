@@ -6,6 +6,13 @@ declare namespace HID {
   }
 }
 
+declare interface DeviceInfo {
+  version: number;
+  mode: 'app';
+  api: number[];
+  name: string;
+}
+
 declare interface Point {
   left: number;
   top: number;
