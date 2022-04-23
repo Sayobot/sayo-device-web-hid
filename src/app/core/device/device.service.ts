@@ -13,6 +13,12 @@ export class DeviceService {
 
   constructor(private _protocol: Protocol) {}
 
+  isSupport(code: number) {
+    if (!this.device) return false;
+
+    return this.info?.api.includes(code);
+  }
+
   async select() {
     const filters: HIDDeviceFilter[] = [{ vendorId: HID.vendorId }];
     const devices = await navigator.hid.requestDevice({ filters });
@@ -29,6 +35,8 @@ export class DeviceService {
       const metaInfoBuffer = await this._protocol.read_metaInfo(this.device);
 
       this.info = metaInfoFromBuffer(metaInfoBuffer);
+
+      this.deviceChanged$.next(this.device);
 
       console.log('connect device: ', this.device.productName);
     } else {
