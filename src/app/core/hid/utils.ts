@@ -16,14 +16,19 @@ export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8
 export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
   data = data.slice(2);
 
+  const width = data[10] + data[11] * 256;
+  const height = data[12] + data[13] * 256;
+  const midX = data[4] + data[5] * 256;
+  const midY = data[6] + data[7] * 256;
+
   const pos: KeyPostion = {
     point: {
-      left: data[4] + data[5] * 256,
-      top: data[6] + data[7] * 256,
+      left: midX - width / 2,
+      top: midY - height / 2,
     },
     size: {
-      width: data[10] + data[11] * 256,
-      height: data[12] + data[13] * 256,
+      width,
+      height,
       radius: data[14] + data[15] * 256,
     },
   };
