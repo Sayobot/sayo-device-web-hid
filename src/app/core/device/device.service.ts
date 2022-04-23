@@ -15,7 +15,6 @@ export class DeviceService {
 
   isSupport(code: number) {
     if (!this.device) return false;
-
     return this.info?.api.includes(code);
   }
 
