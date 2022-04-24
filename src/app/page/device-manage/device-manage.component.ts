@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, isEmpty, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
 
 @Component({
@@ -6,11 +7,29 @@ import { DeviceService } from 'src/app/core/device/device.service';
   styleUrls: ['./device-manage.component.scss'],
 })
 export class DeviceManagePage implements OnInit {
-  constructor(private _device: DeviceService) {}
+  select$ = new Subject<void>();
+
+  destory$ = new Subject();
+
+  constructor(private _device: DeviceService) {
+    const filters: HIDDeviceFilter[] = [{ vendorId: 0x8089 }];
+
+    this.select$
+      .pipe(
+        takeUntil(this.destory$),
+        debounceTime(100),
+        switchMap((_) => navigator.hid.requestDevice({ filters })),
+        map((devices: HIDDevice[]) => devices[0]),
+        distinctUntilChanged(),
+        tap((device: HIDDevice) => this._device.setDevice(device)),
+        switchMap((device: HIDDevice) => (device && !device.opened ? device.open() : of())),
+      )
+      .subscribe((_) => this._device.updateInfo());
+  }
 
   ngOnInit(): void {}
 
-  async search() {
-    await this._device.select();
+  search() {
+    this.select$.next();
   }
 }

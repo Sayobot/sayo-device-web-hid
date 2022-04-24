@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Protocol } from '../hid';
 import { DeviceService } from './device.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyService {
-  data$ = new ReplaySubject<Key[]>(1);
+  data$ = new BehaviorSubject<Key[]>([]);
 
-  constructor(private _device: DeviceService) {}
+  constructor(private _device: DeviceService, private _protocol: Protocol) {}
 
-  async read() {
-    const data = await this._device.key();
-    this.data$.next(data);
+  init() {
+    if (!this._device.device) return;
+
+    this._protocol.get_key(this._device.device, (data: Key[]) => this.data$.next(data));
   }
 }

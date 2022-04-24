@@ -10,14 +10,10 @@ import { AppComponent } from './app.component';
 import { DeviceManagePage } from './page/device-manage/device-manage.component';
 import { KeyManagePage } from './page/key-manage/key-manage.component';
 
-import { AuthService } from './core/auth/auth.service';
-import { DeviceService } from './core/device/device.service';
-
 const Page = [DeviceManagePage, KeyManagePage];
 
 @NgModule({
   declarations: [AppComponent, ...Page],
-  providers: [AuthService, DeviceService],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, SharedModule],
   bootstrap: [AppComponent],
 })

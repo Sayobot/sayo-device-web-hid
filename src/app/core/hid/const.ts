@@ -5,21 +5,22 @@ export const Config = {
   reportId: 0x02,
 
   checkSumStepSize: 2,
+  period: 10,
 };
 
 export enum Offset {
   Cmd,
   Size,
   Method,
-  Id
+  Id,
 }
 
 export enum Method {
   Read = 0,
-  Write = 1
+  Write = 1,
 }
 
 export enum Cmd {
   MetaInfo = 0x00,
-  Key = 0x16
+  Key = 0x16,
 }

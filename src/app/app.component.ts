@@ -30,7 +30,7 @@ export class AppComponent implements OnDestroy {
   destory$ = new Subject<void>();
 
   constructor(private _device: DeviceService) {
-    this._device.deviceChanged$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
+    this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
       if (device.opened) this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
     });
   }

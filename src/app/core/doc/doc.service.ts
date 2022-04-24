@@ -16,7 +16,7 @@ export class DocService {
   private _paramMap: Map<string, DocParam> = new Map();
 
   constructor(private http: HttpClient, private device: DeviceService) {
-    this.device.deviceChanged$.subscribe((device: HIDDevice) => {
+    this.device.device$.subscribe((device: HIDDevice) => {
       console.log(`device changed: ${device.productId}`);
 
       const file = device.productId === 3 ? 'main_vid_3.json' : 'main.json';

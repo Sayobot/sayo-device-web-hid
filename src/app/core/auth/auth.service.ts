@@ -8,7 +8,7 @@ export class AuthService {
   private opened = false;
 
   constructor(private _device: DeviceService) {
-    this._device.deviceChanged$.subscribe((device: HIDDevice) => {
+    this._device.device$.subscribe((device: HIDDevice) => {
       this.opened = device.opened;
     });
   }

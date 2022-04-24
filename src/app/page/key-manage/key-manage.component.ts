@@ -14,7 +14,7 @@ export class KeyManagePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this._key.read();
+    this._key.init();
   }
 
   onClicked() {}
