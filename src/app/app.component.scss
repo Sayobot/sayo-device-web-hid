@@ -1,9 +1,14 @@
 @use './theme/mixin';
 
-.page-container {
+main {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.page-container {
+  position: relative;
+  flex: 1;
 }
 
 .menu-bar {

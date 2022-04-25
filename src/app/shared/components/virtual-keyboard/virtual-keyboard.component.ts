@@ -1,12 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+/// <reference path="./index.d.ts" />
 
-interface VKeyboardInfo {
-  width: number;
-  height: number;
-  isHorizen: boolean;
-  zoom: number;
-  size: Size;
-}
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'Virtual-Keyboard',
@@ -22,13 +16,13 @@ export class VirtualKeyboardComponent implements OnInit {
   @Input()
   height = 540;
 
-  private _keys: Key[] = [];
+  private _keys: VKey[] = [];
 
   @Input()
   get keys() {
     return this._keys;
   }
-  set keys(data: Key[]) {
+  set keys(data: VKey[]) {
     if (data?.length > 0) {
       const { size, zoom } = this.getVKeyboardInfo(data);
       this.vkeyboardSize = size;
@@ -80,7 +74,7 @@ export class VirtualKeyboardComponent implements OnInit {
     };
   }
 
-  getVKeyboardInfo(keys: Key[]) {
+  getVKeyboardInfo(keys: VKey[]) {
     const spaceing = this.vkeyboardLeft(keys);
     const width = this.vkeyboardRight(keys) + spaceing;
     const height = this.vkeyboardBottom(keys) + spaceing;
@@ -94,7 +88,7 @@ export class VirtualKeyboardComponent implements OnInit {
       radius: 8,
     };
 
-    const info: VKeyboardInfo = {
+    const info: VKeyboard = {
       width,
       height,
       isHorizen,
@@ -105,15 +99,15 @@ export class VirtualKeyboardComponent implements OnInit {
     return info;
   }
 
-  private vkeyboardLeft(keys: Key[]) {
+  private vkeyboardLeft(keys: VKey[]) {
     return Math.min(...keys.map((key) => key.pos.point.x));
   }
 
-  private vkeyboardRight(keys: Key[]) {
+  private vkeyboardRight(keys: VKey[]) {
     return Math.max(...keys.map((key) => key.pos.point.x + key.pos.size.width));
   }
 
-  private vkeyboardBottom(keys: Key[]) {
+  private vkeyboardBottom(keys: VKey[]) {
     return Math.max(...keys.map((key) => key.pos.point.y + key.pos.size.height));
   }
 

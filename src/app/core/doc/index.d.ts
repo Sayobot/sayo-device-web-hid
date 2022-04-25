@@ -1,7 +1,7 @@
 declare interface DocMode {
   name: string;
   code: number;
-  note?: string;
+  note: string;
   files: string[];
 }
 
@@ -27,7 +27,7 @@ declare interface DocParam {
 declare interface ModeJson {
   name: string;
   code: number;
-  note?: string;
+  note: string;
   values: (string | string)[];
 }
 
@@ -61,4 +61,19 @@ declare interface ParamJson {
   min?: number;
   max?: number;
   data: ParamOptionJson[];
+}
+
+declare interface GeneralKey {
+  code: number;
+  name: string;
+  midPointY: number;
+  midPointX: number;
+  widget: number;
+  height: number;
+  radius: number;
+}
+
+declare interface LinuxKey {
+  code: number;
+  name: string;
 }

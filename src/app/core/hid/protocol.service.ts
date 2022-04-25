@@ -99,6 +99,7 @@ export class Protocol {
 
   /**
    * 读取多个，例如 按键根据 id 去读取的
+   * 存在顺序关系，且数量位置，因此不能 combineLatest 等操作符
    * @param device
    * @param parser 解析函数
    * @param request 请求函数

@@ -1,8 +1,10 @@
 .virtual-key-container {
+  cursor: pointer;
   background: #333;
   color: #ccc;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
 }

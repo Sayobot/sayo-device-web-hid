@@ -46,7 +46,7 @@ export const getMode = (json: ModeJson) => {
   let doc: DocMode = {
     name: json.name,
     code: json.code,
-    note: json.note,
+    note: json?.note || '',
     files: json.values,
   };
   return doc;

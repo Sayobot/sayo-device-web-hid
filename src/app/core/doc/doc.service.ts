@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
 import { Param_File_Map } from './const';
 import { getMainDoc, getParamDoc } from './parser';
+import { Observable, Subject, zip } from 'rxjs';
 
 const Param_Dir = 'assets/param';
 
@@ -24,6 +25,29 @@ export class DocService {
     });
   }
 
+  /**
+   * 加载 params 文档
+   */
+  loadParamDoc() {
+    const requests: Observable<ParamJson>[] = [];
+
+    for (const file of Param_File_Map.keys()) {
+      const req = this.http.get<ParamJson>(`${Param_Dir}/${file}.json`);
+      requests.push(req);
+    }
+
+    zip(requests).subscribe((res) => {
+      const files = Array.from(Param_File_Map.keys());
+      for (let i = 0; i < files.length; i++) {
+        this._paramMap.set(files[i], getParamDoc(res[i]));
+      }
+    });
+  }
+
+  /**
+   * 加载 main 文档
+   * @param file
+   */
   load(file: string = 'main.json') {
     const subscribe = this.http.get<MainJson>(`${Param_Dir}/${file}`).subscribe((res) => {
       subscribe.unsubscribe();
@@ -32,33 +56,42 @@ export class DocService {
     });
   }
 
+  /**
+   * 获取参数文档
+   * @param key
+   * @returns
+   */
   param(key: string) {
     if (key.endsWith('.json')) key = key.slice(0, key.length - 5);
 
-    if (!Param_File_Map.has(key)) throw new Error(`Not found param file: ${key}`);
-
-    if (!this._paramMap.has(key)) {
-      const subscribe = this.http.get<ParamJson>(`${Param_Dir}/${key}`).subscribe((res) => {
-        subscribe.unsubscribe();
-        this._paramMap.set(key, getParamDoc(res));
-      });
+    if (!Param_File_Map.has(key)) {
+      throw new Error(`Not found param file: ${key}`);
     }
 
     return this._paramMap.get(key);
   }
 
-  cmd(code: number) {
+  /**
+   * 获取 cmd 文档
+   * @param cmdCode
+   * @returns
+   */
+  cmd(cmdCode: number) {
     if (!this._main) throw new Error('please init main doc');
-    if (!this._main.cmdMap.has(code)) throw new Error(`Not found cmd: ${code}`);
+    if (!this._main.cmdMap.has(cmdCode)) throw new Error(`Not found cmd: ${cmdCode}`);
 
-    return this._main.cmdMap.get(code);
+    return this._main.cmdMap.get(cmdCode);
   }
 
-  mode(cmd: number, code: number) {
-    const cmdMap = this.cmd(cmd);
-
-    if (!cmdMap?.modeMap.has(code)) throw new Error(`Not found mode code: ${code}`);
-
-    return cmdMap.modeMap.get(code);
+  /**
+   * 获取 mode 文档
+   * @param cmdCode
+   * @param modeCode
+   * @returns
+   */
+  mode(cmdCode: number, modeCode: number) {
+    const cmd = this.cmd(cmdCode);
+    if (!cmd?.modeMap.has(modeCode)) throw new Error(`Not found mode code: ${modeCode}`);
+    return cmd.modeMap.get(modeCode);
   }
 }

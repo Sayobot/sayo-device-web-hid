@@ -1,4 +1,4 @@
-<div class="page-container">
+<main>
   <mat-toolbar color="primary" class="menu-bar">
     <button class="menu-bar-item" mat-button routerLink="/device"><mat-icon>devices</mat-icon>Device</button>
 
@@ -8,5 +8,7 @@
     </button>
   </mat-toolbar>
 
-  <router-outlet></router-outlet>
-</div>
+  <div class="page-container">
+    <router-outlet></router-outlet>
+  </div>
+</main>
