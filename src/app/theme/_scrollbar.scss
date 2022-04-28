@@ -1,4 +1,4 @@
-@use 'theme';
+@use './const';
 
 *::-webkit-scrollbar {
   width: 4px;
@@ -18,7 +18,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: theme.$primary;
+  background: const.$primary;
 }
 
 *::-webkit-scrollbar-corner {

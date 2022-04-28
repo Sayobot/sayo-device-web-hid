@@ -8,6 +8,7 @@ import { DocService } from 'src/app/core/doc/doc.service';
   styleUrls: ['./device-manage.component.scss'],
 })
 export class DeviceManagePage implements OnInit {
+
   select$ = new Subject<void>();
 
   destory$ = new Subject();
@@ -16,14 +17,29 @@ export class DeviceManagePage implements OnInit {
     this.select$
       .pipe(
         takeUntil(this.destory$),
+
+        // wait 100ms if clicked
         debounceTime(100),
+
+        // request hid device list
         switchMap((_) => navigator.hid.requestDevice({ filters: [{ vendorId: 0x8089 }] })),
+
+        // get first device
         map((devices: HIDDevice[]) => devices[0]),
+
+        // check is changed
         distinctUntilChanged(),
+
+        // set select device to service
         tap((device: HIDDevice) => this._device.setDevice(device)),
+
+        // open select device
         switchMap((device: HIDDevice) => (device && !device.opened ? device.open() : of())),
       )
-      .subscribe((_) => this._device.updateInfo());
+      .subscribe((_) => {
+        // set device info if device opened
+        this._device.updateInfo();
+      });
 
     this._doc.loadParamDoc();
   }
