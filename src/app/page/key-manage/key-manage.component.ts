@@ -1,9 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 import { getKeyModeName } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
+import { VirtualKeyboardComponent } from 'src/app/shared/components/virtual-keyboard/virtual-keyboard.component';
 
 interface Level {
   id: number;
@@ -22,6 +24,9 @@ export class KeyManagePage implements OnInit, OnDestroy {
 
   destory$ = new Subject();
 
+  @ViewChild('editor') keyEditor!: MatDrawer;
+  @ViewChild('vkeyboard') vkeybaord!: VirtualKeyboardComponent;
+
   constructor(private _key: KeyService, private _doc: DocService) {
     this._key.data$
       .pipe(
@@ -30,12 +35,12 @@ export class KeyManagePage implements OnInit, OnDestroy {
         // set function level name
         tap((keys) => {
           if (keys.length > 0 && this.levels.length !== keys[0]?.functions.length) {
-            this.setLevelName(keys[0].functions.length);
+            this._setLevelName(keys[0].functions.length);
           }
         }),
       )
       .subscribe((keys) => {
-        this.updateVkeys(keys, this.level.value);
+        this._updateVkeys(keys, this.level.value);
       });
   }
 
@@ -55,15 +60,24 @@ export class KeyManagePage implements OnInit, OnDestroy {
     const level = this.level.value;
 
     if (level !== undefined) {
-      this.updateVkeys(keys, level);
+      this._updateVkeys(keys, level);
     }
   }
 
-  updateVkeys(keys: Key[], level: number) {
-    this.vkeys = keys.map((key) => this.key2vKey(key, level));
+  onEditorClosed() {
+    this.keyEditor.close();
+    this.vkeybaord.setActive(undefined);
   }
 
-  setLevelName(length: number) {
+  onItemClicked(vkey: VKey) {
+    this.keyEditor.open();
+  }
+
+  private _updateVkeys(keys: Key[], level: number) {
+    this.vkeys = keys.map((key) => this._key2vKey(key, level));
+  }
+
+  private _setLevelName(length: number) {
     this.levels = [];
     for (let i = 0; i < length; i++) {
       const name = i === 0 ? '基本层' : `Fn ${i}`;
@@ -71,7 +85,7 @@ export class KeyManagePage implements OnInit, OnDestroy {
     }
   }
 
-  private key2vKey(key: Key, level: number) {
+  private _key2vKey(key: Key, level: number) {
     const { functions } = key;
 
     const { mode, values } = functions[level];

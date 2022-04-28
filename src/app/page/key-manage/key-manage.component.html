@@ -1,11 +1,22 @@
-<ng-container *ngIf="vkeys.length > 0">
-  <Virtual-Keyboard [keys]="vkeys"></Virtual-Keyboard>
-</ng-container>
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer-content>
+    <ng-container *ngIf="vkeys.length > 0">
+      <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [keys]="vkeys" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
+    </ng-container>
 
-<ng-container *ngIf="levels.length > 0">
-  <mat-button-toggle-group [formControl]="level" name="level" (change)="onLevelChange()">
-    <mat-button-toggle *ngFor="let level of levels; let i = index" [value]="level.id">
-      {{ level.name }}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
-</ng-container>
+    <ng-container *ngIf="levels.length > 0">
+      <mat-button-toggle-group appearance="legacy" [formControl]="level" name="level" (change)="onLevelChange()">
+        <mat-button-toggle *ngFor="let level of levels; let i = index" [value]="level.id">
+          {{ level.name }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </ng-container>
+  </mat-drawer-content>
+
+  <mat-drawer #editor position="end" [mode]="'over'">
+    <div class="editor-header">
+      <h2 class="editor-title">Current Key：1</h2>
+      <mat-icon (click)="onEditorClosed()">close</mat-icon>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>
