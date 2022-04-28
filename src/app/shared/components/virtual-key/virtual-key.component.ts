@@ -12,6 +12,8 @@ export class VirtualKeyComponent implements OnInit {
   @Input() height = 45;
   @Input() raduis = 8;
 
+  @Input() active = false;
+
   private _name = '';
   @Input()
   get name() {

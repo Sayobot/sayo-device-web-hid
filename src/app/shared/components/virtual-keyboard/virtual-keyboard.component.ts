@@ -1,6 +1,6 @@
 /// <reference path="./index.d.ts" />
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'Virtual-Keyboard',
@@ -9,6 +9,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class VirtualKeyboardComponent implements OnInit {
   vkeyboardSize!: Size;
+
+  activeKey: VKey | undefined;
+
+  @Output() itemClicked = new EventEmitter<VKey>();
 
   @Input()
   width = 1080;
@@ -67,6 +71,15 @@ export class VirtualKeyboardComponent implements OnInit {
     };
   }
 
+  setActive(key: VKey | undefined) {
+    this.activeKey = key;
+  }
+
+  onClicked(key: VKey) {
+    this.setActive(key);
+    this.itemClicked.emit(this.activeKey);
+  }
+
   vkeyStyle(point: Point) {
     return {
       top: `${point.y}px`,
@@ -109,9 +122,5 @@ export class VirtualKeyboardComponent implements OnInit {
 
   private vkeyboardBottom(keys: VKey[]) {
     return Math.max(...keys.map((key) => key.pos.point.y + key.pos.size.height));
-  }
-
-  onClicked() {
-    console.log('on click');
   }
 }

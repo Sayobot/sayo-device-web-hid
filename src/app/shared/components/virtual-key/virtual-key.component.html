@@ -1,3 +1,8 @@
-<div class="virtual-key-container" [ngStyle]="style" [matTooltip]="tooltip" (click)="clicked()">
+<div
+  [ngClass]="{ 'virtual-key-container': true, 'virtual-key-active': active }"
+  [ngStyle]="style"
+  [matTooltip]="tooltip"
+  (click)="clicked()"
+>
   {{ name }}
 </div>
