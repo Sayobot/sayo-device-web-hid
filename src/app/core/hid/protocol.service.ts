@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, interval, ObservableInput, Subject, switchMap, takeUntil } from 'rxjs';
 import { Config, Cmd, Method, Offset } from './const';
-import { keyFromBuffer, metaInfoFromBuffer } from './utils';
+import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer } from './utils';
 
 /**
  * 命名规则:
@@ -50,6 +50,40 @@ export class Protocol {
       (device: HIDDevice, id: number) => this.request_key(device, id),
       (data: Key[]) => handler(data),
     );
+  }
+
+  /**
+   * 修改按键数据 TODO: 重构
+   * @param device
+   * @param key
+   * @param handler
+   */
+  set_key(device: HIDDevice, key: Key, handler: () => void) {
+    let reportData = [];
+
+    reportData[Offset.Cmd] = Cmd.Key;
+    reportData[Offset.Size] = 16 + key.functions.length * 6;
+    reportData[Offset.Method] = Method.Write;
+    reportData[Offset.Id] = key.id;
+    reportData[4] = 40; // ?
+
+    reportData = reportData.concat(keyAsBuffer(key));
+
+    const checkOffset = reportData[Offset.Size] + Config.checkSumStepSize;
+    reportData[checkOffset] = this.checkSum(reportData, checkOffset);
+
+    const done$ = new Subject<boolean>();
+    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+
+    input$.subscribe(({ data }) => {
+      console.log(data.buffer);
+      if (data.getInt8(0) === 0) handler();
+
+      done$.next(true);
+      done$.complete();
+    });
+
+    this.send_report(device, new Uint8Array(reportData));
   }
 
   private send_report(device: HIDDevice, reportData: Uint8Array) {

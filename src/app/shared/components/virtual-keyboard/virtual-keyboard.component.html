@@ -5,7 +5,7 @@
         <Virtual-Key
           *ngFor="let key of keys"
           class="virtual-key"
-          [active]="key.id == activeKey?.id"
+          [active]="key.id == id"
           [ngStyle]="vkeyStyle(key.pos.point)"
           [width]="key.pos.size.width"
           [height]="key.pos.size.height"

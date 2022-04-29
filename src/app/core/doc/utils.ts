@@ -19,9 +19,9 @@ export const getKeyModeName = (doc: DocService, modeCode: number, values: number
         const modifier_string = getModifierName(doc, 'modifier_keys', modifier);
         const general_string = getGeneralName(general);
 
-        if (!_.isEmpty(modifier_string.length) && !_.isEmpty(general_string.length)) {
+        if (!_.isEmpty(modifier_string) && !_.isEmpty(general_string)) {
           name = `${modifier_string} + ${general_string}`;
-        } else if (_.isEmpty(modifier_string.length) && !_.isEmpty(general_string.length)) {
+        } else if (!_.isEmpty(modifier_string) && _.isEmpty(general_string)) {
           name = modifier_string;
         } else {
           name = general_string;
@@ -43,7 +43,7 @@ export const getModifierName = (doc: DocService, key: string, modifierCode: numb
   const param = doc.param(key);
   if (param) {
     for (const [key, value] of param.optionMap) {
-      if ((key & modifierCode) != 0) {
+      if ((key & modifierCode) !== 0) {
         modifier_string += value;
         modifier_string += fill;
       }

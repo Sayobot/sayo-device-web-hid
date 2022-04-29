@@ -1,0 +1,77 @@
+<div *ngIf="data && form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- 按键模式 -->
+    <mat-form-field appearance="fill">
+      <mat-label>{{ data?.mode?.key }}</mat-label>
+      <mat-select formControlName="mode">
+        <mat-option *ngFor="let option of data?.mode?.options" [value]="option.value">
+          {{ option.key }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div formArrayName="params">
+      <ng-container *ngFor="let param of data?.params; let i = index" [ngSwitch]="param.type">
+        <!-- Form Control Switch -->
+        <div class="form-control-switch" *ngSwitchCase="'switch'">
+          <label>{{ param.key }}:</label>
+          <mat-radio-group [formControlName]="i">
+            <mat-radio-button *ngFor="let item of param.options" [value]="item.value">{{ item.key }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- Form Control Input number -->
+        <div *ngSwitchCase="'input'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ param.key }}</mat-label>
+            <input type="number" [formControlName]="i" matInput />
+          </mat-form-field>
+        </div>
+
+        <!-- Form Control Color -->
+        <div *ngSwitchCase="'color'">Color</div>
+
+        <!-- Form Control Common -->
+        <div *ngSwitchCase="'common'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ param.key }}</mat-label>
+            <mat-select [formControlName]="i">
+              <mat-option *ngFor="let item of param.options" [value]="item.value">
+                {{ item.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Form Control Select -->
+        <div *ngSwitchCase="'select'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ param.key }}</mat-label>
+            <mat-select [formControlName]="i">
+              <mat-option *ngFor="let item of param.options" [value]="item.value">
+                {{ item.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Form Control Multi -->
+        <div *ngSwitchCase="'multi'">
+          <multi-select-control [label]="param.key" [options]="param.options" [formControlName]="i"></multi-select-control>
+        </div>
+
+        <!-- Form Control String -->
+        <div *ngSwitchCase="'string'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ param.key }}</mat-label>
+            <input [formControlName]="i" matInput />
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchDefault>Not match control type.</div>
+      </ng-container>
+    </div>
+
+    <button class="submit-button" mat-raised-button color="primary">Submit</button>
+  </form>
+</div>

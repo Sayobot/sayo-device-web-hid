@@ -1,13 +1,13 @@
 export enum ControlType {
-  NoneType,
-  Switch,
-  Param,
-  Color,
-  Common,
-  Select,
-  Multi,
-  String,
-  Empty,
+  NoneType = 'none',
+  Switch = 'switch',
+  Param = 'input',
+  Color = 'color',
+  Common = 'common',
+  Select = 'select',
+  Multi = 'multi',
+  String = 'string',
+  Empty = 'empty',
 }
 
 export const Param_File_Map: Map<string, ControlType> = new Map([

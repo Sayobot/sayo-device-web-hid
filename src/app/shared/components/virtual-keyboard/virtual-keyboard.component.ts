@@ -10,7 +10,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class VirtualKeyboardComponent implements OnInit {
   vkeyboardSize!: Size;
 
-  activeKey: VKey | undefined;
+  @Input()
+  id: number | undefined;
 
   @Output() itemClicked = new EventEmitter<VKey>();
 
@@ -71,13 +72,8 @@ export class VirtualKeyboardComponent implements OnInit {
     };
   }
 
-  setActive(key: VKey | undefined) {
-    this.activeKey = key;
-  }
-
   onClicked(key: VKey) {
-    this.setActive(key);
-    this.itemClicked.emit(this.activeKey);
+    this.itemClicked.emit(key);
   }
 
   vkeyStyle(point: Point) {

@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
 import { Param_File_Map } from './const';
 import { getMainDoc, getParamDoc } from './parser';
-import { Observable, Subject, zip } from 'rxjs';
+import { Observable, zip } from 'rxjs';
+import * as _ from 'lodash';
 
 const Param_Dir = 'assets/param';
 
@@ -77,8 +78,17 @@ export class DocService {
    * @returns
    */
   cmd(cmdCode: number) {
-    if (!this._main) throw new Error('please init main doc');
-    if (!this._main.cmdMap.has(cmdCode)) throw new Error(`Not found cmd: ${cmdCode}`);
+    if(!_.isNumber(cmdCode)) {
+      cmdCode = Number(cmdCode);
+    }
+
+    if (!this._main) {
+      throw new Error('please init main doc');
+    }
+
+    if (!this._main.cmdMap.has(cmdCode)) {
+      throw new Error(`Not found cmd: ${cmdCode}`);
+    }
 
     return this._main.cmdMap.get(cmdCode);
   }
@@ -90,8 +100,33 @@ export class DocService {
    * @returns
    */
   mode(cmdCode: number, modeCode: number) {
-    const cmd = this.cmd(cmdCode);
-    if (!cmd?.modeMap.has(modeCode)) throw new Error(`Not found mode code: ${modeCode}`);
+    const cmd = this.cmd(cmdCode)!;
+
+    if(!_.isNumber(cmdCode)) {
+      cmdCode = Number(cmdCode);
+    }
+
+    if (!cmd.modeMap.has(modeCode)) {
+      throw new Error(`Not found mode code: ${modeCode}`);
+    }
+
     return cmd.modeMap.get(modeCode);
+  }
+
+  /**
+   * 获取对应的控件类型
+   * @param file
+   * @returns
+   */
+  controlType(file: string) {
+    if (file.endsWith('.json')) {
+      file = file.slice(0, file.length - 5);
+    }
+
+    if (!Param_File_Map.has(file)) {
+      throw new Error(`Not found param file: ${file}`);
+    }
+
+    return Param_File_Map.get(file);
   }
 }

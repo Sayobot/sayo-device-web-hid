@@ -11,7 +11,25 @@ export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8
   return info;
 };
 
-// export const bufferFromKey: (key:Key) => Uint8Array;
+export const keyAsBuffer: (key: Key) => Array<number> = (key: Key) => {
+  const Data_start = 13;
+
+  const { functions } = key;
+
+  let data = new Array(functions.length * 6 + 1).fill(0);
+  data.push(key.type);
+
+  for (let i = 0; i < functions.length; i++) {
+    const func = functions[i];
+    data[Data_start + i * 6] = func.mode;
+
+    for (let j = 0; j < func.values.length; j++) {
+      data[Data_start + i * 6 + j + 2] = func.values[j];
+    }
+  }
+
+  return data.map((item) => (item === undefined ? 0 : item));
+};
 
 export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
   data = data.slice(2);

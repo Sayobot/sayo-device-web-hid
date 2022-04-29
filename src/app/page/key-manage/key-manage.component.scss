@@ -1,3 +1,5 @@
+@use '../../theme/const';
+
 .mat-drawer-container {
   height: 100%;
 
@@ -20,6 +22,10 @@
         cursor: pointer;
       }
     }
+
+    .editor-content {
+      padding: 8px 16px;
+    }
   }
 
   .mat-drawer-content {
@@ -35,8 +41,13 @@
     .mat-button-toggle {
       white-space: nowrap;
       position: relative;
-      font-size: 20px;
-      padding: 8px 16px;
+      font-size: 16px;
+      padding: 8px 24px;
+      background: #333;
+      color: #fff;
+    }
+    .mat-button-toggle-checked {
+      background: const.$warn;
     }
   }
 }
