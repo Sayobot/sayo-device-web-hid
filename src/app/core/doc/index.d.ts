@@ -68,7 +68,7 @@ declare interface GeneralKey {
   name: string;
   midPointY: number;
   midPointX: number;
-  widget: number;
+  width: number;
   height: number;
   radius: number;
 }

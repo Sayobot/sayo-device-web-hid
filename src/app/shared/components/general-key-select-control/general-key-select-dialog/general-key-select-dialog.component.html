@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Select Key</h1>
+
+<div mat-dialog-content>
+  <mat-tab-group>
+    <mat-tab label="General Key">
+      <Virtual-Keyboard [id]="value" [keys]="(general$ | async)!" (itemClicked)="onGeneralClick($event)"></Virtual-Keyboard>
+    </mat-tab>
+    <mat-tab label="Only Linux Key">
+      <mat-chip-list>
+        <mat-chip
+          *ngFor="let item of onlyLinux$ | async"
+          [ngClass]="{ selected: item.code === value }"
+          [selected]="item.code === value"
+          (click)="onLinuxClick(item.code)"
+          >{{ item.name }}</mat-chip
+        >
+      </mat-chip-list>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="select(0)">Set None</button>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Ok</button>
+</div>

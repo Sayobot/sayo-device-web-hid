@@ -33,14 +33,7 @@
 
         <!-- Form Control Common -->
         <div *ngSwitchCase="'common'">
-          <mat-form-field appearance="fill">
-            <mat-label>{{ param.key }}</mat-label>
-            <mat-select [formControlName]="i">
-              <mat-option *ngFor="let item of param.options" [value]="item.value">
-                {{ item.key }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <general-key-select-control [label]="param.key" [options]="param.options" [formControlName]="i"></general-key-select-control>
         </div>
 
         <!-- Form Control Select -->

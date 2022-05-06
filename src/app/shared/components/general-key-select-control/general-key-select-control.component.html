@@ -1,0 +1,14 @@
+<ng-container *ngIf="options.length > 0">
+  <div class="form-control-container">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ label }}</mat-label>
+      <mat-select [(ngModel)]="selected" (valueChange)="onSelectChange($event)">
+        <mat-option *ngFor="let item of options" [value]="item.value">
+          {{ item.key }}
+        </mat-option>
+      </mat-select>
+
+      <mat-icon matSuffix (click)="openVKeyboard($event)">keyboard</mat-icon>
+    </mat-form-field>
+  </div>
+</ng-container>

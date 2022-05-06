@@ -2,7 +2,9 @@
   <mat-form-field appearance="fill">
     <mat-label>{{ label }}</mat-label>
     <mat-select [(ngModel)]="selected" (valueChange)="onSelectChange($event)" multiple>
-      <mat-option *ngFor="let item of options" [value]="item.value">{{ item.key }}</mat-option>
+      <mat-option *ngFor="let item of options" [value]="item.value">
+        {{ item.key }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 </ng-container>

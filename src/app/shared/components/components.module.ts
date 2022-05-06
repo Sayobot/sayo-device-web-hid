@@ -6,8 +6,17 @@ import { VirtualKeyboardComponent } from './virtual-keyboard/virtual-keyboard.co
 import { DynamixFormComponent } from './dynamix-form/dynamix-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiSelectControlComponent } from './multi-select-control/multi-select-control.component';
+import { GeneralKeySelectControlComponent } from './general-key-select-control/general-key-select-control.component';
+import { GeneralKeySelectDialog } from './general-key-select-control/general-key-select-dialog/general-key-select-dialog.component';
 
-const Components = [VirtualKeyComponent, VirtualKeyboardComponent, DynamixFormComponent, MultiSelectControlComponent];
+const Components = [
+  VirtualKeyComponent,
+  VirtualKeyboardComponent,
+  DynamixFormComponent,
+  MultiSelectControlComponent,
+  GeneralKeySelectControlComponent,
+  GeneralKeySelectDialog,
+];
 
 @NgModule({
   declarations: [...Components],
