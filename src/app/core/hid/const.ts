@@ -1,3 +1,9 @@
+export enum KeyType {
+  Button = 0, // 普通按钮
+  KnobAnticlockwise = 1, // 逆时针旋转
+  KnobClockwise = 2, // 顺时针旋转
+}
+
 export const Config = {
   cmdSize: 2,
 

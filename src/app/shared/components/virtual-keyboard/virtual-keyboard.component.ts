@@ -1,6 +1,7 @@
 /// <reference path="./index.d.ts" />
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { KeyType } from 'src/app/core/hid';
 
 @Component({
   selector: 'Virtual-Keyboard',
@@ -69,10 +70,11 @@ export class VirtualKeyboardComponent implements OnInit {
     this.itemClicked.emit(key);
   }
 
-  vkeyStyle(point: Point) {
+  vkeyStyle(point: Point, type: number) {
     return {
       top: `${point.y}px`,
       left: `${point.x}px`,
+      'z-index': type === KeyType.Button ? 1 : 0,
     };
   }
 

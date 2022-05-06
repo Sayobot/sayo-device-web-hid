@@ -1,6 +1,7 @@
 /// <reference path="./index.d.ts" />
 
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { KeyType } from 'src/app/core/hid';
 
 @Component({
   selector: 'Virtual-Key',
@@ -13,6 +14,8 @@ export class VirtualKeyComponent implements OnInit {
   @Input() raduis = 8;
 
   @Input() active = false;
+
+  @Input() type!: KeyType;
 
   private _name = '';
   @Input()
@@ -43,10 +46,28 @@ export class VirtualKeyComponent implements OnInit {
   }
 
   get style() {
+    const getRadius = () => {
+      let result = '';
+      switch (this.type) {
+        case KeyType.Button:
+          result = `${this.raduis}px`;
+          break;
+        case KeyType.KnobAnticlockwise:
+          result = `${this.width}px 0 0 ${this.width}px`;
+          break;
+        case KeyType.KnobClockwise:
+          result = `0 ${this.width}px ${this.width}px 0`;
+          break;
+        default:
+          break;
+      }
+      return result;
+    };
+
     return {
       width: `${this.width}px`,
       height: `${this.height}px`,
-      'border-radius': `${this.raduis}px`,
+      'border-radius': getRadius()
     };
   }
 }

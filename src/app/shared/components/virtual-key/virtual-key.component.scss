@@ -9,6 +9,7 @@
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
+  box-shadow: 0 0 1px #ccc;
 
   &:hover {
     background: const.$warn;

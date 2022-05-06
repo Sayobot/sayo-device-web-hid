@@ -1,11 +1,3 @@
-declare namespace HID {
-  enum KeyType {
-    Button, // 普通按钮
-    KnobAnticlockwise, // 逆时针旋转
-    KnobClockwise, // 顺时针旋转
-  }
-}
-
 declare interface DeviceInfo {
   version: number;
   mode: 'app';
@@ -36,7 +28,7 @@ declare interface KeyFunction {
 
 declare interface Key {
   id: number;
-  type: HID.KeyType;
+  type: number;
   pos: KeyPostion;
   functions: KeyFunction[];
 }

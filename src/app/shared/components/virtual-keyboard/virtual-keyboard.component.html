@@ -6,11 +6,12 @@
           *ngFor="let key of keys"
           class="virtual-key"
           [active]="key.id == id"
-          [ngStyle]="vkeyStyle(key.pos.point)"
+          [ngStyle]="vkeyStyle(key.pos.point, key.type)"
           [width]="key.pos.size.width"
           [height]="key.pos.size.height"
           [raduis]="key.pos.size.radius"
           [name]="key.name"
+          [type]="key.type"
           [tooltip]="key.tooltip"
           (clicked)="onClicked(key)"
         ></Virtual-Key>

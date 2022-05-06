@@ -1,6 +1,6 @@
 declare interface VKey {
   id: number;
-  type: HID.KeyType;
+  type: number;
   pos: KeyPostion;
   name: string;
   tooltip: string;
