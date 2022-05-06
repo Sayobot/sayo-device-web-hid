@@ -39,4 +39,12 @@ export class AppComponent implements OnDestroy {
     this.destory$.next();
     this.destory$.complete();
   }
+
+  save() {
+    this._device.save();
+  }
+
+  canSave() {
+    return this._device.isConnected() && this._device.isChanged();
+  }
 }

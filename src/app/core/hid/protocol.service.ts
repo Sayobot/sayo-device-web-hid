@@ -163,7 +163,7 @@ export class Protocol {
    * @param request 请求函数
    * @param handler 处理函数
    */
-  private read_loop<T>(
+  private read_loop<T extends ID>(
     device: HIDDevice,
     parser: (data: Uint8Array) => T,
     request: (device: HIDDevice, id: number) => ObservableInput<void>,
@@ -185,7 +185,10 @@ export class Protocol {
       }
 
       const key = parser(new Uint8Array(data.buffer));
-      result.push(key);
+
+      if (result.findIndex((item) => item.id === key.id) === -1) {
+        result.push(key);
+      }
     });
 
     request$.subscribe();

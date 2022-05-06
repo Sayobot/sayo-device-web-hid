@@ -49,12 +49,4 @@ export class DeviceManageComponent implements OnInit {
   search() {
     this.select$.next();
   }
-
-  save() {
-    this._device.save();
-  }
-
-  canSave() {
-    return this._device.isConnected() && this._device.isChanged();
-  }
 }

@@ -6,6 +6,10 @@
       <mat-icon>{{ menu.icon }}</mat-icon>
       {{ menu.name }}
     </button>
+
+    <span class="spacer"></span>
+
+    <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">Save to Device</button>
   </mat-toolbar>
 
   <div class="page-container">

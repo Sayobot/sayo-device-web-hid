@@ -32,3 +32,7 @@ declare interface Key {
   pos: KeyPostion;
   functions: KeyFunction[];
 }
+
+declare interface ID {
+  id: number;
+}
