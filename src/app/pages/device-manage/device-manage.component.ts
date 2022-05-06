@@ -7,7 +7,7 @@ import { DocService } from 'src/app/core/doc/doc.service';
   templateUrl: './device-manage.component.html',
   styleUrls: ['./device-manage.component.scss'],
 })
-export class DeviceManagePage implements OnInit {
+export class DeviceManageComponent implements OnInit {
 
   select$ = new Subject<void>();
 

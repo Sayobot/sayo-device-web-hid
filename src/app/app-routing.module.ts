@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/auth/auth.guard';
-import { DeviceManagePage } from './page/device-manage/device-manage.component';
-import { KeyManagePage } from './page/key-manage/key-manage.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/device', pathMatch: 'full' },
-  { path: 'device', component: DeviceManagePage },
-  { path: 'key', canActivate: [AuthGuard], component: KeyManagePage },
+  { path: 'device', loadChildren: () => import('./pages/device-manage/device-manage.module').then((m) => m.DeviceManageModule) },
+  {
+    path: 'key',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/key-manage/key-manage.module').then((m) => m.KeyManageModule),
+  },
   { path: '**', redirectTo: '/device' },
 ];
 

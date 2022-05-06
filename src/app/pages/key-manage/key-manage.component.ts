@@ -23,7 +23,7 @@ interface KeyFormData {
   templateUrl: './key-manage.component.html',
   styleUrls: ['./key-manage.component.scss'],
 })
-export class KeyManagePage implements OnInit, OnDestroy {
+export class KeyManageComponent implements OnInit, OnDestroy {
   activeKey: Key | undefined;
   vkeys: VKey[] = [];
   levels: Level[] = [];
@@ -210,8 +210,6 @@ export class KeyManagePage implements OnInit, OnDestroy {
 
     const { mode, values } = functions[level];
 
-
-
     const name = getKeyModeName(this._doc, mode, values);
     const tooltip = name;
 
@@ -222,3 +220,4 @@ export class KeyManagePage implements OnInit, OnDestroy {
     };
   }
 }
+
