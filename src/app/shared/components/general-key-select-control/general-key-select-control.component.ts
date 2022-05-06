@@ -27,7 +27,7 @@ export class GeneralKeySelectControlComponent implements ControlValueAccessor {
 
     const ref = this._dialog
       .open(GeneralKeySelectDialog, {
-        width: '1440px',
+        width: '1200px',
         data: { value: this.selected },
       })
       .afterClosed()

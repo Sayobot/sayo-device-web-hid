@@ -3,14 +3,13 @@
 .virtual-keyboard-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin: 16px;
 
   .virtual-keyboard {
-    display: flex;
-    justify-content: center;
     position: relative;
     background: black;
     box-shadow: 1px 3px 8px 2px;
-    margin: 8px;
 
     .virtual-key {
       position: absolute;

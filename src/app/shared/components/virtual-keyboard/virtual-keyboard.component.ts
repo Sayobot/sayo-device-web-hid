@@ -57,13 +57,6 @@ export class VirtualKeyboardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  get containerStyle() {
-    return {
-      width: `${this.width}px`,
-      height: `${this.height}px`,
-    };
-  }
-
   get vkeyboardStyle() {
     return {
       width: `${this.vkeyboardSize.width}px`,
@@ -89,7 +82,7 @@ export class VirtualKeyboardComponent implements OnInit {
     const height = this.vkeyboardBottom(keys) + spaceing;
 
     const isHorizen = width / height >= this.width / this.height;
-    const zoom = isHorizen ? this.height / width : this.height / height;
+    const zoom = isHorizen ? this.width / width : this.height / height;
 
     const size: Size = {
       width: isHorizen ? this.width : width * zoom,
