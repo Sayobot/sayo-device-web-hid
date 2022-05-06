@@ -22,6 +22,31 @@ import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer } from './utils';
 export class Protocol {
   constructor() {}
 
+  save(device: HIDDevice, handler: Function) {
+    let reportData = [];
+
+    reportData[Offset.Cmd] = Cmd.Save;
+    reportData[Offset.Size] = Config.cmdSize;
+    reportData.push(0x72);
+    reportData.push(0x96);
+
+    const checkOffset = reportData[Offset.Size] + Config.checkSumStepSize;
+    reportData[checkOffset] = this.checkSum(reportData, checkOffset);
+
+    const done$ = new Subject<boolean>();
+    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+
+    input$.subscribe(({ data }) => {
+      console.log(data.buffer);
+      if (data.getInt8(0) === 0) handler();
+
+      done$.next(true);
+      done$.complete();
+    });
+
+    this.send_report(device, new Uint8Array(reportData));
+  }
+
   /**
    * 请求设备元数据
    * @param device
@@ -76,7 +101,6 @@ export class Protocol {
     const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
     input$.subscribe(({ data }) => {
-      console.log(data.buffer);
       if (data.getInt8(0) === 0) handler();
 
       done$.next(true);

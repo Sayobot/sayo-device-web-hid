@@ -158,6 +158,8 @@ export class KeyManagePage implements OnInit, OnDestroy {
         };
 
         if (data.type === ControlType.Common) {
+          data.options.push({ key: 'None', value: String('0') });
+
           for (const { code, name } of General_Keys) {
             data.options.push({ key: name, value: String(code) });
           }
@@ -190,7 +192,9 @@ export class KeyManagePage implements OnInit, OnDestroy {
   }
 
   private _updateVkeys(keys: Key[], level: number) {
-    this.vkeys = keys.map((key) => this._key2vKey(key, level));
+    if (this.level !== undefined) {
+      this.vkeys = keys.map((key) => this._key2vKey(key, level));
+    }
   }
 
   private _setLevelName(length: number) {
@@ -205,6 +209,8 @@ export class KeyManagePage implements OnInit, OnDestroy {
     const { functions } = key;
 
     const { mode, values } = functions[level];
+
+
 
     const name = getKeyModeName(this._doc, mode, values);
     const tooltip = name;

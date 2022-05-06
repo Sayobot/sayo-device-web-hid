@@ -21,6 +21,7 @@ export enum Method {
 }
 
 export enum Cmd {
+  Save = 0x04,
   MetaInfo = 0x00,
   Key = 0x16,
   SimpleKey = 0x06

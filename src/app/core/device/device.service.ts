@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Protocol } from '../hid';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class DeviceService {
   device?: HIDDevice;
 
   device$ = new ReplaySubject<HIDDevice>(1);
+
+  changed$ = new BehaviorSubject<Boolean>(false);
 
   constructor(private _protocol: Protocol) {}
 
@@ -24,11 +26,22 @@ export class DeviceService {
         this.device = device;
         console.log('connect device: ', this.device.productName);
       } else {
-        console.error("please connect other device.");
+        console.error('Please connect other device.');
       }
     } else {
       console.error('Please connect device.');
     }
+  }
+
+  save() {
+    if (!this.device) {
+      console.log('Please connect device!');
+      return;
+    }
+
+    this._protocol.save(this.device!, () => {
+      this.setChanged(false);
+    });
   }
 
   updateInfo() {
@@ -38,5 +51,17 @@ export class DeviceService {
       this.info = info;
       this.device$.next(this.device!);
     });
+  }
+
+  isConnected() {
+    return this.device !== undefined;
+  }
+
+  isChanged() {
+    return this.changed$.getValue();
+  }
+
+  setChanged(isChanged: boolean) {
+    this.changed$.next(isChanged);
   }
 }

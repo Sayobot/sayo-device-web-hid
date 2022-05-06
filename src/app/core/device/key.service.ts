@@ -22,13 +22,16 @@ export class KeyService {
 
     this._protocol.set_key(this._device.device, key, () => {
       let keys = this.data$.getValue();
+
       const index = keys.findIndex((item) => item.id === key.id);
+
       if (index !== -1) {
         keys[index] = key;
       } else {
         console.log('Not fount key.', key);
       }
       this.data$.next(keys);
+      this._device.setChanged(true);
     });
   }
 }

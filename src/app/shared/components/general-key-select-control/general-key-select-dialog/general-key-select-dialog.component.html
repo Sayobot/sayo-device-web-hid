@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Select Key</h1>
 
 <div mat-dialog-content>
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="tabSelected">
     <mat-tab label="General Key">
       <Virtual-Keyboard [id]="value" [keys]="(general$ | async)!" (itemClicked)="onGeneralClick($event)"></Virtual-Keyboard>
     </mat-tab>
@@ -20,7 +20,7 @@
 </div>
 
 <div mat-dialog-actions align="end">
-  <button mat-button (click)="select(0)">Set None</button>
+  <button mat-raised-button (click)="select(0)" [color]="value === 0 ? 'warn' : ''">Set None</button>
   <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Ok</button>
 </div>

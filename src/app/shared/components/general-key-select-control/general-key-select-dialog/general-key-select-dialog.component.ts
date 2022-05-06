@@ -15,11 +15,17 @@ export class GeneralKeySelectDialog implements OnInit {
   general$: Observable<VKey[]>;
   onlyLinux$: Observable<LinuxKey[]>;
 
+  tabSelected = 0;
+
   constructor(private _Ref: MatDialogRef<GeneralKeySelectDialog>, @Inject(MAT_DIALOG_DATA) private data: { value: string }) {
     this.value = Number(this.data.value);
 
     this.general$ = of(General_Keys).pipe(map((keys) => keys.map((key) => this.toVkey(key))));
     this.onlyLinux$ = of(Linux_Keys);
+
+    if (Linux_Keys.findIndex((item) => item.code === this.value) !== -1) {
+      this.tabSelected = 1;
+    }
   }
 
   toVkey(key: GeneralKey) {
