@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, fromEvent, interval, ObservableInput, of, Subject, switchMap, takeUntil, timeout } from 'rxjs';
 import { Config, Cmd, Method, Offset } from './const';
-import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer, simpleKeyFromBuffer } from './utils';
+import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer, simpleKeyAsBuffer, simpleKeyFromBuffer } from './utils';
 
 /**
  * 命名规则:
@@ -80,6 +80,41 @@ export class Protocol {
       (device: HIDDevice, id: number) => this.request_simpleKey(device, id),
       (data: SimpleKey[]) => handler(data),
     );
+  }
+
+  /**
+   * 修改按键数据 TODO: 重构
+   * @param device
+   * @param key
+   * @param handler
+   */
+  set_simplekey(device: HIDDevice, key: SimpleKey, handler: () => void) {
+    let reportData = [];
+    debugger
+    reportData[Offset.Cmd] = Cmd.SimpleKey;
+    reportData[Offset.Size] = 8;
+    reportData[Offset.Method] = Method.Write;
+    reportData[Offset.Id] = key.id;
+
+    reportData = reportData.concat(simpleKeyAsBuffer(key));
+
+    const checkOffset = reportData[Offset.Size] + Config.checkSumStepSize;
+
+    reportData[checkOffset] = this.checkSum(reportData, checkOffset);
+
+    const done$ = new Subject<boolean>();
+    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+
+    input$.subscribe((report: HIDInputReportEvent) => {
+      console.log(report);
+
+      if (report.data.getInt8(0) === 0) handler();
+
+      done$.next(true);
+      done$.complete();
+    });
+
+    this.send_report(device, new Uint8Array(reportData));
   }
 
   /**

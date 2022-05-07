@@ -54,6 +54,7 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
 
   onFormSubmit(data: KeyFormData) {
     if (this.activeKey) {
+
       this.activeKey.function = {
         mode: Number(data.mode),
         values: data.params.map((param) => Number(param)),

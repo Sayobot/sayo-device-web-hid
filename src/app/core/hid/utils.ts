@@ -50,6 +50,12 @@ export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8
   };
 };
 
+export const simpleKeyAsBuffer: (key: SimpleKey) => Array<number> = (key: SimpleKey) => {
+  const { mode, values } = key.function;
+  const data: number[] = [mode, 0, values[0], values[1], values[2], values[3]];
+  return data.map((item) => (item === undefined ? 0 : item));;
+};
+
 export const keyAsBuffer: (key: Key) => Array<number> = (key: Key) => {
   const Data_start = 13;
 

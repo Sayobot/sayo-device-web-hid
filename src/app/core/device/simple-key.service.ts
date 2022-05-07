@@ -17,5 +17,21 @@ export class SimpleKeyService {
     this._protocol.get_simplekey(this._device.device, (data: SimpleKey[]) => this.data$.next(data));
   }
 
-  setItem(key: SimpleKey) {}
+  setItem(key: SimpleKey) {
+    if (!this._device.device) return;
+
+    this._protocol.set_simplekey(this._device.device, key, () => {
+      let keys = this.data$.getValue();
+
+      const index = keys.findIndex((item) => item.id === key.id);
+
+      if (index !== -1) {
+        keys[index] = key;
+      } else {
+        console.log('Not fount key.', key);
+      }
+      this.data$.next(keys);
+      this._device.setChanged(true);
+    });
+  }
 }
