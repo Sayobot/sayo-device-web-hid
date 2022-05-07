@@ -1,0 +1,26 @@
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer-content>
+    <ng-container *ngIf="vkeys.length > 0">
+      <Virtual-Keyboard
+        #vkeyboard
+        class="virtual-keybaord"
+        [id]="activeKey?.id"
+        [keys]="vkeys"
+        (itemClicked)="onItemClicked($event)"
+      ></Virtual-Keyboard>
+    </ng-container>
+  </mat-drawer-content>
+
+  <mat-drawer #editor position="end" [mode]="'over'">
+    <div class="editor-header">
+      <h2 class="editor-title">Id：{{ idFormart() }} - Level: Basic</h2>
+      <mat-icon (click)="onEditorClosed()">close</mat-icon>
+    </div>
+    <div class="editor-content">
+      <ng-container *ngIf="formData">
+        <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)"></dynamix-form>
+      </ng-container>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>
+

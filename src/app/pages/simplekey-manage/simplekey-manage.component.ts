@@ -1,57 +1,37 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, takeUntil, tap } from 'rxjs';
-import { KeyService } from 'src/app/core/device/key.service';
+import { Subject, takeUntil } from 'rxjs';
+import { SimpleKeyService } from 'src/app/core/device/simple-key.service';
 import { ControlType, General_Keys, getKeyModeName, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
 import { KeyFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
 
-interface Level {
-  id: number;
-  name: string;
-}
-
 @Component({
-  templateUrl: './key-manage.component.html',
-  styleUrls: ['./key-manage.component.scss'],
+  selector: 'app-simplekey-manage',
+  templateUrl: './simplekey-manage.component.html',
+  styleUrls: ['./simplekey-manage.component.scss'],
 })
-export class KeyManageComponent implements OnInit, OnDestroy {
-  activeKey: Key | undefined;
+export class SimplekeyManageComponent implements OnInit, OnDestroy {
+  activeKey: SimpleKey | undefined;
   vkeys: VKey[] = [];
-  levels: Level[] = [];
-
-  level = new FormControl();
-
   formData: OptionFormData | undefined;
 
   destory$ = new Subject();
 
   @ViewChild('editor') keyEditor!: MatDrawer;
 
-  constructor(private _key: KeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
-    this._key.data$
-      .pipe(
-        takeUntil(this.destory$),
+  constructor(private _key: SimpleKeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
+    this._key.data$.pipe(takeUntil(this.destory$)).subscribe((keys) => {
+      console.log(keys);
 
-        // set function level name
-        tap((keys) => {
-          if (keys.length > 0 && this.levels.length !== keys[0]?.functions.length) {
-            this._setLevelName(keys[0].functions.length);
-          }
-        }),
-      )
-      .subscribe((keys) => {
-        this._updateVkeys(keys, this.level.value);
-      });
+      this._updateVkeys(keys);
+    });
   }
 
   ngOnInit(): void {
     this._key.init();
-
-    this.level.setValue(0);
   }
 
   ngOnDestroy(): void {
@@ -59,14 +39,33 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     this.destory$.complete();
   }
 
-  onLevelChange() {
-    const keys = this._key.data$.getValue();
-    const level = this.level.value;
+  onModeChanged(code: string) {
+    if (this.activeKey) {
+      const { files } = this._doc.mode(Cmd.SimpleKey, Number(code))!;
 
-    if (level !== undefined) {
-      this._updateVkeys(keys, level);
+      this.activeKey.function = {
+        mode: Number(code),
+        values: files.map((file) => this._doc.param(file)!.def),
+      };
 
-      if (this.activeKey) this._updateFormData();
+      this._updateFormData();
+    }
+  }
+
+  onFormSubmit(data: KeyFormData) {
+    if (this.activeKey) {
+      this.activeKey.function = {
+        mode: Number(data.mode),
+        values: data.params.map((param) => Number(param)),
+      };
+
+      this._key.setItem(this.activeKey);
+      this._updateFormData();
+
+      this._snackBar.open('Successful!', 'Done', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
     }
   }
 
@@ -83,46 +82,8 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     this.keyEditor.open();
   }
 
-  onModeChanged(code: string) {
-    const level = this.level.value;
-
-    if (this.activeKey) {
-      const { files } = this._doc.mode(Cmd.SimpleKey, Number(code))!;
-
-      this.activeKey.functions[level] = {
-        mode: Number(code),
-        values: files.map((file) => this._doc.param(file)!.def),
-      };
-
-      this._updateFormData();
-    }
-  }
-
-  onFormSubmit(data: KeyFormData) {
-    const level = this.level.value;
-
-    if (this.activeKey) {
-      this.activeKey.functions[level] = {
-        mode: Number(data.mode),
-        values: data.params.map((param) => Number(param)),
-      };
-
-      this._key.setItem(this.activeKey);
-      this._updateFormData();
-
-      this._snackBar.open('Successful!', 'Done', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-    }
-  }
-
   idFormart() {
     return this.activeKey ? this.activeKey.id + 1 : 0;
-  }
-
-  levelFormart() {
-    return this.level.value + 1;
   }
 
   private _updateFormData() {
@@ -135,8 +96,8 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       return options;
     };
 
-    const getParams = (level: number) => {
-      const { mode, values } = this.activeKey?.functions[level]!;
+    const getParams = () => {
+      const { mode, values } = this.activeKey?.function!;
       const { files } = this._doc.mode(Cmd.SimpleKey, mode)!;
 
       let params = [];
@@ -173,36 +134,23 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       return params;
     };
 
-    const level = this.level.value;
     this.formData = {
       mode: {
         type: ControlType.Select,
         key: 'mode',
-        value: String(this.activeKey?.functions[level].mode),
+        value: String(this.activeKey?.function.mode),
         options: getModeOptions(),
       },
-      params: getParams(level),
+      params: getParams(),
     };
   }
 
-  private _updateVkeys(keys: Key[], level: number) {
-    if (this.level !== undefined) {
-      this.vkeys = keys.map((key) => this._key2vKey(key, level));
-    }
+  private _updateVkeys(keys: SimpleKey[]) {
+    this.vkeys = keys.map((key) => this._key2vKey(key));
   }
 
-  private _setLevelName(length: number) {
-    this.levels = [];
-    for (let i = 0; i < length; i++) {
-      const name = i === 0 ? '基本层' : `Fn ${i}`;
-      this.levels.push({ id: i, name });
-    }
-  }
-
-  private _key2vKey(key: Key, level: number) {
-    const { functions } = key;
-
-    const { mode, values } = functions[level];
+  private _key2vKey(key: SimpleKey) {
+    const { mode, values } = key.function;
 
     const name = getKeyModeName(this._doc, mode, values);
     const tooltip = name;
@@ -214,4 +162,3 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     };
   }
 }
-

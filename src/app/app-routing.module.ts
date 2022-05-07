@@ -10,6 +10,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/key-manage/key-manage.module').then((m) => m.KeyManageModule),
   },
+  {
+    path: 'simplekey',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/simplekey-manage/simplekey-manage.module').then((m) => m.SimplekeyManageModule),
+  },
   { path: '**', redirectTo: '/device' },
 ];
 

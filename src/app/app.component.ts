@@ -17,6 +17,12 @@ const MENUS: Menu[] = [
     name: 'Key',
     key: Cmd.Key,
   },
+  {
+    link: '/simplekey',
+    icon: 'keyboard_alt',
+    name: 'Key',
+    key: Cmd.SimpleKey,
+  },
 ];
 
 @Component({

@@ -1,3 +1,7 @@
+declare interface ID {
+  id: number;
+}
+
 declare interface DeviceInfo {
   version: number;
   mode: 'app';
@@ -33,6 +37,9 @@ declare interface Key {
   functions: KeyFunction[];
 }
 
-declare interface ID {
+declare interface SimpleKey {
   id: number;
+  type: number;
+  pos: KeyPostion;
+  function: KeyFunction;
 }

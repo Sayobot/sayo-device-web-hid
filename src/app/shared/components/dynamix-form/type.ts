@@ -14,3 +14,8 @@ export interface OptionFormData {
   mode: OptionControlData;
   params: OptionControlData[];
 }
+
+export interface KeyFormData {
+  mode: string;
+  params: string[];
+}

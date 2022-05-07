@@ -1,0 +1,53 @@
+@use '../../theme/const';
+
+.mat-drawer-container {
+  height: 100%;
+
+  .mat-drawer {
+    min-width: 400px;
+
+    .editor-header {
+      padding: 4px 8px;
+      display: flex;
+      height: 48px;
+      justify-content: space-between;
+      align-items: center;
+
+      .editor-title {
+        margin: 0;
+        padding: 0;
+      }
+
+      .mat-icon {
+        cursor: pointer;
+      }
+    }
+
+    .editor-content {
+      padding: 8px 16px;
+    }
+  }
+
+  .mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .virtual-keybaord {
+      margin-bottom: 2rem;
+    }
+
+    .mat-button-toggle {
+      white-space: nowrap;
+      position: relative;
+      font-size: 16px;
+      padding: 8px 24px;
+      background: #333;
+      color: #fff;
+    }
+    .mat-button-toggle-checked {
+      background: const.$warn;
+    }
+  }
+}

@@ -1,14 +1,53 @@
+import { Cmd, KeyType } from './const';
+
 export const typeOf = (ev: HIDInputReportEvent) => {};
 
 export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8Array) => {
-  const info: DeviceInfo = {
+  let info: DeviceInfo = {
     version: data[0] * 256 + data[1],
     mode: 'app',
     name: '',
-    api: [...data.slice(8, data[1])],
+    api: [...new Set(data.slice(8, data[1]))],
   };
 
+  // remove simplekey if has key
+  if (info.api.includes(Cmd.SimpleKey) && info.api.includes(Cmd.Key)) {
+    const index = info.api.indexOf(Cmd.SimpleKey);
+    info.api.splice(index, 1);
+  }
+
   return info;
+};
+
+export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8Array) => {
+  data = data.slice(2);
+
+  const id = data[1];
+
+  const spacer = 8;
+
+  const size: Size = {
+    width: 60,
+    height: 60,
+    radius: 8,
+  };
+
+  const point: Point = {
+    x: (id + 1) * spacer + id * size.width,
+    y: spacer,
+  };
+
+  let func: KeyFunction = {
+    mode: data[2],
+    values: [data[4], data[5], data[6], data[7]],
+  };
+
+  return {
+    id,
+    type: KeyType.Button,
+    pos: { point, size },
+    function: func,
+  };
 };
 
 export const keyAsBuffer: (key: Key) => Array<number> = (key: Key) => {

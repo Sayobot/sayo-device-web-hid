@@ -5,9 +5,9 @@
 /// <reference path="./index.d.ts" />
 
 import { Injectable } from '@angular/core';
-import { fromEvent, interval, ObservableInput, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, fromEvent, interval, ObservableInput, of, Subject, switchMap, takeUntil, timeout } from 'rxjs';
 import { Config, Cmd, Method, Offset } from './const';
-import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer } from './utils';
+import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer, simpleKeyFromBuffer } from './utils';
 
 /**
  * 命名规则:
@@ -22,6 +22,11 @@ import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer } from './utils';
 export class Protocol {
   constructor() {}
 
+  /**
+   * 永久保存到设备中
+   * @param device
+   * @param handler
+   */
   save(device: HIDDevice, handler: Function) {
     let reportData = [];
 
@@ -60,6 +65,20 @@ export class Protocol {
       metaInfoFromBuffer,
       (device: HIDDevice) => this.send_report(device, reportData),
       (data: DeviceInfo) => handler(data),
+    );
+  }
+
+  /**
+   * 获取兼容版按键
+   * @param device
+   * @param handler
+   */
+  get_simplekey(device: HIDDevice, handler: (keys: SimpleKey[]) => void) {
+    this.read_loop(
+      device,
+      simpleKeyFromBuffer,
+      (device: HIDDevice, id: number) => this.request_simpleKey(device, id),
+      (data: SimpleKey[]) => handler(data),
     );
   }
 
@@ -129,6 +148,11 @@ export class Protocol {
     return this.send_report(device, reportData);
   }
 
+  private request_simpleKey(device: HIDDevice, id: number) {
+    const reportData = this.buffer_read(Cmd.SimpleKey, id);
+    return this.send_report(device, reportData);
+  }
+
   /**
    * 读取单个
    * @param device
@@ -172,26 +196,35 @@ export class Protocol {
     let result: T[] = [];
 
     const done$ = new Subject<boolean>();
-    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(
+      takeUntil(done$),
+      timeout(100),
+      catchError((_) => {
+        done$.next(true);
+        done$.complete();
+        return of();
+      }),
+    );
+
+    input$.subscribe((report: HIDInputReportEvent) => {
+      if (report.data !== undefined) {
+        const target = parser(new Uint8Array(report.data.buffer));
+        if (result.findIndex((item) => item.id === target.id) === -1) {
+          result.push(target);
+        } else {
+          done$.next(true);
+          done$.complete();
+        }
+      }
+    });
+
     const request$ = interval(Config.period).pipe(
       takeUntil(done$),
       switchMap((id) => request(device, id)),
     );
 
-    input$.subscribe(({ data }) => {
-      if (data.getUint8(0) === 0xff || data.getUint8(0) === 0x04) {
-        done$.next(true);
-        done$.complete();
-      }
-
-      const key = parser(new Uint8Array(data.buffer));
-
-      if (result.findIndex((item) => item.id === key.id) === -1) {
-        result.push(key);
-      }
-    });
-
     request$.subscribe();
+
     done$.subscribe((done) => {
       if (done) handler(result);
     });
