@@ -52,11 +52,11 @@ export class VirtualKeyComponent implements OnInit {
         case KeyType.Button:
           result = `${this.raduis}px`;
           break;
-        case KeyType.KnobAnticlockwise:
-          result = `${this.width}px 0 0 ${this.width}px`;
-          break;
-        case KeyType.KnobClockwise:
+        case KeyType.Anticlockwise:
           result = `0 ${this.width}px ${this.width}px 0`;
+          break;
+        case KeyType.Clockwise:
+          result = `${this.width}px 0 0 ${this.width}px`;
           break;
         default:
           break;
@@ -67,7 +67,7 @@ export class VirtualKeyComponent implements OnInit {
     return {
       width: `${this.width}px`,
       height: `${this.height}px`,
-      'border-radius': getRadius()
+      'border-radius': getRadius(),
     };
   }
 }

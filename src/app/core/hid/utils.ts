@@ -1,108 +1,141 @@
-import { Cmd, KeyType } from './const';
+import { catchError, fromEvent, interval, of, Subject, switchMap, takeUntil, timeout } from 'rxjs';
+import { Cmd, Config, Method, Offset } from './const';
 
-export const typeOf = (ev: HIDInputReportEvent) => {};
-
-export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8Array) => {
-  let info: DeviceInfo = {
-    version: data[0] * 256 + data[1],
-    mode: 'app',
-    name: '',
-    api: [...new Set(data.slice(8, data[1]))],
-  };
-
-  // remove simplekey if has key
-  if (info.api.includes(Cmd.SimpleKey) && info.api.includes(Cmd.Key)) {
-    const index = info.api.indexOf(Cmd.SimpleKey);
-    info.api.splice(index, 1);
+/**
+ * 发送请求
+ * @param device
+ * @param reportData
+ * @returns
+ */
+export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
+  if (device) {
+    return device.sendReport(Config.reportId, reportData);
+  } else {
+    throw new Error('Not connect device.');
   }
-
-  return info;
 };
 
-export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8Array) => {
-  data = data.slice(2);
-
-  const id = data[1];
-
-  const spacer = 8;
-
-  const size: Size = {
-    width: 60,
-    height: 60,
-    radius: 8,
-  };
-
-  const point: Point = {
-    x: (id + 1) * spacer + id * size.width,
-    y: spacer,
-  };
-
-  let func: KeyFunction = {
-    mode: data[2],
-    values: [data[4], data[5], data[6], data[7]],
-  };
-
-  return {
-    id,
-    type: KeyType.Button,
-    pos: { point, size },
-    function: func,
-  };
+/**
+ * 计算检验和
+ * @param data
+ * @param checkBit
+ * @returns
+ */
+export const calcChecksum = (data: number[], checkBit: number) => {
+  return data.slice(0, checkBit).reduce((sum, n) => sum + n) + Config.checkSumStepSize;
 };
 
-export const simpleKeyAsBuffer: (key: SimpleKey) => Array<number> = (key: SimpleKey) => {
-  const { mode, values } = key.function;
-  const data: number[] = [mode, 0, values[0], values[1], values[2], values[3]];
-  return data.map((item) => (item === undefined ? 0 : item));;
+/**
+ * 获取 read 请求的 buffer 数据
+ * @param cmd
+ * @param id
+ * @returns
+ */
+export const makeReadBuffer = (cmd: Cmd, id: number) => {
+  const checkOffset = Config.cmdSize + Config.checkSumStepSize;
+
+  let reportData = new Array(checkOffset).fill(0);
+  reportData[Offset.Cmd] = cmd;
+  reportData[Offset.Size] = Config.cmdSize;
+  reportData[Offset.Method] = Method.Read;
+  reportData[Offset.Id] = id;
+  reportData[checkOffset] = calcChecksum(reportData, checkOffset);
+
+  return new Uint8Array(reportData);
 };
 
-export const keyAsBuffer: (key: Key) => Array<number> = (key: Key) => {
-  const Data_start = 13;
+/**
+ * 读取多个
+ * 存在顺序关系，且数量位置，因此不能 combineLatest 等操作符
+ * @param device 设备
+ * @param cmd cmd
+ * @param parser 解析函数
+ * @param handler 处理函数
+ */
+export const loopRequestByRead = <T extends ID>(
+  device: HIDDevice,
+  cmd: Cmd,
+  parser: (data: Uint8Array) => T,
+  handler: (data: T[]) => void,
+) => {
+  let result: T[] = [];
 
-  const { functions } = key;
+  const done$ = new Subject<boolean>();
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(
+    takeUntil(done$),
+    timeout(100),
+    catchError((_) => {
+      done$.next(true);
+      done$.complete();
+      return of();
+    }),
+  );
 
-  let data = new Array(functions.length * 6 + 1).fill(0);
-  data.push(key.type);
-
-  for (let i = 0; i < functions.length; i++) {
-    const func = functions[i];
-    data[Data_start + i * 6] = func.mode;
-
-    for (let j = 0; j < func.values.length; j++) {
-      data[Data_start + i * 6 + j + 2] = func.values[j];
+  input$.subscribe((report: HIDInputReportEvent) => {
+    if (report.data !== undefined) {
+      const target = parser(new Uint8Array(report.data.buffer));
+      if (result.findIndex((item) => item.id === target.id) === -1) {
+        result.push(target);
+      } else {
+        done$.next(true);
+        done$.complete();
+      }
     }
-  }
+  });
 
-  return data.map((item) => (item === undefined ? 0 : item));
+  const request$ = interval(Config.period).pipe(
+    takeUntil(done$),
+    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id))),
+  );
+
+  request$.subscribe();
+
+  done$.subscribe((done) => {
+    if (done) handler(result);
+  });
 };
 
-export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
-  data = data.slice(2);
+/**
+ * 读取单个
+ * @param device 设备
+ * @param reportData 请求
+ * @param parser 解析器
+ * @param handler 请求结束后处理函数
+ */
+export const requestByRead = <T>(
+  device: HIDDevice,
+  reportData: Uint8Array,
+  parser: (data: Uint8Array) => T,
+  handler: (data: T) => void,
+) => {
+  const done$ = new Subject<boolean>();
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
-  const width = data[10] + data[11] * 256;
-  const height = data[12] + data[13] * 256;
-  const midX = data[4] + data[5] * 256;
-  const midY = data[6] + data[7] * 256;
+  input$.subscribe(({ data }) => {
+    const result = parser(new Uint8Array(data.buffer));
+    handler(result);
+    done$.next(true);
+    done$.complete();
+  });
 
-  const pos: KeyPostion = {
-    point: {
-      x: midX - width / 2,
-      y: midY - height / 2,
-    },
-    size: {
-      width,
-      height,
-      radius: data[14] + data[15] * 256,
-    },
-  };
+  sendReport(device, reportData);
+};
 
-  let functions: KeyFunction[] = [];
-  for (let i = 16; i < data.length - 16; i += 6) {
-    functions.push({
-      mode: data[i],
-      values: [data[i + 2], data[i + 3], data[i + 4], data[i + 5]],
-    });
-  }
+/**
+ *
+ * @param device
+ * @param reportData
+ * @param handler
+ */
+export const requestByWrite = (device: HIDDevice, reportData: Uint8Array, handler: (ok: boolean) => void) => {
+  const done$ = new Subject<boolean>();
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
-  return { id: data[1], type: data[3], pos, functions };
+  input$.subscribe(({ data }) => {
+    handler(data.getInt8(0) === 0);
+    done$.next(true);
+    done$.complete();
+  });
+
+  sendReport(device, reportData);
 };

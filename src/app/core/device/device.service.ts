@@ -39,8 +39,8 @@ export class DeviceService {
       return;
     }
 
-    this._protocol.save(this.device!, () => {
-      this.setChanged(false);
+    this._protocol.save(this.device!, (ok: boolean) => {
+      if (ok) this.setChanged(false);
     });
   }
 

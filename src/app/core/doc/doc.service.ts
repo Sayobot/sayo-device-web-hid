@@ -53,7 +53,6 @@ export class DocService {
     const subscribe = this.http.get<MainJson>(`${Param_Dir}/${file}`).subscribe((res) => {
       subscribe.unsubscribe();
       this._main = getMainDoc(res);
-      console.log(this._main);
     });
   }
 

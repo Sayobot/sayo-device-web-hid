@@ -1,7 +1,7 @@
 export enum KeyType {
-  Button = 0, // 普通按钮
-  KnobAnticlockwise = 1, // 逆时针旋转
-  KnobClockwise = 2, // 顺时针旋转
+  Button, // 普通按钮
+  Clockwise, // 顺时针旋转
+  Anticlockwise, // 逆时针旋转
 }
 
 export const Config = {
@@ -30,5 +30,5 @@ export enum Cmd {
   Save = 0x04,
   MetaInfo = 0x00,
   Key = 0x16,
-  SimpleKey = 0x06
+  SimpleKey = 0x06,
 }
