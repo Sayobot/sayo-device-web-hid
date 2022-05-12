@@ -41,8 +41,6 @@ export class GeneralKeySelectControlComponent implements ControlValueAccessor {
   }
 
   onSelectChange(val: string) {
-    console.log(val);
-
     this.onChange(val);
   }
 

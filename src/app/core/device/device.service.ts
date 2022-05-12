@@ -24,18 +24,18 @@ export class DeviceService {
     if (device) {
       if (device !== this.device) {
         this.device = device;
-        console.log('connect device: ', this.device.productName);
+        console.info('连接设备: ', this.device.productName);
       } else {
-        console.error('Please connect other device.');
+        console.error('请选择其他设备');
       }
     } else {
-      console.error('Please connect device.');
+      console.error('请连接设备');
     }
   }
 
   save() {
     if (!this.device) {
-      console.log('Please connect device!');
+      console.warn('请连接设备');
       return;
     }
 

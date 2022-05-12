@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Protocol } from '../hid';
 import { DeviceService } from './device.service';
+import { setItemHandler } from './utils';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class SimpleKeyService {
   init() {
     if (!this._device.device) return;
 
+    console.info("初始化按键数据");
     this._protocol.get_simplekey(this._device.device, (data: SimpleKey[]) => this.data$.next(data));
   }
 
@@ -21,19 +23,8 @@ export class SimpleKeyService {
     if (!this._device.device) return;
 
     this._protocol.set_simplekey(this._device.device, key, (ok: boolean) => {
-      if (ok) {
-        let keys = this.data$.getValue();
-
-        const index = keys.findIndex((item) => item.id === key.id);
-
-        if (index !== -1) {
-          keys[index] = key;
-        } else {
-          console.log('Not fount key.', key);
-        }
-        this.data$.next(keys);
-        this._device.setChanged(true);
-      }
+      setItemHandler(this.data$, key, ok);
+      this._device.setChanged(ok);
     });
   }
 }

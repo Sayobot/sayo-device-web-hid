@@ -24,8 +24,6 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
 
   constructor(private _key: SimpleKeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
     this._key.data$.pipe(takeUntil(this.destory$)).subscribe((keys) => {
-      console.log(keys);
-
       this._updateVkeys(keys);
     });
   }

@@ -50,7 +50,6 @@ export class KeyManageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._key.init();
-
     this.level.setValue(0);
   }
 
@@ -186,9 +185,9 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   private _updateVkeys(keys: Key[], level: number) {
-    if (this.level !== undefined) {
-      this.vkeys = keys.map((key) => this._key2vKey(key, level));
-    }
+    if(level === null || level === undefined) return;
+
+    this.vkeys = keys.map((key) => this._key2vKey(key, level));
   }
 
   private _setLevelName(length: number) {
@@ -200,6 +199,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   private _key2vKey(key: Key, level: number) {
+
     const { functions } = key;
 
     const { mode, values } = functions[level];
@@ -214,4 +214,3 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     };
   }
 }
-

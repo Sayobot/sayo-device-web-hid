@@ -19,8 +19,6 @@ export class DocService {
 
   constructor(private http: HttpClient, private device: DeviceService) {
     this.device.device$.subscribe((device: HIDDevice) => {
-      console.log(`device changed: ${device.productId}`);
-
       const file = device.productId === 3 ? 'main_vid_3.json' : 'main.json';
       this.load(file);
     });
@@ -51,6 +49,8 @@ export class DocService {
    */
   load(file: string = 'main.json') {
     const subscribe = this.http.get<MainJson>(`${Param_Dir}/${file}`).subscribe((res) => {
+      console.info(`加载选项数据: ${file}`);
+
       subscribe.unsubscribe();
       this._main = getMainDoc(res);
     });
