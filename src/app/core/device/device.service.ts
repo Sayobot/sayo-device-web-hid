@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { Protocol } from '../hid';
+import { O2Protocol } from '../hid';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class DeviceService {
 
   changed$ = new BehaviorSubject<Boolean>(false);
 
-  constructor(private _protocol: Protocol) {}
+  constructor(private _o2p: O2Protocol) {}
 
   isSupport(code: number) {
     if (!this.device) return false;
@@ -39,7 +39,7 @@ export class DeviceService {
       return;
     }
 
-    this._protocol.save(this.device!, (ok: boolean) => {
+    this._o2p.save(this.device!, (ok: boolean) => {
       if (ok) this.setChanged(false);
     });
   }
@@ -47,7 +47,7 @@ export class DeviceService {
   updateInfo() {
     if (!this.device) return;
 
-    this._protocol.get_metaInfo(this.device, (info: DeviceInfo) => {
+    this._o2p.get_metaInfo(this.device, (info: DeviceInfo) => {
       this.info = info;
       this.device$.next(this.device!);
     });

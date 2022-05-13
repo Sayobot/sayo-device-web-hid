@@ -1,6 +1,6 @@
 import { Cmd, KeyType } from './const';
 
-export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8Array) => {
+export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
   let info: DeviceInfo = {
     version: data[0] * 256 + data[1],
     mode: 'app',
@@ -17,7 +17,7 @@ export const metaInfoFromBuffer: (data: Uint8Array) => DeviceInfo = (data: Uint8
   return info;
 };
 
-export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8Array) => {
+export const SimpleKeyFromBuffer: ParserFromFunc<SimpleKey> = (data: Uint8Array) => {
   data = data.slice(2);
 
   const id = data[1];
@@ -40,7 +40,7 @@ export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8
     values: [data[4], data[5], data[6], data[7]],
   };
 
-  return {
+  return <SimpleKey>{
     id,
     type: KeyType.Button,
     pos: { point, size },
@@ -48,33 +48,13 @@ export const simpleKeyFromBuffer: (data: Uint8Array) => SimpleKey = (data: Uint8
   };
 };
 
-export const simpleKeyAsBuffer: (key: SimpleKey) => Array<number> = (key: SimpleKey) => {
+export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
   const { mode, values } = key.function;
   const data: number[] = [mode, 0, values[0], values[1], values[2], values[3]];
-  return data.map((item) => (item === undefined ? 0 : item));;
-};
-
-export const keyAsBuffer: (key: Key) => Array<number> = (key: Key) => {
-  const Data_start = 13;
-
-  const { functions } = key;
-
-  let data = new Array(functions.length * 6 + 1).fill(0);
-  data.push(key.type);
-
-  for (let i = 0; i < functions.length; i++) {
-    const func = functions[i];
-    data[Data_start + i * 6] = func.mode;
-
-    for (let j = 0; j < func.values.length; j++) {
-      data[Data_start + i * 6 + j + 2] = func.values[j];
-    }
-  }
-
   return data.map((item) => (item === undefined ? 0 : item));
 };
 
-export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
+export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
   data = data.slice(2);
 
   const width = data[10] + data[11] * 256;
@@ -102,5 +82,52 @@ export const keyFromBuffer: (data: Uint8Array) => Key = (data: Uint8Array) => {
     });
   }
 
-  return { id: data[1], type: data[3], pos, functions };
+  return <Key>{ id: data[1], type: data[3], pos, functions };
+};
+
+export const KeyAsBuffer: ParserAsFunc<Key> = (key: Key) => {
+  const Data_start = 13;
+
+  const { functions } = key;
+
+  let data: number[] = new Array(functions.length * 6 + 1).fill(0);
+  data.push(key.type);
+
+  for (let i = 0; i < functions.length; i++) {
+    const func = functions[i];
+    data[Data_start + i * 6] = func.mode;
+
+    for (let j = 0; j < func.values.length; j++) {
+      data[Data_start + i * 6 + j + 2] = func.values[j];
+    }
+  }
+
+  return data.map((item) => (item === undefined ? 0 : item));
+};
+
+export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
+  data = data.slice(2);
+
+  const id = data[1];
+
+  const str = [...data.slice(2)];
+  let contentArr = [];
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === 0) break;
+
+    contentArr.push(String.fromCharCode(str[i]));
+  }
+
+  return <Password>{ id, content: contentArr.join('') };
+};
+
+export const PwdAsBuffer: ParserAsFunc<Password> = (data: Password) => {
+  let arr = [];
+
+  for (let i = 0; i < data.content.length; i++) {
+    arr.push(data.content.charCodeAt(i));
+  }
+
+  return arr;
 };

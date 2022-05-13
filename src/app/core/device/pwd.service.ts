@@ -7,23 +7,24 @@ import { setItemHandler } from './utils';
 @Injectable({
   providedIn: 'root',
 })
-export class KeyService {
-  data$ = new BehaviorSubject<Key[]>([]);
+export class PwdService {
+  data$ = new BehaviorSubject<Password[]>([]);
 
   constructor(private _device: DeviceService, private _o2p: O2Protocol) {}
 
   init() {
     if (!this._device.device) return;
 
-    console.info("初始化按键数据");
-    this._o2p.get_key(this._device.device, (data: Key[]) => this.data$.next(data));
+    this._o2p.get_pwd(this._device.device, (pwds) => {
+      this.data$.next(pwds);
+    });
   }
 
-  setItem(key: Key) {
+  setItem(pwd: Password) {
     if (!this._device.device) return;
 
-    this._o2p.set_key(this._device.device, key, (ok: boolean) => {
-      setItemHandler(this.data$, key, ok);
+    this._o2p.set_pwd(this._device.device, pwd, (ok: boolean) => {
+      setItemHandler(this.data$, pwd, ok);
       this._device.setChanged(ok);
     });
   }

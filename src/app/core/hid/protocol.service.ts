@@ -6,21 +6,16 @@
 
 import { Injectable } from '@angular/core';
 import { Config, Cmd, Method, Offset } from './const';
-import { keyAsBuffer, keyFromBuffer, metaInfoFromBuffer, simpleKeyAsBuffer, simpleKeyFromBuffer } from './parser';
 import { calcChecksum, loopRequestByRead, requestByRead, requestByWrite } from './utils';
+import { KeyAsBuffer, KeyFromBuffer, MetaInfoFromBuffer, PwdAsBuffer, PwdFromBuffer, SimpleKeyAsBuffer, SimpleKeyFromBuffer } from './parser';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Protocol {
+export class O2Protocol {
   constructor() {}
 
-  /**
-   * 永久保存到设备中
-   * @param device
-   * @param handler
-   */
-  save(device: HIDDevice, handler: (ok: boolean) => void) {
+  save(device: HIDDevice, handler: SetHandler) {
     let data = [Cmd.Save, Config.cmdSize, 0x72, 0x96];
 
     const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
@@ -30,32 +25,16 @@ export class Protocol {
     requestByWrite(device, reportData, handler);
   }
 
-  /**
-   * 请求设备元数据
-   * @param device
-   * @param handler
-   */
-  get_metaInfo(device: HIDDevice, handler: (info: DeviceInfo) => void) {
+  get_metaInfo(device: HIDDevice, handler: GetHandler<DeviceInfo>) {
     const reportData = new Uint8Array([Cmd.MetaInfo, 0, 0x02]);
-    requestByRead(device, reportData, metaInfoFromBuffer, handler);
+    requestByRead(device, reportData, MetaInfoFromBuffer, handler);
   }
 
-  /**
-   * 获取兼容版按键
-   * @param device
-   * @param handler
-   */
-  get_simplekey(device: HIDDevice, handler: (keys: SimpleKey[]) => void) {
-    loopRequestByRead(device, Cmd.SimpleKey, simpleKeyFromBuffer, handler);
+  get_simplekey(device: HIDDevice, handler: GetHandler<SimpleKey[]>) {
+    loopRequestByRead(device, Cmd.SimpleKey, SimpleKeyFromBuffer, handler);
   }
 
-  /**
-   * 修改按键数据 TODO: 重构
-   * @param device
-   * @param key
-   * @param handler
-   */
-  set_simplekey(device: HIDDevice, key: SimpleKey, handler: (ok: boolean) => void) {
+  set_simplekey(device: HIDDevice, key: SimpleKey, handler: SetHandler) {
     let data = [];
 
     data[Offset.Cmd] = Cmd.SimpleKey;
@@ -63,7 +42,7 @@ export class Protocol {
     data[Offset.Method] = Method.Write;
     data[Offset.Id] = key.id;
 
-    data = data.concat(simpleKeyAsBuffer(key));
+    data = data.concat(SimpleKeyAsBuffer(key));
 
     const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
     data[checkOffset] = calcChecksum(data, checkOffset);
@@ -72,22 +51,11 @@ export class Protocol {
     requestByWrite(device, reportData, handler);
   }
 
-  /**
-   * 获取按键数据
-   * @param device
-   * @param handler
-   */
-  get_key(device: HIDDevice, handler: (keys: Key[]) => void) {
-    loopRequestByRead(device, Cmd.Key, keyFromBuffer, handler);
+  get_key(device: HIDDevice, handler: GetHandler<Key[]>) {
+    loopRequestByRead(device, Cmd.Key, KeyFromBuffer, handler);
   }
 
-  /**
-   * 修改按键数据
-   * @param device
-   * @param key
-   * @param handler
-   */
-  set_key(device: HIDDevice, key: Key, handler: (ok: boolean) => void) {
+  set_key(device: HIDDevice, key: Key, handler: SetHandler) {
     let data = [];
 
     data[Offset.Cmd] = Cmd.Key;
@@ -96,7 +64,28 @@ export class Protocol {
     data[Offset.Id] = key.id;
     data[4] = 40; // ?
 
-    data = data.concat(keyAsBuffer(key));
+    data = data.concat(KeyAsBuffer(key));
+
+    const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
+    data[checkOffset] = calcChecksum(data, checkOffset);
+
+    const reportData = new Uint8Array(data);
+    requestByWrite(device, reportData, handler);
+  }
+
+  get_pwd(device: HIDDevice, handler: GetHandler<Password[]>) {
+    loopRequestByRead(device, Cmd.Password, PwdFromBuffer, handler);
+  }
+
+  set_pwd(device: HIDDevice, pwd: Password, handler: SetHandler) {
+    let data = [];
+
+    data[Offset.Cmd] = Cmd.Password;
+    data[Offset.Size] = pwd.content.length + 3;
+    data[Offset.Method] = Method.Write;
+    data[Offset.Id] = pwd.id;
+
+    data = data.concat(PwdAsBuffer(pwd));
 
     const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
     data[checkOffset] = calcChecksum(data, checkOffset);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Protocol } from '../hid';
+import { O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
 
@@ -10,19 +10,19 @@ import { setItemHandler } from './utils';
 export class SimpleKeyService {
   data$ = new BehaviorSubject<SimpleKey[]>([]);
 
-  constructor(private _device: DeviceService, private _protocol: Protocol) {}
+  constructor(private _device: DeviceService, private o2p: O2Protocol) {}
 
   init() {
     if (!this._device.device) return;
 
     console.info("初始化按键数据");
-    this._protocol.get_simplekey(this._device.device, (data: SimpleKey[]) => this.data$.next(data));
+    this.o2p.get_simplekey(this._device.device, (data: SimpleKey[]) => this.data$.next(data));
   }
 
   setItem(key: SimpleKey) {
     if (!this._device.device) return;
 
-    this._protocol.set_simplekey(this._device.device, key, (ok: boolean) => {
+    this.o2p.set_simplekey(this._device.device, key, (ok: boolean) => {
       setItemHandler(this.data$, key, ok);
       this._device.setChanged(ok);
     });

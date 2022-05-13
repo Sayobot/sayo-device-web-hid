@@ -1,3 +1,19 @@
+declare interface ParserFromFunc<T> {
+  (data: Uint8Array): T;
+}
+
+declare interface ParserAsFunc<T> {
+  (data: T): number[];
+}
+
+declare interface GetHandler<T> {
+  (data: T): void;
+}
+
+declare interface SetHandler {
+  (ok: boolean): void;
+}
+
 declare interface ID {
   id: number;
 }
@@ -42,4 +58,15 @@ declare interface SimpleKey {
   type: number;
   pos: KeyPostion;
   function: KeyFunction;
+}
+
+declare interface Password {
+  id: number;
+  content: string;
+}
+
+declare interface Text {
+  id: number;
+  encode: 'GBK' | 'Unicode';
+  content: string;
 }

@@ -15,7 +15,7 @@ main {
   .menu-bar-item {
     .mat-icon {
       @include mixin.icon(16px);
-      margin-right: 8px;
+      margin-right: 6px;
     }
   }
 }

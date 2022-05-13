@@ -23,6 +23,12 @@ const MENUS: Menu[] = [
     name: 'Key',
     key: Cmd.SimpleKey,
   },
+  {
+    link: '/pwd',
+    icon: 'lock',
+    name: 'Password',
+    key: Cmd.Password,
+  },
 ];
 
 @Component({
