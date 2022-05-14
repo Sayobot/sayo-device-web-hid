@@ -20,7 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/pwd-manage/pwd-manage.module').then((m) => m.PwdManageModule),
   },
-  { path: '**', redirectTo: '/device' },
+  {
+    path: 'text',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/text-manage/text-manage.module').then((m) => m.TextManageModule),
+  },
 ];
 
 @NgModule({

@@ -131,3 +131,64 @@ export const PwdAsBuffer: ParserAsFunc<Password> = (data: Password) => {
 
   return arr;
 };
+
+export const GbkFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
+  const Max_Length = 56;
+  const Text_Start = 3;
+
+  data = data.slice(2);
+
+  const id = data[1];
+
+  let arr = [];
+
+  for (let i = 0; i < Max_Length; i += 2) {
+    if (data[Text_Start + i] === 0) {
+      arr.push(data[Text_Start + i + 1]);
+    } else {
+      arr.push(data[Text_Start + i + 1]);
+      arr.push(data[Text_Start + i]);
+    }
+  }
+
+  let gbkDecoder = new TextDecoder('gbk');
+  const bytes = new Uint8Array(arr.filter((code) => code !== 0));
+
+  return <Text>{ id, encode: 'GBK', content: gbkDecoder.decode(bytes) };
+};
+
+export const GbkAsBuffer: ParserAsFunc<Text> = (data: Text) => {
+  return [];
+};
+
+export const UnicodeFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
+  const Max_Length = 56;
+  const Text_Start = 3;
+
+  data = data.slice(2);
+
+  const id = data[1];
+
+  let arr = [];
+
+  for (let i = 0; i < Max_Length; i += 2) {
+    const low = data[Text_Start + i + 1];
+    const high = data[Text_Start + i];
+
+    const code = high + low * 256;
+
+    if (code !== 0) {
+      arr.push(high);
+      arr.push(low);
+    }
+  }
+
+  let unicodeDecoder = new TextDecoder('unicode');
+  const bytes = new Uint8Array(arr);
+
+  return <Text>{ id, encode: 'Unicode', content: unicodeDecoder.decode(bytes) };
+};
+
+export const UnicodeAsBuffer: ParserAsFunc<Text> = (data: Text) => {
+  return [];
+};

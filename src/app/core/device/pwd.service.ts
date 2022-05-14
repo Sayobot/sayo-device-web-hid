@@ -15,6 +15,7 @@ export class PwdService {
   init() {
     if (!this._device.device) return;
 
+    console.info("初始化密码数据");
     this._o2p.get_pwd(this._device.device, (pwds) => {
       this.data$.next(pwds);
     });

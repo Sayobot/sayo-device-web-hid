@@ -29,6 +29,12 @@ const MENUS: Menu[] = [
     name: 'Password',
     key: Cmd.Password,
   },
+  {
+    link: '/text',
+    icon: 'speaker_notes',
+    name: 'Text',
+    key: Cmd.Text,
+  },
 ];
 
 @Component({

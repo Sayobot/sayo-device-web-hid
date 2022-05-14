@@ -7,7 +7,17 @@
 import { Injectable } from '@angular/core';
 import { Config, Cmd, Method, Offset } from './const';
 import { calcChecksum, loopRequestByRead, requestByRead, requestByWrite } from './utils';
-import { KeyAsBuffer, KeyFromBuffer, MetaInfoFromBuffer, PwdAsBuffer, PwdFromBuffer, SimpleKeyAsBuffer, SimpleKeyFromBuffer } from './parser';
+import {
+  GbkFromBuffer,
+  KeyAsBuffer,
+  KeyFromBuffer,
+  MetaInfoFromBuffer,
+  PwdAsBuffer,
+  PwdFromBuffer,
+  SimpleKeyAsBuffer,
+  SimpleKeyFromBuffer,
+  UnicodeFromBuffer,
+} from './parser';
 
 @Injectable({
   providedIn: 'root',
@@ -93,4 +103,16 @@ export class O2Protocol {
     const reportData = new Uint8Array(data);
     requestByWrite(device, reportData, handler);
   }
+
+  get_gbk(device: HIDDevice, handler: GetHandler<Text[]>) {
+    loopRequestByRead(device, Cmd.Text, GbkFromBuffer, handler);
+  }
+
+  get_unicode(device: HIDDevice, handler: GetHandler<Text[]>) {
+    loopRequestByRead(device, Cmd.Text, UnicodeFromBuffer, handler);
+  }
+
+  set_gbk(device: HIDDevice, text: Text, handler: SetHandler) {}
+
+  set_unicode(device: HIDDevice, text: Text, handler: SetHandler) {}
 }
