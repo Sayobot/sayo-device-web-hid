@@ -132,7 +132,7 @@ export const PwdAsBuffer: ParserAsFunc<Password> = (data: Password) => {
   return arr;
 };
 
-export const GbkFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
+export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
   const Max_Length = 56;
   const Text_Start = 3;
 
@@ -154,14 +154,14 @@ export const GbkFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
   let gbkDecoder = new TextDecoder('gbk');
   const bytes = new Uint8Array(arr.filter((code) => code !== 0));
 
-  return <Text>{ id, encode: 'GBK', content: gbkDecoder.decode(bytes) };
+  return <IText>{ id, encode: 'GBK', content: gbkDecoder.decode(bytes) };
 };
 
-export const GbkAsBuffer: ParserAsFunc<Text> = (data: Text) => {
+export const GbkAsBuffer: ParserAsFunc<IText> = (data: IText) => {
   return [];
 };
 
-export const UnicodeFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
+export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
   const Max_Length = 56;
   const Text_Start = 3;
 
@@ -175,9 +175,7 @@ export const UnicodeFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
     const low = data[Text_Start + i + 1];
     const high = data[Text_Start + i];
 
-    const code = high + low * 256;
-
-    if (code !== 0) {
+    if (high + low !== 0) {
       arr.push(high);
       arr.push(low);
     }
@@ -186,9 +184,25 @@ export const UnicodeFromBuffer: ParserFromFunc<Text> = (data: Uint8Array) => {
   let unicodeDecoder = new TextDecoder('unicode');
   const bytes = new Uint8Array(arr);
 
-  return <Text>{ id, encode: 'Unicode', content: unicodeDecoder.decode(bytes) };
+  return <IText>{ id, encode: 'Unicode', content: unicodeDecoder.decode(bytes) };
 };
 
-export const UnicodeAsBuffer: ParserAsFunc<Text> = (data: Text) => {
-  return [];
+export const UnicodeAsBuffer: ParserAsFunc<IText> = (data: IText) => {
+  let arr = [];
+
+  const { content } = data;
+
+  for (let i = 0; i < content.length; i++) {
+    const code = content.charCodeAt(i);
+    const low = code & 0xff;
+    const high = (code >> 8) & 0xff;
+    arr.push(low);
+    arr.push(high);
+  }
+
+  while (arr.length < 56) {
+    arr.push(0);
+  }
+
+  return arr;
 };

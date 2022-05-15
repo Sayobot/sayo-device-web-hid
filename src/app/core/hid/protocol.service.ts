@@ -16,6 +16,7 @@ import {
   PwdFromBuffer,
   SimpleKeyAsBuffer,
   SimpleKeyFromBuffer,
+  UnicodeAsBuffer,
   UnicodeFromBuffer,
 } from './parser';
 
@@ -104,15 +105,33 @@ export class O2Protocol {
     requestByWrite(device, reportData, handler);
   }
 
-  get_gbk(device: HIDDevice, handler: GetHandler<Text[]>) {
+  get_gbk(device: HIDDevice, handler: GetHandler<IText[]>) {
     loopRequestByRead(device, Cmd.Text, GbkFromBuffer, handler);
   }
 
-  get_unicode(device: HIDDevice, handler: GetHandler<Text[]>) {
+  get_unicode(device: HIDDevice, handler: GetHandler<IText[]>) {
     loopRequestByRead(device, Cmd.Text, UnicodeFromBuffer, handler);
   }
 
-  set_gbk(device: HIDDevice, text: Text, handler: SetHandler) {}
+  set_gbk(device: HIDDevice, text: IText, handler: SetHandler) {}
 
-  set_unicode(device: HIDDevice, text: Text, handler: SetHandler) {}
+  set_unicode(device: HIDDevice, text: IText, handler: SetHandler) {
+    let data = [];
+
+    const buffer = UnicodeAsBuffer(text);
+
+    data[Offset.Cmd] = Cmd.Text;
+    data[Offset.Size] = buffer.length > 57 ? 57 : buffer.length + 3;
+    data[Offset.Method] = Method.Write;
+    data[Offset.Id] = text.id;
+    data.push(0); // ?
+
+    data = data.concat(buffer);
+
+    const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
+    data[checkOffset] = calcChecksum(data, checkOffset);
+
+    const reportData = new Uint8Array(data);
+    requestByWrite(device, reportData, handler);
+  }
 }

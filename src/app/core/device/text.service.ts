@@ -8,7 +8,7 @@ import { setItemHandler } from './utils';
   providedIn: 'root',
 })
 export class TextService {
-  data$ = new BehaviorSubject<Text[]>([]);
+  data$ = new BehaviorSubject<IText[]>([]);
 
   constructor(private _device: DeviceService, private o2p: O2Protocol) {}
 
@@ -18,10 +18,10 @@ export class TextService {
     console.info('初始化字符串数据');
     switch (encode) {
       case 'GBK':
-        this.o2p.get_gbk(this._device.device, (data: Text[]) => this.data$.next(data));
+        this.o2p.get_gbk(this._device.device, (data: IText[]) => this.data$.next(data));
         break;
       case 'Unicode':
-        this.o2p.get_unicode(this._device.device, (data: Text[]) => this.data$.next(data));
+        this.o2p.get_unicode(this._device.device, (data: IText[]) => this.data$.next(data));
         break;
       default:
         console.error('不支持的文本编码格式：', encode);
@@ -29,7 +29,7 @@ export class TextService {
     }
   }
 
-  setItem(text: Text) {
+  setItem(text: IText) {
     if (!this._device.device) return;
 
     switch (text.encode) {

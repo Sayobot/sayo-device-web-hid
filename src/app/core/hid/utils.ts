@@ -22,7 +22,7 @@ export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
  * @returns
  */
 export const calcChecksum = (data: number[], checkBit: number) => {
-  return data.slice(0, checkBit).reduce((sum, n) => sum + n) + Config.checkSumStepSize;
+  return (data.slice(0, checkBit).reduce((sum, n) => sum + n) + Config.checkSumStepSize) % 256;
 };
 
 /**

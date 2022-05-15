@@ -1,1 +1,5 @@
-<p>text-manage works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Input</mat-label>
+  <input #text matInput>
+</mat-form-field>
+<button mat-raised-button (click)="setText(text.value)">Change</button>

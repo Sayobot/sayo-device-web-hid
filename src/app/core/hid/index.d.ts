@@ -67,7 +67,7 @@ declare interface Password {
 
 type TextEncode = 'GBK' | 'Unicode';
 
-declare interface Text {
+declare interface IText {
   id: number;
   encode: TextEncode;
   content: string;
