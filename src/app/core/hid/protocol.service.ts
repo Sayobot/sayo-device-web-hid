@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Config, Cmd, Method, Offset } from './const';
 import { calcChecksum, loopRequestByRead, requestByRead, requestByWrite } from './utils';
 import {
+  GbkAsBuffer,
   GbkFromBuffer,
   KeyAsBuffer,
   KeyFromBuffer,
@@ -113,7 +114,23 @@ export class O2Protocol {
     loopRequestByRead(device, Cmd.Text, UnicodeFromBuffer, handler);
   }
 
-  set_gbk(device: HIDDevice, text: IText, handler: SetHandler) {}
+  set_gbk(device: HIDDevice, text: IText, handler: SetHandler) {
+    let data = [];
+
+    data[Offset.Cmd] = Cmd.Text;
+    data[Offset.Size] = 56 + 3; // ?
+    data[Offset.Method] = Method.Write;
+    data[Offset.Id] = text.id;
+    data.push(0); // ?
+
+    data = data.concat(GbkAsBuffer(text));
+
+    const checkOffset = data[Offset.Size] + Config.checkSumStepSize;
+    data[checkOffset] = calcChecksum(data, checkOffset);
+
+    const reportData = new Uint8Array(data);
+    requestByWrite(device, reportData, handler);
+  }
 
   set_unicode(device: HIDDevice, text: IText, handler: SetHandler) {
     let data = [];

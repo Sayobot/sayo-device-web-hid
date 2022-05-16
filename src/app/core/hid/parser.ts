@@ -1,4 +1,5 @@
 import { Cmd, KeyType } from './const';
+import * as iconvLite from 'iconv-lite';
 
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
   let info: DeviceInfo = {
@@ -158,7 +159,25 @@ export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
 };
 
 export const GbkAsBuffer: ParserAsFunc<IText> = (data: IText) => {
-  return [];
+  let arr = [];
+
+  data.content.split('').forEach((char) => {
+    const buffer = iconvLite.encode(char, 'gbk');
+
+    if (buffer.byteLength === 1) {
+      arr.push(0);
+      arr.push(buffer[0]);
+    } else {
+      arr.push(buffer[1]);
+      arr.push(buffer[0]);
+    }
+  });
+
+  while (arr.length < 56) {
+    arr.push(0);
+  }
+
+  return arr;
 };
 
 export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {

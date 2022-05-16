@@ -17,11 +17,11 @@ export class TextManageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._text.init('Unicode');
+    this._text.init('GBK');
   }
 
   setText(val: string) {
-    const t: IText = { id: 0, encode: 'Unicode', content: val };
+    const t: IText = { id: 0, encode: 'GBK', content: val };
     this._text.setItem(t);
   }
 }
