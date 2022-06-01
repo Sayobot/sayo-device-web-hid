@@ -1,0 +1,12 @@
+{
+    "languages": [
+        {
+            "key": "zh",
+            "title": "简体中文"
+        },
+        {
+            "key": "en",
+            "title": "English"
+        }
+    ]
+}

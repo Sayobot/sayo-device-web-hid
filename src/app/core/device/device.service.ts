@@ -64,4 +64,14 @@ export class DeviceService {
   setChanged(isChanged: boolean) {
     this.changed$.next(isChanged);
   }
+
+  filename() {
+    if (this.device) {
+      return this.device!.productId === 3 ? 'main_vid_3.json' : 'main.json';
+    } else {
+      console.error('device not connect.');
+
+      return '';
+    }
+  }
 }

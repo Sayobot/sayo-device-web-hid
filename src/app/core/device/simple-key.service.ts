@@ -15,7 +15,6 @@ export class SimpleKeyService {
   init() {
     if (!this._device.device) return;
 
-    console.info("初始化按键数据");
     this.o2p.get_simplekey(this._device.device, (data: SimpleKey[]) => this.data$.next(data));
   }
 

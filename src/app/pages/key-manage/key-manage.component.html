@@ -21,7 +21,7 @@
 
   <mat-drawer #editor position="end" [mode]="'over'">
     <div class="editor-header">
-      <h2 class="editor-title">Id：{{ idFormart() }} - Level: {{ levelFormart() }}</h2>
+      <h2 class="editor-title">Id：{{ idFormart() }} - {{"层" |translate}}: {{ levelFormart() }}</h2>
       <mat-icon (click)="onEditorClosed()">close</mat-icon>
     </div>
     <div class="editor-content">

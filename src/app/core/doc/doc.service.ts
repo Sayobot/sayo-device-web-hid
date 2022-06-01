@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
 import { Param_File_Map } from './const';
-import { getMainDoc, getParamDoc } from './parser';
 import { Observable, zip } from 'rxjs';
 import * as _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 const Param_Dir = 'assets/param';
 
@@ -17,10 +17,9 @@ export class DocService {
   private _main?: DocMain;
   private _paramMap: Map<string, DocParam> = new Map();
 
-  constructor(private http: HttpClient, private device: DeviceService) {
-    this.device.device$.subscribe((device: HIDDevice) => {
-      const file = device.productId === 3 ? 'main_vid_3.json' : 'main.json';
-      this.load(file);
+  constructor(private http: HttpClient, private _tr: TranslateService, private device: DeviceService) {
+    this.device.device$.subscribe(() => {
+      this.load(device.filename());
     });
   }
 
@@ -38,7 +37,10 @@ export class DocService {
     zip(requests).subscribe((res) => {
       const files = Array.from(Param_File_Map.keys());
       for (let i = 0; i < files.length; i++) {
-        this._paramMap.set(files[i], getParamDoc(res[i]));
+        let doc = this._parseParamDoc(res[i]);
+        doc.title = this._tr.instant(doc.title);
+
+        this._paramMap.set(files[i], doc);
       }
     });
   }
@@ -52,7 +54,7 @@ export class DocService {
       console.info(`加载选项数据: ${file}`);
 
       subscribe.unsubscribe();
-      this._main = getMainDoc(res);
+      this._main = this._parseMainDoc(res);
     });
   }
 
@@ -77,7 +79,7 @@ export class DocService {
    * @returns
    */
   cmd(cmdCode: number) {
-    if(!_.isNumber(cmdCode)) {
+    if (!_.isNumber(cmdCode)) {
       cmdCode = Number(cmdCode);
     }
 
@@ -101,7 +103,7 @@ export class DocService {
   mode(cmdCode: number, modeCode: number) {
     const cmd = this.cmd(cmdCode)!;
 
-    if(!_.isNumber(cmdCode)) {
+    if (!_.isNumber(cmdCode)) {
       cmdCode = Number(cmdCode);
     }
 
@@ -127,5 +129,68 @@ export class DocService {
     }
 
     return Param_File_Map.get(file);
+  }
+
+  private _parseParamDoc(json: ParamJson) {
+    const name = json.title || " ";
+
+    let doc: DocParam = {
+      title: this._tr.instant(name),
+      def: json.defVal,
+      max: json.max,
+      optionMap: new Map(),
+    };
+
+    json.data.forEach((element) => {
+      const name = element.name || " ";
+      doc.optionMap.set(element.code, this._tr.instant(name));
+    });
+
+    return doc;
+  }
+
+  private _parseMainDoc(json: MainJson) {
+    const name = json.title || " ";
+
+    let doc: DocMain = {
+      title: this._tr.instant(name),
+      cmdMap: new Map(),
+    };
+
+    json.data.forEach((element) => {
+      const cmd = this._parseCmdDoc(element);
+      doc.cmdMap.set(cmd.code, cmd);
+    });
+
+    return doc;
+  }
+
+  private _parseCmdDoc(json: CmdJson) {
+    const name = json.title || " ";
+
+    let doc: DocCmd = {
+      name: this._tr.instant(name),
+      code: json.cmd_code,
+      modeMap: new Map(),
+    };
+
+    json.mode.forEach((element) => {
+      const mode = this._parseModeDoc(element);
+      doc.modeMap.set(mode.code, mode);
+    });
+
+    return doc;
+  }
+
+  private _parseModeDoc(json: ModeJson) {
+    const name = json.name || " ";
+
+    let doc: DocMode = {
+      name: this._tr.instant(name),
+      code: json.code,
+      note: json?.note || '',
+      files: json.values,
+    };
+    return doc;
   }
 }

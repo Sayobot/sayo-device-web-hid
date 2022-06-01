@@ -4,12 +4,17 @@
 
     <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
       <mat-icon>{{ menu.icon }}</mat-icon>
-      {{ menu.name }}
+      {{ menu.name | translate }}
     </button>
 
     <span class="spacer"></span>
 
-    <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">Save to Device</button>
+    <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">{{ '保存到设备' | translate }}</button>
+
+    <button mat-button [matMenuTriggerFor]="langMenu">{{ lang.title }}</button>
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item *ngFor="let item of langs" (click)="setLanguage(item.key)">{{ item.title }}</button>
+    </mat-menu>
   </mat-toolbar>
 
   <div class="page-container">
