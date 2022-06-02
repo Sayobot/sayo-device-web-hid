@@ -13,7 +13,7 @@
     <ng-container *ngIf="levels.length > 0">
       <mat-button-toggle-group appearance="legacy" [formControl]="level" name="level" (change)="onLevelChange()">
         <mat-button-toggle *ngFor="let level of levels; let i = index" [value]="level.id">
-          {{ level.name }}
+          {{ level.name | translate}}
         </mat-button-toggle>
       </mat-button-toggle-group>
     </ng-container>

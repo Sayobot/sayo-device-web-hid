@@ -146,6 +146,9 @@ export class DocService {
       doc.optionMap.set(element.code, this._tr.instant(name));
     });
 
+    console.log(doc);
+
+
     return doc;
   }
 

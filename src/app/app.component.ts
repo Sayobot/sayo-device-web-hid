@@ -80,7 +80,12 @@ export class AppComponent implements OnDestroy {
 
       if (lang) {
         this.lang = lang;
-        if (this._device.device) this._doc.load(this._device.filename());
+
+        this._doc.loadParamDoc();
+
+        if (this._device.device) {
+          this._doc.load(this._device.filename());
+        };
       }
     });
   }
