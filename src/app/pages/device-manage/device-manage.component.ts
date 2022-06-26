@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, distinctUntilChanged, isEmpty, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { config } from 'process';
+import { debounceTime, distinctUntilChanged, filter, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
-import { Sayo_Device_filters } from "src/app/core/hid";
+import { Sayo_Device_filters, Config } from "src/app/core/hid";
 
 @Component({
   templateUrl: './device-manage.component.html',
@@ -26,7 +27,28 @@ export class DeviceManageComponent implements OnInit {
         switchMap((_) => navigator.hid.requestDevice({ filters: Sayo_Device_filters })),
 
         // get first device
-        map((devices: HIDDevice[]) => devices[0]),
+        map((devices: HIDDevice[]) => {
+          let target: HIDDevice | null = null;
+
+          for(let i = 0; i < devices.length; i++) {
+            let item = devices[i];
+
+            if(item.collections.length > 0) {
+              for (let j = 0; j < item.collections.length; j++) {
+                const col = item.collections[j];
+                if(col.usagePage === Config.usagePage) {
+                  target = item;
+                  break;
+                }  
+              }
+            }
+          }
+
+          if(target === null)
+            throw new Error("could not find hid device.");
+
+          return target;
+        }),
 
         // check is changed
         distinctUntilChanged(),

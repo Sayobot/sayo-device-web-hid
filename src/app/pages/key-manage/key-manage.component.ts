@@ -45,6 +45,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       )
       .subscribe((keys) => {
         this._updateVkeys(keys, this.level.value);
+        this.onIdClicked(0);
       });
   }
 
@@ -75,11 +76,15 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     this.formData = undefined;
   }
 
-  onItemClicked(vkey: VKey) {
+  onIdClicked(id: number) {
     const keys = this._key.data$.getValue();
-    this.activeKey = keys.find((key) => key.id == vkey.id)!;
+    this.activeKey = keys.find((key) => key.id == id)!;
     this._updateFormData();
     this.keyEditor.open();
+  }
+
+  onItemClicked(vkey: VKey) {
+    this.onIdClicked(vkey.id);
   }
 
   onModeChanged(code: string) {
