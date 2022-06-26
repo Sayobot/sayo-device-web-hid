@@ -38,7 +38,7 @@ export class O2Protocol {
   }
 
   get_metaInfo(device: HIDDevice, handler: GetHandler<DeviceInfo>) {
-    const reportData = new Uint8Array([Cmd.MetaInfo, 0, 0x02]);
+    const reportData = new Uint8Array([Cmd.MetaInfo, 0x00, 0x02]);
     requestByRead(device, reportData, MetaInfoFromBuffer, handler);
   }
 

@@ -34,3 +34,10 @@ export enum Cmd {
   Password = 0x0B,
   Text = 0x0C
 }
+
+
+export const Sayo_Device_filters: HIDDeviceFilter[] = [
+  {
+    vendorId: 0x8089
+  }
+]

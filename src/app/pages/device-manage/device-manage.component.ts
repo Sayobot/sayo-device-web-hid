@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, isEmpty, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
+import { Sayo_Device_filters } from "src/app/core/hid";
 
 @Component({
   templateUrl: './device-manage.component.html',
@@ -22,7 +23,7 @@ export class DeviceManageComponent implements OnInit {
         debounceTime(100),
 
         // request hid device list
-        switchMap((_) => navigator.hid.requestDevice({ filters: [{ vendorId: 0x8089 }] })),
+        switchMap((_) => navigator.hid.requestDevice({ filters: Sayo_Device_filters })),
 
         // get first device
         map((devices: HIDDevice[]) => devices[0]),
@@ -44,7 +45,7 @@ export class DeviceManageComponent implements OnInit {
     this._doc.loadParamDoc();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   search() {
     this.select$.next();
