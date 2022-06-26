@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export const setItemHandler = <T extends ID>(data$: BehaviorSubject<T[]>, data: T, ok: boolean) => {
   if (ok) {
-    console.info('设置成功：', data);
+    console.info('写入成功：', data);
 
     let datas = data$.getValue();
 

@@ -9,6 +9,8 @@ import { Cmd, Config, Method, Offset } from './const';
  */
 export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
   if (device) {
+    console.info("发送报告：", reportData);
+    
     return device.sendReport(Config.reportId, reportData);
   } else {
     throw new Error('Not connect device.');
@@ -77,6 +79,8 @@ export const loopRequestByRead = <T extends ID>(
       if (result.findIndex((item) => item.id === target.id) === -1) {
         result.push(target);
       } else {
+        console.info("读取列表数据: ", result);
+        
         done$.next(true);
         done$.complete();
       }
@@ -114,6 +118,8 @@ export const requestByRead = <T>(
   input$.subscribe(({ data }) => {
     const result = parser(new Uint8Array(data.buffer));
     handler(result);
+    console.info("读取数据: ", result);
+    
     done$.next(true);
     done$.complete();
   });
