@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { config } from 'process';
-import { debounceTime, distinctUntilChanged, filter, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Sayo_Device_filters, Config } from "src/app/core/hid";
@@ -28,6 +27,7 @@ export class DeviceManageComponent implements OnInit {
 
         // get first device
         map((devices: HIDDevice[]) => {
+
           let target: HIDDevice | null = null;
 
           for(let i = 0; i < devices.length; i++) {
@@ -36,7 +36,7 @@ export class DeviceManageComponent implements OnInit {
             if(item.collections.length > 0) {
               for (let j = 0; j < item.collections.length; j++) {
                 const col = item.collections[j];
-                if(col.usagePage === Config.usagePage) {
+                if(col.usagePage! >= Config.usagePage) {
                   target = item;
                   break;
                 }  

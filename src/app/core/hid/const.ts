@@ -7,7 +7,7 @@ export enum KeyType {
 export const Config = {
   cmdSize: 2,
 
-  usagePage: 0xffa0,
+  usagePage: 0xff00,
   vendorId: 0x8089,
   reportId: 0x02,
 
