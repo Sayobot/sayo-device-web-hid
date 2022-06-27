@@ -10,6 +10,8 @@
   overflow: hidden;
   white-space: nowrap;
   box-shadow: 0 0 1px #ccc;
+  white-space: pre-line;
+  font-size: 12px;
 
   &:hover {
     background: const.$warn;

@@ -17,10 +17,10 @@ export class VirtualKeyboardComponent implements OnInit {
   @Output() itemClicked = new EventEmitter<VKey>();
 
   @Input()
-  width = 1080;
+  width = 1440;
 
   @Input()
-  height = 540;
+  height = 720;
 
   private _keys: VKey[] = [];
 

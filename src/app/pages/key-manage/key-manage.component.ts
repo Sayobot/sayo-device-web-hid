@@ -4,7 +4,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
-import { ControlType, General_Keys, getKeyModeName, Linux_Keys } from 'src/app/core/doc';
+import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
 import { KeyFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
@@ -45,13 +45,15 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       )
       .subscribe((keys) => {
         this._updateVkeys(keys, this.level.value);
-        this.onIdClicked(0);
       });
   }
 
   ngOnInit(): void {
     this._key.init();
     this.level.setValue(0);
+    setTimeout(() => {
+      this.onIdClicked(0);
+    }, 300);
   }
 
   ngOnDestroy(): void {
@@ -204,12 +206,10 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   private _key2vKey(key: Key, level: number) {
-
     const { functions } = key;
-
     const { mode, values } = functions[level];
 
-    const name = getKeyModeName(this._doc, mode, values);
+    const name = this._key.getKeyName(mode, values);
     const tooltip = name;
 
     return {

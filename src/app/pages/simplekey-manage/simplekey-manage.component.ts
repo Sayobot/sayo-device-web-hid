@@ -3,7 +3,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { SimpleKeyService } from 'src/app/core/device/simple-key.service';
-import { ControlType, General_Keys, getKeyModeName, Linux_Keys } from 'src/app/core/doc';
+import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
 import { KeyFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
@@ -35,6 +35,16 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destory$.next(0);
     this.destory$.complete();
+    setTimeout(() => {
+      this.onIdClicked(0);
+    }, 300);
+  }
+
+  onIdClicked(id: number) {
+    const keys = this._key.data$.getValue();
+    this.activeKey = keys.find((key) => key.id == id)!;
+    this._updateFormData();
+    this.keyEditor.open();
   }
 
   onModeChanged(code: string) {
@@ -151,7 +161,7 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
   private _key2vKey(key: SimpleKey) {
     const { mode, values } = key.function;
 
-    const name = getKeyModeName(this._doc, mode, values);
+    const name = this._key.getKeyName(mode, values);
     const tooltip = name;
 
     return {

@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
 import { Param_File_Map } from './const';
 import { Observable, zip } from 'rxjs';
-import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import * as _ from 'lodash';
 
 const Param_Dir = 'assets/param';
 
