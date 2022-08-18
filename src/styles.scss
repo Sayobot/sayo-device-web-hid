@@ -1,8 +1,25 @@
 @use './app/theme/theme';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .spacer {
   flex: 1 1 auto;
+}
+
+#google_translate_element, .skiptranslate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#google_translate_element select {
+  margin-right: 8px;
 }
