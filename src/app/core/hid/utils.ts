@@ -11,7 +11,7 @@ export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
   if (!device) throw new Error("could not connect device.");
   if (!device.opened) throw new Error("could not open device.");
 
-  console.info("发送报告：", reportData);
+  // console.info("发送报告：", reportData);
 
   return device.sendReport(Config.reportId, reportData);
 };
@@ -75,7 +75,7 @@ export const loopRequestByRead = <T extends ID>(
   input$.subscribe((report: HIDInputReportEvent) => {
     if (report.data !== undefined) {
       const buffer = new Uint8Array(report.data.buffer);
-      console.info("接受报告: ", buffer);
+      // console.info("接受报告: ", buffer);
 
       const target = parser(buffer);
       if (result.findIndex((item) => item.id === target.id) === -1) {
@@ -119,7 +119,7 @@ export const requestByRead = <T>(
 
   input$.subscribe(({ data }) => {
     const buffer = new Uint8Array(data.buffer);
-    console.info("接受报告: ", buffer);
+    // console.info("接受报告: ", buffer);
 
     const result = parser(buffer);
     handler(result);

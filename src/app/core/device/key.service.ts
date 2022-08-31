@@ -18,15 +18,15 @@ export class KeyService {
   constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService, private _tr: TranslateService) { }
 
   init() {
-    if (!this._device.device) return;
+    if (!this._device.isConnected()) return;
 
-    this._o2p.get_key(this._device.device, (data: Key[]) => this.data$.next(data));
+    this._o2p.get_key(this._device.instance!, (data: Key[]) => this.data$.next(data));
   }
 
   setItem(key: Key) {
-    if (!this._device.device) return;
+    if (!this._device.isConnected()) return;
 
-    this._o2p.set_key(this._device.device, key, (ok: boolean) => {
+    this._o2p.set_key(this._device.instance!, key, (ok: boolean) => {
       setItemHandler(this.data$, key, ok);
       this._device.setChanged(ok);
     });

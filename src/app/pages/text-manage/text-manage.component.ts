@@ -17,7 +17,9 @@ export class TextManageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._text.init('GBK');
+    if (this._text.data$.value.length === 0) {
+      this._text.init("GBK");
+    }
   }
 
   setText(val: string) {

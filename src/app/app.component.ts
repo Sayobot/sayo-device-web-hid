@@ -26,18 +26,18 @@ const MENUS: Menu[] = [
     name: '按键',
     key: Cmd.SimpleKey,
   },
-  // {
-  //   link: '/pwd',
-  //   icon: 'lock',
-  //   name: '密码',
-  //   key: Cmd.Password,
-  // },
-  // {
-  //   link: '/text',
-  //   icon: 'speaker_notes',
-  //   name: '字符串',
-  //   key: Cmd.Text,
-  // },
+  {
+    link: '/pwd',
+    icon: 'lock',
+    name: '密码',
+    key: Cmd.Password,
+  },
+  {
+    link: '/text',
+    icon: 'speaker_notes',
+    name: '字符串',
+    key: Cmd.Text,
+  },
 ];
 
 interface Lang {
@@ -83,7 +83,7 @@ export class AppComponent implements OnDestroy {
 
         this._doc.loadParamDoc();
 
-        if (this._device.device) {
+        if (this._device.isConnected()) {
           this._doc.load(this._device.filename());
         };
       }

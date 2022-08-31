@@ -1,0 +1,31 @@
+<div class="string-edit-continer">
+
+    <ng-container *ngIf="!edited">
+        <div class="id">{{id}}</div>
+        <div class="text" (dblclick)="onEdit()">{{text}}</div>
+
+        <mat-icon class="edit-indicator indicator" [matTooltip]="'edit' | translate" (click)="onEdit()">edit</mat-icon>
+        <mat-icon cdkDragHandle class="drag-indicator indicator" [matTooltip]="'sort by dragging' | translate">drag_indicator
+        </mat-icon>
+    </ng-container>
+
+    <ng-container *ngIf="edited">
+        <div class="id">{{ id }}</div>
+
+        <mat-form-field>
+            <mat-label></mat-label>
+            <input id="content-input" matInput type="text" (keydown.enter)="onConfirm()"
+                [maxlength]="maxLength" [(ngModel)]="value">
+            <button *ngIf="value" matSuffix mat-icon-button (click)="value=''">
+                <mat-icon>highlight_off</mat-icon>
+            </button>
+            <mat-hint align="start">Only ASCII</mat-hint>
+            <mat-hint align="end">{{value.length}} / {{maxLength}}</mat-hint>
+        </mat-form-field>
+
+        <mat-icon class="indicator" [matTooltip]="'create random password' | translate" (click)="onRandom()">autorenew
+        </mat-icon>
+        <mat-icon class="indicator" [matTooltip]="'confirm' | translate" (click)="onConfirm()">check</mat-icon>
+        <mat-icon class="indicator" [matTooltip]="'cancel' | translate" (click)="onCancel()">close</mat-icon>
+    </ng-container>
+</div>

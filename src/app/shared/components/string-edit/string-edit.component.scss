@@ -1,0 +1,41 @@
+.string-edit-continer {
+    position: relative;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 16px;
+
+    .id {
+        flex: 0 1 36px;
+        margin-right: 24px;
+        text-align: right;
+    }
+
+    .mat-form-field,
+    .text {
+        flex: 1 1 auto;
+        margin-right: 16px;
+    }
+
+    .indicator {
+        cursor: pointer;
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+    }
+
+    .drag-indicator,
+    .edit-indicator {
+        display: none;
+    }
+
+    &:hover .drag-indicator,
+    &:hover .edit-indicator {
+        display: block;
+    }
+
+    &:hover {
+        background: rgb(240, 240, 240);
+    }
+}

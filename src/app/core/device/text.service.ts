@@ -13,15 +13,15 @@ export class TextService {
   constructor(private _device: DeviceService, private o2p: O2Protocol) {}
 
   init(encode: TextEncode) {
-    if (!this._device.device) return;
+    if (!this._device.isConnected()) return;
 
     console.info('初始化字符串数据');
     switch (encode) {
       case 'GBK':
-        this.o2p.get_gbk(this._device.device, (data: IText[]) => this.data$.next(data));
+        this.o2p.get_gbk(this._device.instance!, (data: IText[]) => this.data$.next(data));
         break;
       case 'Unicode':
-        this.o2p.get_unicode(this._device.device, (data: IText[]) => this.data$.next(data));
+        this.o2p.get_unicode(this._device.instance!, (data: IText[]) => this.data$.next(data));
         break;
       default:
         console.error('不支持的文本编码格式：', encode);
@@ -30,17 +30,17 @@ export class TextService {
   }
 
   setItem(text: IText) {
-    if (!this._device.device) return;
+    if (!this._device.isConnected()) return;
 
     switch (text.encode) {
       case 'GBK':
-        this.o2p.set_gbk(this._device.device, text, (ok: boolean) => {
+        this.o2p.set_gbk(this._device.instance!, text, (ok: boolean) => {
           setItemHandler(this.data$, text, ok);
           this._device.setChanged(ok);
         });
         break;
       case 'Unicode':
-        this.o2p.set_unicode(this._device.device, text, (ok: boolean) => {
+        this.o2p.set_unicode(this._device.instance!, text, (ok: boolean) => {
           setItemHandler(this.data$, text, ok);
           this._device.setChanged(ok);
         });

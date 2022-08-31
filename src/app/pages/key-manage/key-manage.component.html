@@ -19,16 +19,20 @@
     </ng-container>
   </mat-drawer-content>
 
-  <mat-drawer #editor position="end" [mode]="'over'">
-    <div class="editor-header">
-      <h2 class="editor-title">Id：{{ idFormart() }} - {{"层" |translate}}: {{ levelFormart() }}</h2>
-      <mat-icon (click)="onEditorClosed()">close</mat-icon>
-    </div>
-    <div class="editor-content">
-      <ng-container *ngIf="formData">
-        <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)"></dynamix-form>
-      </ng-container>
-    </div>
+  <mat-drawer  #editor position="end" [mode]="'over'">
+    <ng-container *ngIf="this.activeKey">
+      <div class="editor-header">
+        <h2 class="editor-title">
+          Id：{{ this.activeKey.id | order }} - {{"层" | translate }}: {{ level.value | order }}
+        </h2>
+        <mat-icon (click)="onEditorClosed()">close</mat-icon>
+      </div>
+      <div class="editor-content">
+        <ng-container *ngIf="formData">
+          <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)"></dynamix-form>
+        </ng-container>
+      </div>
+    </ng-container>
   </mat-drawer>
 </mat-drawer-container>
 

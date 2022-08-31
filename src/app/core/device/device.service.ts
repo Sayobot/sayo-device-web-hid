@@ -7,7 +7,7 @@ import { O2Protocol } from '../hid';
 })
 export class DeviceService {
   info?: DeviceInfo;
-  device?: HIDDevice;
+  instance?: HIDDevice;
 
   device$ = new ReplaySubject<HIDDevice>(1);
 
@@ -16,15 +16,15 @@ export class DeviceService {
   constructor(private _o2p: O2Protocol) {}
 
   isSupport(code: number) {
-    if (!this.device) return false;
+    if (!this.instance) return false;
     return this.info?.api.includes(code);
   }
 
   setDevice(device: HIDDevice) {
     if (device) {
-      if (device !== this.device) {
-        this.device = device;
-        console.info('连接设备: ', this.device.productName);
+      if (device !== this.instance) {
+        this.instance = device;
+        console.info('连接设备: ', this.instance.productName);
       } else {
         console.error('请选择其他设备');
       }
@@ -34,27 +34,27 @@ export class DeviceService {
   }
 
   save() {
-    if (!this.device) {
+    if (!this.instance) {
       console.warn('请连接设备');
       return;
     }
 
-    this._o2p.save(this.device!, (ok: boolean) => {
+    this._o2p.save(this.instance!, (ok: boolean) => {
       if (ok) this.setChanged(false);
     });
   }
 
   updateInfo() {
-    if (!this.device) return;
+    if (!this.instance) return;
 
-    this._o2p.get_metaInfo(this.device, (info: DeviceInfo) => {
+    this._o2p.get_metaInfo(this.instance, (info: DeviceInfo) => {
       this.info = info;
-      this.device$.next(this.device!);
+      this.device$.next(this.instance!);
     });
   }
 
   isConnected() {
-    return this.device !== undefined;
+    return this.instance !== undefined;
   }
 
   isChanged() {
@@ -66,8 +66,8 @@ export class DeviceService {
   }
 
   filename() {
-    if (this.device) {
-      return this.device!.productId === 3 ? 'main_vid_3.json' : 'main.json';
+    if (this.instance) {
+      return this.instance!.productId === 3 ? 'main_vid_3.json' : 'main.json';
     } else {
       console.error('device not connect.');
 

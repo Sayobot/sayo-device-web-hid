@@ -1,5 +1,6 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PwdService } from 'src/app/core/device/pwd.service';
 
 @Component({
@@ -10,18 +11,24 @@ import { PwdService } from 'src/app/core/device/pwd.service';
 export class PwdManageComponent implements OnInit {
   destory$ = new Subject();
 
-  constructor(private _pwd: PwdService) {
-    this._pwd.data$.pipe(takeUntil(this.destory$)).subscribe((pwds) => {
+  pwds$: Observable<Password[]>;
 
-    });
+  constructor(private _pwd: PwdService) {
+    this.pwds$ = this._pwd.data$.pipe(takeUntil(this.destory$));
   }
 
   ngOnInit(): void {
-    this._pwd.init();
+    if (this._pwd.data$.value.length === 0) {
+      this._pwd.init();
+    }
   }
 
-  setText(val: string) {
-    const t = {id: 0, content: val};
-    this._pwd.setItem(t);
+  onTextChanged(id: number, text: string) {
+    const item = { id: id, content: text };
+    this._pwd.setItem(item);
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    this._pwd.swap(event.previousIndex, event.currentIndex);
   }
 }

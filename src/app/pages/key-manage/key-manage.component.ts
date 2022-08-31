@@ -49,8 +49,11 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // FIX: if (this._pwd.data$.value.length === 0) 为什么不行？
     this._key.init();
+
     this.level.setValue(0);
+
     setTimeout(() => {
       this.onIdClicked(0);
     }, 300);
@@ -123,14 +126,6 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     }
   }
 
-  idFormart() {
-    return this.activeKey ? this.activeKey.id + 1 : 0;
-  }
-
-  levelFormart() {
-    return this.level.value + 1;
-  }
-
   private _updateFormData() {
     const getModeOptions = () => {
       let options = [];
@@ -192,7 +187,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   private _updateVkeys(keys: Key[], level: number) {
-    if(level === null || level === undefined) return;
+    if (level === null || level === undefined) return;
 
     this.vkeys = keys.map((key) => this._key2vKey(key, level));
   }

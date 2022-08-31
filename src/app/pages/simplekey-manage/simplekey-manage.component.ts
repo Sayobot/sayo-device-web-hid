@@ -91,10 +91,6 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
     this.keyEditor.open();
   }
 
-  idFormart() {
-    return this.activeKey ? this.activeKey.id + 1 : 0;
-  }
-
   private _updateFormData() {
     const getModeOptions = () => {
       let options = [];

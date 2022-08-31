@@ -1,13 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VirtualKeyComponent } from './virtual-key/virtual-key.component';
-import { MaterialUiModule } from '../material-ui/material-ui.module';
-import { VirtualKeyboardComponent } from './virtual-keyboard/virtual-keyboard.component';
-import { DynamixFormComponent } from './dynamix-form/dynamix-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MultiSelectControlComponent } from './multi-select-control/multi-select-control.component';
-import { GeneralKeySelectControlComponent } from './general-key-select-control/general-key-select-control.component';
-import { GeneralKeySelectDialog } from './general-key-select-control/general-key-select-dialog/general-key-select-dialog.component';
+
+import { MaterialUiModule } from '../material-ui/material-ui.module';
+
+import { VirtualKeyComponent } from './virtual-key';
+import { VirtualKeyboardComponent } from './virtual-keyboard';
+import { DynamixFormComponent } from './dynamix-form';
+import { MultiSelectControlComponent } from './multi-select-control';
+import { StringEditComponent } from './string-edit';
+import {
+  GeneralKeySelectControlComponent,
+  GeneralKeySelectDialog
+} from './general-key-select-control';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 const Components = [
   VirtualKeyComponent,
@@ -16,11 +29,19 @@ const Components = [
   MultiSelectControlComponent,
   GeneralKeySelectControlComponent,
   GeneralKeySelectDialog,
+  StringEditComponent
 ];
 
 @NgModule({
   declarations: [...Components],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialUiModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialUiModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),],
   exports: [...Components],
 })
-export class ComponentsModule {}
+export class ComponentsModule { }

@@ -36,6 +36,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 // import { MatTreeModule } from '@angular/material/tree';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 const MatComponents = [
   MatSidenavModule,
   MatSnackBarModule,
@@ -55,11 +57,12 @@ const MatComponents = [
   MatTooltipModule,
   MatRadioModule,
   MatRippleModule,
-  MatMenuModule
+  MatMenuModule,
+  DragDropModule
 ];
 
 @NgModule({
   imports: MatComponents,
   exports: MatComponents,
 })
-export class MaterialUiModule {}
+export class MaterialUiModule { }
