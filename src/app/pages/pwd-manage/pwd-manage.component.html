@@ -1,4 +1,7 @@
 <div cdkDropList class="password-list" (cdkDropListDropped)="drop($event)">
-  <string-edit cdkDrag *ngFor="let item of (pwds$ | async)" [id]="item.id | order" [text]="item.content"
-    (textChanged)="onTextChanged(item.id, $event)"></string-edit>
+  <ng-container *ngFor="let item of (pwds$ | async)">
+    <string-edit cdkDrag [id]="item.id | order" [text]="item.content" charset="ASCII"
+      (textChanged)="onTextChanged(item.id, $event)">
+    </string-edit>
+  </ng-container>
 </div>

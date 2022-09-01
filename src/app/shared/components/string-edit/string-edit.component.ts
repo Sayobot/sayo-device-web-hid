@@ -15,6 +15,7 @@ export class StringEditComponent implements OnInit {
   @Input() id!: string;
   @Input() text!: string;
   @Input() maxLength = 28;
+  @Input() charset: "ASCII" | "All" = "All";
 
   @Output() textChanged = new EventEmitter<string>();
 
@@ -64,12 +65,35 @@ export class StringEditComponent implements OnInit {
   }
 
   valid() {
-    for (let i = 0; i < this.value.length; i++) {
-      if (this.value.charCodeAt(i) > 127) {
-        return false;
+    switch (this.charset) {
+      case "ASCII": {
+        for (let i = 0; i < this.value.length; i++) {
+          if (this.value.charCodeAt(i) > 127) {
+            return false;
+          }
+        }
       }
+        break;
+      case "All":
+        break;
     }
+
     return true;
+  }
+
+  hint() {
+    let result = '';
+
+    switch (this.charset) {
+      case "ASCII":
+        result = "Only ASCII";
+        break;
+      case "All":
+        result = "";
+        break;
+    }
+
+    return result;
   }
 
 }

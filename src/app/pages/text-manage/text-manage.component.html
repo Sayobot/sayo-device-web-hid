@@ -1,5 +1,18 @@
-<mat-form-field appearance="fill">
-  <mat-label>Input</mat-label>
-  <input #text matInput>
-</mat-form-field>
-<button mat-raised-button (click)="setText(text.value)">Change</button>
+<mat-radio-group class="text-encode-group" [(ngModel)]="encode" (change)="onEncodeChanged($event)">
+  <mat-radio-button value="GBK">
+    GBK
+  </mat-radio-button>
+
+  <mat-radio-button value="Unicode">
+    Unicode
+  </mat-radio-button>
+
+</mat-radio-group>
+
+<div cdkDropList class="text-list" (cdkDropListDropped)="drop($event)">
+  <ng-container *ngFor="let item of (texts$ | async)">
+    <string-edit cdkDrag [id]="item.id | order" [text]="item.content" charset="All"
+      (textChanged)="onTextChanged(item.id, $event)">
+    </string-edit>
+  </ng-container>
+</div>
