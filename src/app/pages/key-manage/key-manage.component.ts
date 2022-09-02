@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
@@ -20,7 +20,9 @@ interface Level {
 })
 export class KeyManageComponent implements OnInit, OnDestroy {
   activeKey: Key | undefined;
-  vkeys: VKey[] = [];
+
+  vkeys$: Observable<VKey[]>;
+
   levels: Level[] = [];
 
   level = new FormControl();
@@ -32,25 +34,28 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   @ViewChild('editor') keyEditor!: MatDrawer;
 
   constructor(private _key: KeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
-    this._key.data$
+    this.vkeys$ = this._key.data$
       .pipe(
         takeUntil(this.destory$),
 
         // set function level name
         tap((keys) => {
+
           if (keys.length > 0 && this.levels.length !== keys[0]?.functions.length) {
             this._setLevelName(keys[0].functions.length);
           }
         }),
-      )
-      .subscribe((keys) => {
-        this._updateVkeys(keys, this.level.value);
-      });
+
+        map((keys) => {
+          return keys.map((key) => this._key2vKey(key, this.level.value));
+        })
+      );
   }
 
   ngOnInit(): void {
-    // FIX: if (this._pwd.data$.value.length === 0) 为什么不行？
-    this._key.init();
+    if (this._key.data$.value.length === 0) {
+      this._key.init();
+    }
 
     this.level.setValue(0);
 
@@ -69,8 +74,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     const level = this.level.value;
 
     if (level !== undefined) {
-      this._updateVkeys(keys, level);
-
+      this._key.data$.next(keys);
       if (this.activeKey) this._updateFormData();
     }
   }
@@ -184,12 +188,6 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       },
       params: getParams(level),
     };
-  }
-
-  private _updateVkeys(keys: Key[], level: number) {
-    if (level === null || level === undefined) return;
-
-    this.vkeys = keys.map((key) => this._key2vKey(key, level));
   }
 
   private _setLevelName(length: number) {

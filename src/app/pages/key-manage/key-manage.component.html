@@ -1,14 +1,12 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer-content>
-    <ng-container *ngIf="vkeys.length > 0">
-      <Virtual-Keyboard
+    <Virtual-Keyboard
         #vkeyboard
         class="virtual-keybaord"
         [id]="activeKey?.id"
-        [keys]="vkeys"
+        [keys]="(this.vkeys$ | async)!"
         (itemClicked)="onItemClicked($event)"
       ></Virtual-Keyboard>
-    </ng-container>
 
     <ng-container *ngIf="levels.length > 0">
       <mat-button-toggle-group appearance="legacy" [formControl]="level" name="level" (change)="onLevelChange()">

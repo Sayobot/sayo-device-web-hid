@@ -1,17 +1,25 @@
 @use '../../../theme/const';
 
+:host {
+  position: relative;
+}
+
 .virtual-key-container {
+  position: absolute;
+  top: 0;
+  left: 0;
   cursor: pointer;
   background: #333;
   color: #ccc;
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
-  white-space: nowrap;
   box-shadow: 0 0 1px #ccc;
   white-space: pre-line;
   font-size: 12px;
+  padding: 4px;
+  box-sizing: border-box;
+  text-shadow: 0.2em 0.2em 0.1em #000;
+  box-shadow: inset 0.1em 0.1em 0.5em #555;
 
   &:hover {
     background: const.$warn;

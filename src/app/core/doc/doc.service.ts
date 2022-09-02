@@ -67,7 +67,7 @@ export class DocService {
     if (key.endsWith('.json')) key = key.slice(0, key.length - 5);
 
     if (!Param_File_Map.has(key)) {
-      throw new Error(`Not found param file: ${key}`);
+      console.error(`Error: Not found param file: ${key}`);
     }
 
     return this._paramMap.get(key);
@@ -88,7 +88,7 @@ export class DocService {
     }
 
     if (!this._main.cmdMap.has(cmdCode)) {
-      throw new Error(`Not found cmd: ${cmdCode}`);
+      console.error(`Error: Not found cmd: ${cmdCode}`);
     }
 
     return this._main.cmdMap.get(cmdCode);
@@ -108,7 +108,7 @@ export class DocService {
     }
 
     if (!cmd.modeMap.has(modeCode)) {
-      throw new Error(`Not found mode code: ${modeCode}`);
+      console.error(`Error: Not found mode code: ${modeCode}`);
     }
 
     return cmd.modeMap.get(modeCode);
@@ -125,7 +125,7 @@ export class DocService {
     }
 
     if (!Param_File_Map.has(file)) {
-      throw new Error(`Not found param file: ${file}`);
+      console.error(`Error: Not found param file: ${file}`);
     }
 
     return Param_File_Map.get(file);
