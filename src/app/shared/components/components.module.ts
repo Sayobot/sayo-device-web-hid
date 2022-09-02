@@ -17,6 +17,7 @@ import {
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { LoadingComponent } from './loading/loading.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,7 +30,8 @@ const Components = [
   MultiSelectControlComponent,
   GeneralKeySelectControlComponent,
   GeneralKeySelectDialog,
-  StringEditComponent
+  StringEditComponent,
+  LoadingComponent
 ];
 
 @NgModule({

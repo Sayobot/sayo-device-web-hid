@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { LoaderService } from 'src/app/shared/components/loading/loader.service';
 import { O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
@@ -10,14 +11,17 @@ import { setItemHandler } from './utils';
 export class PwdService {
   data$ = new BehaviorSubject<Password[]>([]);
 
-  constructor(private _device: DeviceService, private _o2p: O2Protocol) { }
+  constructor(private _device: DeviceService, private _o2p: O2Protocol, private _loader: LoaderService) { }
 
   init() {
     if (!this._device.isConnected()) return;
 
     console.info("初始化密码数据");
+
+    this._loader.loading();
     this._o2p.get_pwd(this._device.instance!, (pwds) => {
       this.data$.next(pwds);
+      this._loader.complete();
     });
   }
 
@@ -32,7 +36,7 @@ export class PwdService {
 
   swap(first: number, second: number) {
     const datas = this.data$.getValue();
-    
+
     const str_first = datas[first].content;
     const str_second = datas[second].content;
 

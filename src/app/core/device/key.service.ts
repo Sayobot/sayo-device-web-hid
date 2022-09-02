@@ -8,6 +8,7 @@ import { Cmd } from 'src/app/core/hid';
 import { ControlType, General_Keys, Linux_Keys } from '../doc';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { LoaderService } from 'src/app/shared/components/loading/loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,17 @@ import { TranslateService } from '@ngx-translate/core';
 export class KeyService {
   data$ = new BehaviorSubject<Key[]>([]);
 
-  constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService, private _tr: TranslateService) { }
+  constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService,
+    private _tr: TranslateService, private _loader: LoaderService) { }
 
   init() {
     if (!this._device.isConnected()) return;
 
-    this._o2p.get_key(this._device.instance!, (data: Key[]) => this.data$.next(data));
+    this._loader.loading();
+    this._o2p.get_key(this._device.instance!, (data: Key[]) => {
+      this.data$.next(data);
+      this._loader.complete();
+    });
   }
 
   setItem(key: Key) {
@@ -80,7 +86,7 @@ export class KeyService {
                 break;
               case ControlType.Switch: {
                 const param_doc = this._doc.param(file)!;
-                text_value = param_doc.title + ": " +  param_doc.optionMap.get(code)!;
+                text_value = param_doc.title + ": " + param_doc.optionMap.get(code)!;
               }
                 break;
               default:
