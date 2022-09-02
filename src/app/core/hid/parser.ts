@@ -56,6 +56,8 @@ export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
 };
 
 export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
+  const level = data[1];
+
   data = data.slice(2);
 
   const width = data[10] + data[11] * 256;
@@ -76,10 +78,11 @@ export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
   };
 
   let functions: KeyFunction[] = [];
-  for (let i = 16; i < data.length - 16; i += 6) {
+  for (let i = 0; i < (level - 16) / 6; i++) {
+    const start = 16 + i * 6;
     functions.push({
-      mode: data[i],
-      values: [data[i + 2], data[i + 3], data[i + 4], data[i + 5]],
+      mode: data[start],
+      values: [data[start + 2], data[start + 3], data[start + 4], data[start + 5]],
     });
   }
 

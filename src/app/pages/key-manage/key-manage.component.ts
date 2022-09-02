@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
@@ -21,11 +20,11 @@ interface Level {
 export class KeyManageComponent implements OnInit, OnDestroy {
   activeKey: Key | undefined;
 
-  vkeys$: Observable<VKey[]>;
+  vkeys$ = new BehaviorSubject<VKey[]>([]);
 
   levels: Level[] = [];
 
-  level = new FormControl();
+  level = 0;
 
   formData: OptionFormData | undefined;
 
@@ -34,34 +33,32 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   @ViewChild('editor') keyEditor!: MatDrawer;
 
   constructor(private _key: KeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
-    this.vkeys$ = this._key.data$
+    this._key.data$
       .pipe(
         takeUntil(this.destory$),
+      ).subscribe((keys) => {
+        if (keys.length > 0 && this.levels.length !== keys[0].functions.length) {
+          this._setLevelName(keys[0].functions.length);
+        }
 
-        // set function level name
-        tap((keys) => {
+        const vkeys = keys.map((key) => this._key2vKey(key, this.level));
+        this.vkeys$.next(vkeys);
+      });
 
-          if (keys.length > 0 && this.levels.length !== keys[0]?.functions.length) {
-            this._setLevelName(keys[0].functions.length);
-          }
-        }),
 
-        map((keys) => {
-          return keys.map((key) => this._key2vKey(key, this.level.value));
-        })
-      );
+    this.vkeys$.subscribe((_) => {
+      setTimeout(() => {
+        this.onIdClicked(this.activeKey ? this.activeKey.id : 0);
+      }, 300);
+    });
   }
 
   ngOnInit(): void {
     if (this._key.data$.value.length === 0) {
       this._key.init();
+    } else {
+      this.onLevelChange();
     }
-
-    this.level.setValue(0);
-
-    setTimeout(() => {
-      this.onIdClicked(0);
-    }, 300);
   }
 
   ngOnDestroy(): void {
@@ -70,13 +67,12 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   onLevelChange() {
-    const keys = this._key.data$.getValue();
-    const level = this.level.value;
+    const vkeys = this._key.data$.getValue().map((key) => this._key2vKey(key, this.level));
+    this.vkeys$.next(vkeys);
 
-    if (level !== undefined) {
-      this._key.data$.next(keys);
-      if (this.activeKey) this._updateFormData();
-    }
+    if (this.activeKey) {
+      this._updateFormData();
+    };
   }
 
   onEditorClosed() {
@@ -87,9 +83,15 @@ export class KeyManageComponent implements OnInit, OnDestroy {
 
   onIdClicked(id: number) {
     const keys = this._key.data$.getValue();
-    this.activeKey = keys.find((key) => key.id == id)!;
-    this._updateFormData();
-    this.keyEditor.open();
+
+    if (keys.length > 0) {
+      this.activeKey = keys.find((key) => key.id == id)!;
+      this._updateFormData();
+
+      if (this.keyEditor) {
+        this.keyEditor.open();
+      }
+    }
   }
 
   onItemClicked(vkey: VKey) {
@@ -97,12 +99,10 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   onModeChanged(code: string) {
-    const level = this.level.value;
-
     if (this.activeKey) {
       const { files } = this._doc.mode(Cmd.SimpleKey, Number(code))!;
 
-      this.activeKey.functions[level] = {
+      this.activeKey.functions[this.level] = {
         mode: Number(code),
         values: files.map((file) => this._doc.param(file)!.def),
       };
@@ -112,10 +112,8 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(data: KeyFormData) {
-    const level = this.level.value;
-
     if (this.activeKey) {
-      this.activeKey.functions[level] = {
+      this.activeKey.functions[this.level] = {
         mode: Number(data.mode),
         values: data.params.map((param) => Number(param)),
       };
@@ -178,15 +176,14 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       return params;
     };
 
-    const level = this.level.value;
     this.formData = {
       mode: {
         type: ControlType.Select,
         key: 'mode',
-        value: String(this.activeKey?.functions[level].mode),
+        value: String(this.activeKey?.functions[this.level].mode),
         options: getModeOptions(),
       },
-      params: getParams(level),
+      params: getParams(this.level),
     };
   }
 
@@ -199,6 +196,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   private _key2vKey(key: Key, level: number) {
+
     const { functions } = key;
     const { mode, values } = functions[level];
 

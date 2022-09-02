@@ -24,7 +24,21 @@ export class KeyService {
 
     this._loader.loading();
     this._o2p.get_key(this._device.instance!, (data: Key[]) => {
-      this.data$.next(data);
+      // filter size empty key
+      const newDatas = data
+        .filter((key => key.pos.size.width !== 0))
+        .map((key) => {
+          let newKey = key;
+          for (let i = 0; i < newKey.functions.length; i++) {
+            if (!this._doc.modeHas(Cmd.SimpleKey, newKey.functions[i].mode)) {
+              newKey.functions[i].mode = 0;
+            }
+          }
+
+          return newKey;
+        });
+
+      this.data$.next(newDatas);
       this._loader.complete();
     });
   }

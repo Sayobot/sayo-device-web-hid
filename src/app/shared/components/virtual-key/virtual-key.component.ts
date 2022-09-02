@@ -17,13 +17,11 @@ export class VirtualKeyComponent implements OnInit {
 
   @Input() type!: KeyType;
 
-  private _name = '';
+  nameArr: string[] = [];
+
   @Input()
-  get name() {
-    return this._name;
-  }
   set name(name: string) {
-    this._name = name;
+    this.nameArr = name.split("\r\n");
   }
 
   private _tooltip = '';
@@ -37,9 +35,9 @@ export class VirtualKeyComponent implements OnInit {
 
   @Output('clicked') _clicked = new EventEmitter<void>();
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   clicked() {
     this._clicked.emit();

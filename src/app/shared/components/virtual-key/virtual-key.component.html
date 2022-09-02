@@ -1,8 +1,4 @@
-<div
-  [ngClass]="{ 'virtual-key-container': true, 'virtual-key-active': active }"
-  [ngStyle]="style"
-  [matTooltip]="tooltip"
-  (click)="clicked()"
->
-  {{ name }}
+<div [ngClass]="{ 'virtual-key-container': true, 'virtual-key-active': active }" [ngStyle]="style"
+  [matTooltip]="tooltip" (click)="clicked()">
+  <div *ngFor="let name of nameArr">{{name}}</div>
 </div>

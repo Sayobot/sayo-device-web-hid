@@ -109,9 +109,15 @@ export class DocService {
 
     if (!cmd.modeMap.has(modeCode)) {
       console.error(`Error: Not found mode code: ${modeCode}`);
+      return cmd.modeMap.get(0);
     }
 
     return cmd.modeMap.get(modeCode);
+  }
+
+  modeHas(cmdCode: number, code: number) {
+    const cmd = this.cmd(cmdCode)!;
+    return cmd.modeMap.has(code);
   }
 
   /**

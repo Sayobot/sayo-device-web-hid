@@ -74,7 +74,7 @@ export class O2Protocol {
     data[Offset.Size] = 16 + key.functions.length * 6;
     data[Offset.Method] = Method.Write;
     data[Offset.Id] = key.id;
-    data[4] = 40; // ?
+    data[4] = 64; // ?
 
     data = data.concat(KeyAsBuffer(key));
 

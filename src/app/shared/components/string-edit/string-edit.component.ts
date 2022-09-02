@@ -37,7 +37,7 @@ export class StringEditComponent implements OnInit {
   }
 
   onRandom() {
-    this.value = randomAsciiString(28);
+    this.value = randomAsciiString(12);
   }
 
   onConfirm() {
