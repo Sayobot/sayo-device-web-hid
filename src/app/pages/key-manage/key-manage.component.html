@@ -1,7 +1,7 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer-content>
-    <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [id]="activeKey?.id" [keys]="(this.vkeys$ | async)!"
-      (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
+    <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="activeKey?.id"
+      [keys]="(this.vkeys$ | async)!" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
 
     <mat-button-toggle-group appearance="legacy" [(ngModel)]="level" name="level" (change)="onLevelChange()">
       <mat-button-toggle *ngFor="let level of levels; let i = index" [value]="level.id">

@@ -16,11 +16,9 @@ export class VirtualKeyboardComponent implements OnInit {
 
   @Output() itemClicked = new EventEmitter<VKey>();
 
-  @Input()
-  width = 1440;
+  @Input() width: number = 1440;
 
-  @Input()
-  height = 720;
+  @Input() height: number = 720;
 
   private _keys: VKey[] = [];
 
@@ -30,9 +28,10 @@ export class VirtualKeyboardComponent implements OnInit {
   }
   set keys(data: VKey[]) {
     if (data?.length > 0) {
+      
       const { size, zoom } = this.getVKeyboardInfo(data);
       this.vkeyboardSize = size;
-
+      
       this._keys = data.map((item) => {
         const size = item.pos.size;
         const point = item.pos.point;

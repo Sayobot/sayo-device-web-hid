@@ -9,6 +9,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
   background: #333;
   color: #ccc;
   overflow: hidden;
@@ -17,12 +19,9 @@
   justify-content: flex-start;
   align-items: flex-start;
   font-size: 12px;
-  padding: 4px;
   box-sizing: border-box;
   text-shadow: 0.2em 0.2em 0.1em #000;
   box-shadow: inset 0.1em 0.1em 0.5em #555;
-  display: flex;
-  flex-direction: column;
 
   &:hover {
     background: const.$warn;
