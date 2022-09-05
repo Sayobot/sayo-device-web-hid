@@ -151,3 +151,12 @@ export const requestByWrite = (device: HIDDevice, reportData: Uint8Array, handle
 
   sendReport(device, reportData);
 };
+
+export default {
+  calcCheckSum: calcChecksum,
+  loopRequestByRead,
+  requestByRead,
+  requestByWrite,
+  makeReadBuffer,
+  sendReport
+}

@@ -1,4 +1,4 @@
-import { Cmd, KeyType } from './const';
+import O2Core from './const';
 import * as iconvLite from 'iconv-lite';
 
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
@@ -10,8 +10,8 @@ export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array)
   };
 
   // remove simplekey if has key
-  if (info.api.includes(Cmd.SimpleKey) && info.api.includes(Cmd.Key)) {
-    const index = info.api.indexOf(Cmd.SimpleKey);
+  if (info.api.includes(O2Core.Cmd.SimpleKey) && info.api.includes(O2Core.Cmd.Key)) {
+    const index = info.api.indexOf(O2Core.Cmd.SimpleKey);
     info.api.splice(index, 1);
   }
 
@@ -43,7 +43,7 @@ export const SimpleKeyFromBuffer: ParserFromFunc<SimpleKey> = (data: Uint8Array)
 
   return <SimpleKey>{
     id,
-    type: KeyType.Button,
+    type: O2Core.KeyType.Button,
     pos: { point, size },
     function: func,
   };
@@ -228,3 +228,20 @@ export const UnicodeAsBuffer: ParserAsFunc<IText> = (data: IText) => {
 
   return arr;
 };
+
+export default {
+  // buffer to data
+  asMetaInfo: MetaInfoFromBuffer,
+  asGBK: GbkFromBuffer,
+  asUnicode: UnicodeFromBuffer,
+  asPassword: PwdFromBuffer,
+  asKey: KeyFromBuffer,
+  asSimpleKey: SimpleKeyFromBuffer,
+
+  // data to buffer
+  toGBKBuffer: GbkAsBuffer,
+  toUnicodeBuffer: UnicodeAsBuffer,
+  toPasswordBuffer: PwdAsBuffer,
+  toSimpleBuffer: SimpleKeyAsBuffer,
+  toKeyBuffer: KeyAsBuffer
+}
