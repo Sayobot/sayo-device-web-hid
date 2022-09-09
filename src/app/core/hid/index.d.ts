@@ -1,3 +1,9 @@
+declare interface O2Service<T> {
+  init(): void;
+  setItem(data: T): void;
+  isSupport(): boolean;
+}
+
 declare interface ParserFromFunc<T> {
   (data: Uint8Array): T;
 }
@@ -58,6 +64,12 @@ declare interface SimpleKey {
   type: number;
   pos: KeyPostion;
   function: KeyFunction;
+}
+
+declare interface Light {
+  id: number;
+  mode: number;
+  values: number[];
 }
 
 declare interface Password {

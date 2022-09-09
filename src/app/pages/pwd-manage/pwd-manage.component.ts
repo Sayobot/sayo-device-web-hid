@@ -18,7 +18,7 @@ export class PwdManageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._pwd.data$.value.length === 0) {
+    if (this._pwd.isSupport() && this._pwd.data$.value.length === 0) {
       this._pwd.init();
     }
   }

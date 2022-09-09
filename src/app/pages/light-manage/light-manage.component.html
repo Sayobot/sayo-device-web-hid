@@ -1,0 +1,10 @@
+<mat-drawer-container [hasBackdrop]="false">
+    <mat-drawer-content>
+        <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="active?.id"
+            [keys]="(this.vkeys$ | async)!"></Virtual-Keyboard>
+
+    </mat-drawer-content>
+
+    <mat-drawer #editor position="end" [mode]="'over'">
+    </mat-drawer>
+</mat-drawer-container>

@@ -50,6 +50,10 @@ export class O2Protocol {
     O2Utils.loopRequestByRead(device, O2Core.Cmd.Text, O2Parser.asUnicode, handler);
   }
 
+  get_light(device: HIDDevice, handler: GetHandler<Light[]>) {
+    O2Utils.loopRequestByRead(device, O2Core.Cmd.Light, O2Parser.asLight, handler);
+  }
+
   set_simplekey(device: HIDDevice, key: SimpleKey, handler: SetHandler) {
     let data = [];
 

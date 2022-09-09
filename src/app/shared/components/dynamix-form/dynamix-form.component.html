@@ -2,7 +2,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- 按键模式 -->
     <mat-form-field appearance="fill">
-      <mat-label>{{ data?.mode?.key }}</mat-label>
+      <mat-label>{{ data!.mode!.key }}</mat-label>
       <mat-select formControlName="mode">
         <mat-option *ngFor="let option of data?.mode?.options" [value]="option.value">
           {{ option.key }}

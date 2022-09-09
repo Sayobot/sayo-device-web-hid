@@ -6,7 +6,7 @@ import { SimpleKeyService } from 'src/app/core/device/simple-key.service';
 import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
-import { KeyFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
+import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
 
 @Component({
   selector: 'app-simplekey-manage',
@@ -29,7 +29,9 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._key.init();
+    if(this._key.isSupport()) {
+      this._key.init();
+    }
   }
 
   ngOnDestroy(): void {
@@ -60,7 +62,7 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormSubmit(data: KeyFormData) {
+  onFormSubmit(data: FormData) {
     if (this.activeKey) {
 
       this.activeKey.function = {

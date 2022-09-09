@@ -38,6 +38,12 @@ const MENUS: Menu[] = [
     name: '字符串',
     key: Cmd.Text,
   },
+  {
+    link: '/light',
+    icon: 'light',
+    name: '灯光',
+    key: Cmd.Light,
+  },
 ];
 
 interface Lang {

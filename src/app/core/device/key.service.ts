@@ -13,7 +13,7 @@ import { LoaderService } from 'src/app/shared/components/loading/loader.service'
 @Injectable({
   providedIn: 'root',
 })
-export class KeyService {
+export class KeyService implements O2Service<Key> {
   data$ = new BehaviorSubject<Key[]>([]);
 
   constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService,
@@ -50,6 +50,14 @@ export class KeyService {
       setItemHandler(this.data$, key, ok);
       this._device.setChanged(ok);
     });
+  }
+
+  findItem(id: number) {
+    return this.data$.getValue().find(item => item.id === id);
+  }
+
+  isSupport() {
+    return this._device.isSupport(Cmd.Key);
   }
 
   getKeyName(modeCode: number, values: number[]) {

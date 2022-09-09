@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from 'src/app/shared/components/loading/loader.service';
-import { O2Protocol } from '../hid';
+import { Cmd, O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
-
-
 
 @Injectable({
   providedIn: 'root',
 })
-export class TextService {
+export class TextService implements O2Service<IText> {
   data$ = new BehaviorSubject<IText[]>([]);
 
   private _encode: TextEncode = "GBK";
 
   constructor(private _device: DeviceService, private o2p: O2Protocol, private _loader: LoaderService) { }
 
-  init(encode: TextEncode) {
+  init() {
     if (!this._device.isConnected()) return;
 
     console.info('初始化字符串数据');
 
     this._loader.loading();
-    switch (encode) {
+    switch (this.encode) {
       case 'GBK':
         this.o2p.get_gbk(this._device.instance!, (data: IText[]) => {
           this.data$.next(data);
@@ -37,9 +35,13 @@ export class TextService {
         });
         break;
       default:
-        console.error('不支持的文本编码格式：', encode);
+        console.error('不支持的文本编码格式：', this.encode);
         break;
     }
+  }
+
+  isSupport() {
+    return this._device.isSupport(Cmd.Text);
   }
 
   get encode() {
@@ -48,7 +50,6 @@ export class TextService {
 
   set encode(c: TextEncode) {
     this._encode = c;
-    this.init(c);
   }
 
   setItem(text: IText) {

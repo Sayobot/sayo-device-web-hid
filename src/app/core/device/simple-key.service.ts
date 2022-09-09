@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { O2Protocol } from '../hid';
+import { Cmd, O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { KeyService } from './key.service';
 import { setItemHandler } from './utils';
@@ -8,10 +8,10 @@ import { setItemHandler } from './utils';
 @Injectable({
   providedIn: 'root',
 })
-export class SimpleKeyService {
+export class SimpleKeyService implements O2Service<SimpleKey> {
   data$ = new BehaviorSubject<SimpleKey[]>([]);
 
-  constructor(private _device: DeviceService, private o2p: O2Protocol, private _key: KeyService) {}
+  constructor(private _device: DeviceService, private o2p: O2Protocol, private _key: KeyService) { }
 
   init() {
     if (!this._device.isConnected()) return;
@@ -28,8 +28,12 @@ export class SimpleKeyService {
     });
   }
 
+  isSupport() {
+    return this._device.isSupport(Cmd.SimpleKey);
+  }
+
   getKeyName(modeCode: number, values: number[]) {
-   return this._key.getKeyName(modeCode, values);
+    return this._key.getKeyName(modeCode, values);
   }
 
   getModifierName(key: string, modifierCode: number) {

@@ -49,12 +49,6 @@ export const SimpleKeyFromBuffer: ParserFromFunc<SimpleKey> = (data: Uint8Array)
   };
 };
 
-export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
-  const { mode, values } = key.function;
-  const data: number[] = [mode, 0, values[0], values[1], values[2], values[3]];
-  return data.map((item) => (item === undefined ? 0 : item));
-};
-
 export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
   const level = data[1];
 
@@ -89,26 +83,6 @@ export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
   return <Key>{ id: data[1], type: data[3], pos, functions };
 };
 
-export const KeyAsBuffer: ParserAsFunc<Key> = (key: Key) => {
-  const Data_start = 13;
-
-  const { functions } = key;
-
-  let data: number[] = new Array(functions.length * 6 + 1).fill(0);
-  data.push(key.type);
-
-  for (let i = 0; i < functions.length; i++) {
-    const func = functions[i];
-    data[Data_start + i * 6] = func.mode;
-
-    for (let j = 0; j < func.values.length; j++) {
-      data[Data_start + i * 6 + j + 2] = func.values[j];
-    }
-  }
-
-  return data.map((item) => (item === undefined ? 0 : item));
-};
-
 export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
   data = data.slice(2);
 
@@ -124,16 +98,6 @@ export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
   }
 
   return <Password>{ id, content: contentArr.join('') };
-};
-
-export const PwdAsBuffer: ParserAsFunc<Password> = (data: Password) => {
-  let arr = [];
-
-  for (let i = 0; i < data.content.length; i++) {
-    arr.push(data.content.charCodeAt(i));
-  }
-
-  return arr;
 };
 
 export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
@@ -161,28 +125,6 @@ export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
   return <IText>{ id, encode: 'GBK', content: gbkDecoder.decode(bytes) };
 };
 
-export const GbkAsBuffer: ParserAsFunc<IText> = (data: IText) => {
-  let arr = [];
-
-  data.content.split('').forEach((char) => {
-    const buffer = iconvLite.encode(char, 'gbk');
-
-    if (buffer.byteLength === 1) {
-      arr.push(0);
-      arr.push(buffer[0]);
-    } else {
-      arr.push(buffer[1]);
-      arr.push(buffer[0]);
-    }
-  });
-
-  while (arr.length < 56) {
-    arr.push(0);
-  }
-
-  return arr;
-};
-
 export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
   const Max_Length = 56;
   const Text_Start = 3;
@@ -207,6 +149,89 @@ export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
   const bytes = new Uint8Array(arr);
 
   return <IText>{ id, encode: 'Unicode', content: unicodeDecoder.decode(bytes) };
+};
+
+export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
+  data = data.slice(2);
+  console.log(data);
+  
+  const id = data[1];
+  const action_mode = data[2],
+    color_mode = data[3],
+    speed_mode = data[4],
+    sub_mode = data[5],
+    red_val = data[6],
+    green_val = data[7],
+    blue_val = data[8],
+    sub_val_0 = data[9],
+    sub_val_1 = data[10],
+    sub_val_2 = data[11];
+
+  let light: Light = { id, mode: action_mode, values: [...data.slice(3, 12)] };
+
+  return light;
+}
+
+export const LightAsBuffer: ParserAsFunc<Light> = (light: Light) => {
+  return [];
+}
+
+export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
+  const { mode, values } = key.function;
+  const data: number[] = [mode, 0, values[0], values[1], values[2], values[3]];
+  return data.map((item) => (item === undefined ? 0 : item));
+};
+
+export const KeyAsBuffer: ParserAsFunc<Key> = (key: Key) => {
+  const Data_start = 13;
+
+  const { functions } = key;
+
+  let data: number[] = new Array(functions.length * 6 + 1).fill(0);
+  data.push(key.type);
+
+  for (let i = 0; i < functions.length; i++) {
+    const func = functions[i];
+    data[Data_start + i * 6] = func.mode;
+
+    for (let j = 0; j < func.values.length; j++) {
+      data[Data_start + i * 6 + j + 2] = func.values[j];
+    }
+  }
+
+  return data.map((item) => (item === undefined ? 0 : item));
+};
+
+export const PwdAsBuffer: ParserAsFunc<Password> = (data: Password) => {
+  let arr = [];
+
+  for (let i = 0; i < data.content.length; i++) {
+    arr.push(data.content.charCodeAt(i));
+  }
+
+  return arr;
+};
+
+export const GbkAsBuffer: ParserAsFunc<IText> = (data: IText) => {
+  let arr = [];
+
+  data.content.split('').forEach((char) => {
+    const buffer = iconvLite.encode(char, 'gbk');
+
+    if (buffer.byteLength === 1) {
+      arr.push(0);
+      arr.push(buffer[0]);
+    } else {
+      arr.push(buffer[1]);
+      arr.push(buffer[0]);
+    }
+  });
+
+  while (arr.length < 56) {
+    arr.push(0);
+  }
+
+  return arr;
 };
 
 export const UnicodeAsBuffer: ParserAsFunc<IText> = (data: IText) => {
@@ -237,11 +262,13 @@ export default {
   asPassword: PwdFromBuffer,
   asKey: KeyFromBuffer,
   asSimpleKey: SimpleKeyFromBuffer,
+  asLight: LightFromBuffer,
 
   // data to buffer
   toGBKBuffer: GbkAsBuffer,
   toUnicodeBuffer: UnicodeAsBuffer,
   toPasswordBuffer: PwdAsBuffer,
   toSimpleBuffer: SimpleKeyAsBuffer,
-  toKeyBuffer: KeyAsBuffer
+  toKeyBuffer: KeyAsBuffer,
+  toLightBuffer: LightAsBuffer
 }

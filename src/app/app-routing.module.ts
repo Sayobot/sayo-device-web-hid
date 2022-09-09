@@ -25,10 +25,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/text-manage/text-manage.module').then((m) => m.TextManageModule),
   },
+  {
+    path: 'light',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/light-manage/light-manage.module').then(m => m.LightManageModule)
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

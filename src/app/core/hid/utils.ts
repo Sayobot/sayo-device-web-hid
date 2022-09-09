@@ -7,11 +7,12 @@ import { Cmd, Config, Method, Offset } from './const';
  * @param reportData
  * @returns
  */
-export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
+export const sendReport = (device: HIDDevice, reportData: Uint8Array, print = false) => {
   if (!device) throw new Error("could not connect device.");
   if (!device.opened) throw new Error("could not open device.");
 
-  // console.info("发送报告：", reportData);
+  if (print)
+    console.info("发送报告：", reportData);
 
   return device.sendReport(Config.reportId, reportData);
 };
@@ -58,6 +59,7 @@ export const loopRequestByRead = <T extends ID>(
   cmd: Cmd,
   parser: (data: Uint8Array) => T,
   handler: (data: T[]) => void,
+  print = false
 ) => {
   let result: T[] = [];
 
@@ -75,7 +77,9 @@ export const loopRequestByRead = <T extends ID>(
   input$.subscribe((report: HIDInputReportEvent) => {
     if (report.data !== undefined) {
       const buffer = new Uint8Array(report.data.buffer);
-      // console.info("接受报告: ", buffer);
+
+      if (print)
+        console.info("接受报告: ", buffer);
 
       const target = parser(buffer);
       if (result.findIndex((item) => item.id === target.id) === -1) {
@@ -91,7 +95,7 @@ export const loopRequestByRead = <T extends ID>(
 
   const request$ = interval(Config.period).pipe(
     takeUntil(done$),
-    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id))),
+    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id), print)),
   );
 
   request$.subscribe();
@@ -113,13 +117,16 @@ export const requestByRead = <T>(
   reportData: Uint8Array,
   parser: (data: Uint8Array) => T,
   handler: (data: T) => void,
+  print = false
 ) => {
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
   input$.subscribe(({ data }) => {
     const buffer = new Uint8Array(data.buffer);
-    // console.info("接受报告: ", buffer);
+
+    if (print)
+      console.info("接受报告: ", buffer);
 
     const result = parser(buffer);
     handler(result);
@@ -130,7 +137,7 @@ export const requestByRead = <T>(
     done$.complete();
   });
 
-  sendReport(device, reportData);
+  sendReport(device, reportData, print);
 };
 
 /**

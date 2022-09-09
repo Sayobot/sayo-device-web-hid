@@ -6,7 +6,7 @@ import { KeyService } from 'src/app/core/device/key.service';
 import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
-import { KeyFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
+import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
 
 interface Level {
   id: number;
@@ -54,7 +54,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this._key.data$.value.length === 0) {
+    if (this._key.isSupport() && this._key.data$.value.length === 0) {
       this._key.init();
     } else {
       this.onLevelChange();
@@ -111,7 +111,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormSubmit(data: KeyFormData) {
+  onFormSubmit(data: FormData) {
     if (this.activeKey) {
       this.activeKey.functions[this.level] = {
         mode: Number(data.mode),
@@ -195,7 +195,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _key2vKey(key: Key, level: number) {
+  private _key2vKey(key: Key, level: number): VKey {
 
     const { functions } = key;
     const { mode, values } = functions[level];

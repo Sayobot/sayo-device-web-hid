@@ -22,8 +22,8 @@ export class TextManageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._text.data$.value.length === 0) {
-      this._text.init(this._text.encode);
+    if (this._text.isSupport() && this._text.data$.value.length === 0) {
+      this._text.init();
     }
   }
 
@@ -37,6 +37,7 @@ export class TextManageComponent implements OnInit {
   }
 
   onEncodeChanged(change: MatRadioChange) {
-    this._text.init(change.value);
+    this._text.encode = change.value;
+    this._text.init();
   }
 }

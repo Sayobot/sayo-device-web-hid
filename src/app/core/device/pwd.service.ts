@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from 'src/app/shared/components/loading/loader.service';
-import { O2Protocol } from '../hid';
+import { Cmd, O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PwdService {
+export class PwdService implements O2Service<Password> {
   data$ = new BehaviorSubject<Password[]>([]);
 
   constructor(private _device: DeviceService, private _o2p: O2Protocol, private _loader: LoaderService) { }
@@ -32,6 +32,10 @@ export class PwdService {
       setItemHandler(this.data$, pwd, ok);
       this._device.setChanged(ok);
     });
+  }
+
+  isSupport() {
+    return this._device.isSupport(Cmd.Password);
   }
 
   swap(first: number, second: number) {

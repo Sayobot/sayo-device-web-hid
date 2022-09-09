@@ -16,8 +16,8 @@ export class DeviceService {
   constructor(private _o2p: O2Protocol) {}
 
   isSupport(code: number) {
-    if (!this.instance) return false;
-    return this.info?.api.includes(code);
+    if (!this.instance || !this.info) return false;
+    return this.info.api.includes(code);
   }
 
   setDevice(device: HIDDevice) {
@@ -49,6 +49,8 @@ export class DeviceService {
 
     this._o2p.get_metaInfo(this.instance, (info: DeviceInfo) => {
       this.info = info;
+      console.log("功能支持:", this.info.api);
+      
       this.device$.next(this.instance!);
     });
   }
