@@ -1,0 +1,4 @@
+<div class="color-picker-continer">
+    <input class="color-picker-input" [value]="result" [cpPosition]="'bottom'" [style.background]="result"
+        [(colorPicker)]="result" [cpOutputFormat]="'rgba'" (colorPickerChange)="onColorChange($event)" />
+</div>

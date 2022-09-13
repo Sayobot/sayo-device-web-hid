@@ -153,19 +153,9 @@ export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
 
 export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
   data = data.slice(2);
-  console.log(data);
-  
+
   const id = data[1];
-  const action_mode = data[2],
-    color_mode = data[3],
-    speed_mode = data[4],
-    sub_mode = data[5],
-    red_val = data[6],
-    green_val = data[7],
-    blue_val = data[8],
-    sub_val_0 = data[9],
-    sub_val_1 = data[10],
-    sub_val_2 = data[11];
+  const action_mode = data[2];
 
   let light: Light = { id, mode: action_mode, values: [...data.slice(3, 12)] };
 
@@ -173,7 +163,7 @@ export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
 }
 
 export const LightAsBuffer: ParserAsFunc<Light> = (light: Light) => {
-  return [];
+  return [light.mode, ...light.values];
 }
 
 export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {

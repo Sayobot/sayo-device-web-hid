@@ -32,7 +32,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "./node_modules/normalize.css/normalize.css",
+              "node_modules/normalize.css",
               "src/assets/font/material-icon.css",
               "src/styles.scss"
             ],

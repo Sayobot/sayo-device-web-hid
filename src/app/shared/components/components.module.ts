@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialUiModule } from '../material-ui/material-ui.module';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { VirtualKeyComponent } from './virtual-key';
 import { VirtualKeyboardComponent } from './virtual-keyboard';
@@ -18,6 +19,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { LoadingComponent } from './loading/loading.component';
+import { ColorPickerControlComponent } from './color-picker-control';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,12 +33,13 @@ const Components = [
   GeneralKeySelectControlComponent,
   GeneralKeySelectDialog,
   StringEditComponent,
-  LoadingComponent
+  LoadingComponent,
+  ColorPickerControlComponent
 ];
 
 @NgModule({
   declarations: [...Components],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialUiModule,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialUiModule, ColorPickerModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

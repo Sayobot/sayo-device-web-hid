@@ -4,4 +4,5 @@ declare interface VKey {
   pos: KeyPostion;
   name: string;
   tooltip: string;
+  color?: string;
 }

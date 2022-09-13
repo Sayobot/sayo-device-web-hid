@@ -119,7 +119,6 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       };
 
       this._key.setItem(this.activeKey);
-      this._updateFormData();
 
       this._snackBar.open('Successful!', 'Done', {
         horizontalPosition: 'center',

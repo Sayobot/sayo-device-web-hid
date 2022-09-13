@@ -37,6 +37,10 @@ export enum Cmd {
   Text = 0x0C
 }
 
+export enum LightMode {
+  Static = 0
+}
+
 export const Sayo_Device_filters: HIDDeviceFilter[] = [
   {
     vendorId: 0x8089

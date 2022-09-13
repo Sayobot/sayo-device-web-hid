@@ -23,7 +23,7 @@ export const loopRequestO2Service = (services: O2Service<any>[]) => {
   let done$ = new Subject();
   let count = 0;
 
-  interval(300).pipe(takeUntil(done$)).subscribe(() => {
+  interval(500).pipe(takeUntil(done$)).subscribe(() => {
     if(count < services.length) {
       if(services[count].isSupport()) {
         services[count].init();

@@ -12,15 +12,15 @@
 
     <div formArrayName="params">
       <ng-container *ngFor="let param of data?.params; let i = index" [ngSwitch]="param.type">
-        <!-- Form Control Switch -->
-        <div class="form-control-switch" *ngSwitchCase="'switch'">
+        <!-- Switch -->
+        <div *ngSwitchCase="'switch'" class="form-control-switch">
           <label>{{ param.key }}:</label>
           <mat-radio-group [formControlName]="i">
             <mat-radio-button *ngFor="let item of param.options" [value]="item.value">{{ item.key }}</mat-radio-button>
           </mat-radio-group>
         </div>
 
-        <!-- Form Control Input number -->
+        <!-- Input number -->
         <div *ngSwitchCase="'input'">
           <mat-form-field appearance="fill">
             <mat-label>{{ param.key }}</mat-label>
@@ -28,15 +28,16 @@
           </mat-form-field>
         </div>
 
-        <!-- Form Control Color -->
-        <div *ngSwitchCase="'color'">Color</div>
+        <!-- Color -->
+        <color-picker-control *ngSwitchCase="'color'" [formControlName]="i"></color-picker-control>
 
-        <!-- Form Control Common -->
+        <!-- Common -->
         <div *ngSwitchCase="'common'">
-          <general-key-select-control [label]="param.key" [options]="param.options" [formControlName]="i"></general-key-select-control>
+          <general-key-select-control [label]="param.key" [options]="param.options" [formControlName]="i">
+          </general-key-select-control>
         </div>
 
-        <!-- Form Control Select -->
+        <!-- Select -->
         <div *ngSwitchCase="'select'">
           <mat-form-field appearance="fill">
             <mat-label>{{ param.key }}</mat-label>
@@ -48,18 +49,22 @@
           </mat-form-field>
         </div>
 
-        <!-- Form Control Multi -->
+        <!-- Multi -->
         <div *ngSwitchCase="'multi'">
-          <multi-select-control [label]="param.key" [options]="param.options" [formControlName]="i"></multi-select-control>
+          <multi-select-control [label]="param.key" [options]="param.options" [formControlName]="i">
+          </multi-select-control>
         </div>
 
-        <!-- Form Control String -->
+        <!-- String -->
         <div *ngSwitchCase="'string'">
           <mat-form-field appearance="fill">
             <mat-label>{{ param.key }}</mat-label>
             <input [formControlName]="i" matInput />
           </mat-form-field>
         </div>
+
+        <!-- Empty -->
+        <div *ngSwitchCase="'empty'"></div>
 
         <div *ngSwitchDefault>Not match control type.</div>
       </ng-container>

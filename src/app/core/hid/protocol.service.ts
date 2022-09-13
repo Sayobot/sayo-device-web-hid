@@ -143,4 +143,24 @@ export class O2Protocol {
     const reportData = new Uint8Array(data);
     O2Utils.requestByWrite(device, reportData, handler);
   }
+
+  set_light(device: HIDDevice, light: Light, handler: SetHandler) {
+    let data = [];
+    
+    const buffer = O2Parser.toLightBuffer(light);
+
+    data[O2Core.Offset.Cmd] = O2Core.Cmd.Light;
+    data[O2Core.Offset.Size] = buffer.length > 57 ? 57 : buffer.length + 2;
+    data[O2Core.Offset.Method] = O2Core.Method.Write;
+    data[O2Core.Offset.Id] = light.id;
+
+    data = data.concat(buffer);
+
+    const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
+    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    console.log(data);
+    
+    const reportData = new Uint8Array(data);
+    O2Utils.requestByWrite(device, reportData, handler);
+  }
 }

@@ -1,10 +1,24 @@
 <mat-drawer-container [hasBackdrop]="false">
     <mat-drawer-content>
         <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="active?.id"
-            [keys]="(this.vkeys$ | async)!"></Virtual-Keyboard>
+            [keys]="(this.vkeys$ | async)!" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
 
     </mat-drawer-content>
 
     <mat-drawer #editor position="end" [mode]="'over'">
-    </mat-drawer>
+        <ng-container *ngIf="this.active">
+          <div class="editor-header">
+            <h2 class="editor-title">
+              Id：{{ this.active.id | order }}
+            </h2>
+            <mat-icon (click)="onEditorClosed()">close</mat-icon>
+          </div>
+          <div class="editor-content">
+            <ng-container *ngIf="formData">
+              <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)">
+              </dynamix-form>
+            </ng-container>
+          </div>
+        </ng-container>
+      </mat-drawer>
 </mat-drawer-container>

@@ -4,6 +4,7 @@ import { LoaderService } from 'src/app/shared/components/loading/loader.service'
 import { DocService } from '../doc/doc.service';
 import { Cmd, O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
+import { setItemHandler } from './utils';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,12 @@ export class LightService implements O2Service<Light> {
     }
 
     setItem(data: Light) {
+        if (!this._device.isConnected()) return;
 
+        this._o2p.set_light(this._device.instance!, data, (ok: boolean) => {
+            setItemHandler(this.data$, data, ok);
+            this._device.setChanged(ok);
+        });
     }
 
     isSupport() {

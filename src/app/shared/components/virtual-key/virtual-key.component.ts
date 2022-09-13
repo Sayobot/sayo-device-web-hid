@@ -14,6 +14,7 @@ export class VirtualKeyComponent implements OnInit {
   @Input() raduis = 8;
 
   @Input() active = false;
+  @Input() color = "";
 
   @Input() type!: KeyType;
 
