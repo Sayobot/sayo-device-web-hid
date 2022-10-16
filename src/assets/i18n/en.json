@@ -597,5 +597,19 @@
   "全部设备": "all device",
   "设备信息": "device info",
   "录制": "Record",
-  "自锁模式": "lock-self mode"
+  "自锁模式": "lock-self mode",
+  "控制选项": "control_option",
+  "无线模式": "wireless_mode",
+  "休眠超时": "sleep_timeout",
+  "指示灯超时": "indicator_light_timeout",
+  "蓝牙": "bluetooth",
+  "重启键盘": "Keyboard reboot",
+  "灯光开启": "light on",
+  "灯光关闭": "light off",
+  "灯光开关": "light switch",
+  "蓝牙开启": "bluetooth on",
+  "蓝牙关闭": "bluetooth off",
+  "蓝牙开关": "bluetooth switch",
+  "休眠超时(分)": "sleep timeout(minutes)",
+  "指示灯超时(秒)": "indicator_light_timeout(seconds)"
 }

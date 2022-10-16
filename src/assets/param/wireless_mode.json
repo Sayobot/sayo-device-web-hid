@@ -1,0 +1,17 @@
+﻿{
+    "version":"1.0",
+    "title":"无线模式",
+    "input_type":"choice",
+    "multiple_choice":false,
+    "defVal":1,
+    "data":[
+        {
+            "code":0,
+            "name":"蓝牙"
+        },
+        {
+            "code":1,
+            "name":"2.4G"
+        }
+    ]
+}

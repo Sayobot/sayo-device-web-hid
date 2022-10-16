@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "1.0",
     "title": "emmmm",
     "uri": "/api/devices",
@@ -103,6 +103,21 @@
                     "code": 129,
                     "values": [
                         "keys_switch.json"
+                    ]
+                },
+                {
+                    "name": "BLE_SW",
+                    "code": 130,
+                    "values": [
+                        "keys_switch.json"
+                    ]
+                },
+                {
+                    "name": "控制选项",
+                    "code": 63,
+                    "note": "",
+                    "values": [
+                        "control_option.json"
                     ]
                 },
                 {
@@ -458,254 +473,352 @@
                     ]
                 },
                 {
-                    "name": "编码器-多媒体控制",
-                    "code": 49,
+                    "name": "用户脚本33",
+                    "code": 96,
                     "note": "",
                     "values": [
-                        "u8.json",
-                        "mu_keys.json"
-                    ]
-                },
-                {
-                    "name": "不会打断的默认模式",
-                    "code": 5,
-                    "note": "包含键盘组合键、普通按键、鼠标按键的一种模式，但不会打断任意键停止的模式",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击AAA",
-                    "code": 9,
-                    "note": "自动连续点击且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "mouse_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABABAB",
-                    "code": 10,
-                    "note": "自动连续点击两个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABCABC",
-                    "code": 11,
-                    "note": "自动连续点击三个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABABC",
-                    "code": 12,
-                    "note": "自动的连续点击按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击AAAAA+任意键停止",
-                    "code": 13,
-                    "note": "自动连续点击且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "mouse_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABABAB+任意键停止",
-                    "code": 14,
-                    "note": "自动连续点击两个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABCABC+任意键停止",
-                    "code": 15,
-                    "note": "自动连续点击三个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABABCABABC+任意键停止",
-                    "code": 16,
-                    "note": "自动ABABC ABABC的连续点击按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "指定延迟的键盘模式 单位 ms",
-                    "code": 17,
-                    "note": "可自定义按键的延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "x1.json",
-                        "x256.json"
-                    ]
-                },
-                {
-                    "name": "指定+随机延迟的键盘模式 单位 ms",
-                    "code": 18,
-                    "note": "可自定义按键的延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "u8rollx8.json",
-                        "x256.json"
-                    ]
-                },
-                {
-                    "name": "指定+随机延迟的连击键盘模式 单位 ms",
-                    "code": 19,
-                    "note": "可自定义按键的延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "u8rollx8.json",
-                        "x256.json"
-                    ]
-                },
-                {
-                    "name": "自动连击之ABBBB+任意键停止",
-                    "code": 20,
-                    "note": "自动连击之ABBBB+任意键停止",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击之ABCCCC+任意键停止",
-                    "code": 23,
-                    "note": "自动连击之ABCCCC+任意键停止",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "ABC依次按键后结束",
-                    "code": 21,
-                    "note": "ABC",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "自动连击ABABAB+指定间隔时间",
-                    "code": 22,
-                    "note": "AB",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "x256.json"
-                    ]
-                },
-                {
-                    "name": "按下连击AAA+松开停止",
-                    "code": 25,
-                    "note": "自动连续点击且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "mouse_keys.json"
-                    ]
-                },
-                {
-                    "name": "按下连击ABABAB+松开停止",
-                    "code": 26,
-                    "note": "自动连续点击两个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "按下连击ABCABC+松开停止",
-                    "code": 27,
-                    "note": "自动连续点击三个按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "按下连击ABABCABABC+松开停止",
-                    "code": 28,
-                    "note": "自动ABABC ABABC的连续点击按键且带有随机延迟时间，仅适用于部分型号",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "带随机连键",
-                    "code": 32,
-                    "note": "包含键盘组合键、普通按键的一种模式",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "pwd.json"
-                    ]
-                },
-                {
-                    "name": "自定义脚本-点动模式",
-                    "code": 62,
-                    "note": "可以编写自定义脚本，来执行一系列的操作，脚本请在“脚本”选项卡编辑，点动模式：按一下执行一次，仅适用于部分型号",
-                    "values": [
+                        "smjb.json",
                         "smjb.json",
                         "smjb.json",
                         "smjb.json"
                     ]
                 },
                 {
-                    "name": "自定义脚本-开关模式",
-                    "code": 63,
-                    "note": "可以编写自定义脚本，来执行一系列的操作，脚本请在“脚本”选项卡编辑，开关模式：按一下一直运行，再按一下停止运行，须在脚本最后设置循环，仅适用于部分型号",
+                    "name": "用户脚本34",
+                    "code": 97,
+                    "note": "",
                     "values": [
+                        "smjb.json",
                         "smjb.json",
                         "smjb.json",
                         "smjb.json"
                     ]
                 },
                 {
-                    "name": "US1",
-                    "code": 6,
+                    "name": "用户脚本35",
+                    "code": 98,
                     "note": "",
                     "values": [
+                        "smjb.json",
                         "smjb.json",
                         "smjb.json",
                         "smjb.json"
                     ]
                 },
                 {
-                    "name": "US2",
-                    "code": 7,
+                    "name": "用户脚本36",
+                    "code": 99,
                     "note": "",
                     "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本37",
+                    "code": 100,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本38",
+                    "code": 101,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本39",
+                    "code": 102,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本40",
+                    "code": 103,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本41",
+                    "code": 104,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本42",
+                    "code": 105,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本43",
+                    "code": 106,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本44",
+                    "code": 107,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本45",
+                    "code": 108,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本46",
+                    "code": 109,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本47",
+                    "code": 110,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本48",
+                    "code": 111,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本49",
+                    "code": 112,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本50",
+                    "code": 113,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本51",
+                    "code": 114,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本52",
+                    "code": 115,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本53",
+                    "code": 116,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本54",
+                    "code": 117,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本55",
+                    "code": 118,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本56",
+                    "code": 119,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本57",
+                    "code": 120,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本58",
+                    "code": 121,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本59",
+                    "code": 122,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本60",
+                    "code": 123,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本61",
+                    "code": 124,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本62",
+                    "code": 125,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本63",
+                    "code": 126,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json",
+                        "smjb.json"
+                    ]
+                },
+                {
+                    "name": "用户脚本64",
+                    "code": 127,
+                    "note": "",
+                    "values": [
+                        "smjb.json",
                         "smjb.json",
                         "smjb.json",
                         "smjb.json"
@@ -1519,10 +1632,19 @@
                 {
                     "name": "鼠标-光标定位",
                     "code": 37,
-                    "note": "如题（待修改）",
+                    "note": "",
                     "values": [
                         "u16.json",
                         "u16.json"
+                    ]
+                },
+                {
+                    "name": "鼠标-光标定位—传参",
+                    "code": 38,
+                    "note": "",
+                    "values": [
+                        "parameter.json",
+                        "parameter.json"
                     ]
                 },
                 {
@@ -1708,7 +1830,7 @@
                     "code": 94,
                     "note": "",
                     "values": [
-                        "reg.json"
+                        "parameter.json"
                     ]
                 },
                 {
@@ -1716,7 +1838,7 @@
                     "code": 95,
                     "note": "",
                     "values": [
-                        "reg.json"
+                        "parameter.json"
                     ]
                 },
                 {
@@ -1860,6 +1982,22 @@
                         "color2arr.json",
                         "no_more.json",
                         "no_more.json"
+                    ]
+                },
+                {
+                    "name": "START",
+                    "code": 226,
+                    "note": "",
+                    "values": [
+                        "u8.json"
+                    ]
+                },
+                {
+                    "name": "STOP",
+                    "code": 227,
+                    "note": "",
+                    "values": [
+                        "u8.json"
                     ]
                 },
                 {
@@ -2050,7 +2188,39 @@
                 {
                     "name": "请输入密码",
                     "code": 0,
-                    "note": "最多29个ASCII字符;对于O2C,与自定义设备名冲突",
+                    "note": "",
+                    "values": [
+                        "string_ascii.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "键盘锁",
+            "cmd": "kb_lock",
+            "cmd_code":248,
+            "format":null,
+            "mode": [
+                {
+                    "name": "请输入密码锁定，为空解除",
+                    "code": 0,
+                    "note": "",
+                    "values": [
+                        "string_ascii.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "键盘锁",
+            "cmd": "kb_unlock",
+            "cmd_code":249,
+            "format":null,
+            "mode": [
+                {
+                    "name": "请输入密码解锁",
+                    "code": 0,
+                    "note": "",
                     "values": [
                         "string_ascii.json"
                     ]
@@ -2109,6 +2279,32 @@
         },
         
         {
+            "title": "电池",
+            "cmd": "api_code",
+            "cmd_code":80,
+            "format":null,
+            "mode": [
+                {
+                    "name": "",
+                    "code": 0,
+                    "note": "",
+                    "values": [
+                        "_s8.json",
+                        "no_more.json",
+                        "_u16.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "_u32.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json"
+                    ]
+                }
+            ]
+        },
+        
+        {
             "title": "选项字节",
             "cmd": "api_code",
             "cmd_code":252,
@@ -2119,14 +2315,22 @@
                     "code": 0,
                     "note": "",
                     "values": [
-                        "u8.json",
-                        "u8.json",
-                        "u8.json",
-                        "u8.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
                         "key_delay.json",
                         "std_opt_HID_report.json",
-                        "u8.json",
-                        "u8.json"
+                        "sleep_timeout.json",
+                        "indicator_light_timeout.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "wireless_mode.json"
                     ]
                 }
             ]

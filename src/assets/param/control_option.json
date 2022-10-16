@@ -1,0 +1,37 @@
+{
+    "version":"1.0",
+    "title":"选项",
+    "input_type":"choice",
+    "multiple_choice":false,
+    "defVal":1,
+    "data":[
+        {
+            "code":0,
+            "name":"重启键盘"
+        },
+        {
+            "code":1,
+            "name":"灯光开启"
+        },
+        {
+            "code":2,
+            "name":"灯光关闭"
+        },
+        {
+            "code":3,
+            "name":"灯光开关"
+        },
+        {
+            "code":7,
+            "name":"蓝牙开启"
+        },
+        {
+            "code":8,
+            "name":"蓝牙关闭"
+        },
+        {
+            "code":9,
+            "name":"蓝牙开关"
+        }
+    ]
+}
