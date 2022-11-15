@@ -1,6 +1,8 @@
 <main>
   <mat-toolbar color="primary" class="menu-bar">
-    <button class="menu-bar-item" mat-button routerLink="/device"><mat-icon>devices</mat-icon>Device</button>
+    <button class="menu-bar-item" mat-button routerLink="/device">
+      <mat-icon>devices</mat-icon>Device
+    </button>
 
     <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
       <mat-icon>{{ menu.icon }}</mat-icon>
@@ -15,6 +17,10 @@
     <mat-menu #langMenu="matMenu">
       <button mat-menu-item *ngFor="let item of langs" (click)="setLanguage(item.key)">{{ item.title }}</button>
     </mat-menu>
+
+    <a mat-icon-button href="https://github.com/SoulDee/WebSayoDevice" target="_blank">
+      Github
+    </a>
   </mat-toolbar>
 
   <div class="page-container">
