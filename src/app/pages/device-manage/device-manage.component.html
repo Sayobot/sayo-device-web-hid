@@ -1,3 +1,7 @@
 <div class="page-container">
   <button mat-raised-button color="primary" (click)="search()">{{"搜索设备" | translate}}</button>
+  <div class="tip" [ngClass]="{'hidden': hasMacPermission}">
+    <div>{{howGetMacPermissionTip()}}</div>
+    <img src="/assets/how_open_mac_listen_permission.jpg" alt="how open mac listen permission">
+  </div>
 </div>

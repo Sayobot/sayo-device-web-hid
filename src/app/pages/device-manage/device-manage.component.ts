@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Sayo_Device_filters, Config } from "src/app/core/hid";
+
+const isMac = () => navigator.userAgent.includes("Mac OS");
 
 @Component({
   templateUrl: './device-manage.component.html',
@@ -10,11 +13,16 @@ import { Sayo_Device_filters, Config } from "src/app/core/hid";
 })
 export class DeviceManageComponent implements OnInit {
 
+  hasMacPermission = true;
+
   select$ = new Subject<void>();
 
   destory$ = new Subject();
 
-  constructor(private _device: DeviceService, private _doc: DocService) {
+  constructor(
+    private _device: DeviceService,
+    private _doc: DocService,
+    private _tr: TranslateService) {
     this.select$
       .pipe(
         takeUntil(this.destory$),
@@ -39,7 +47,7 @@ export class DeviceManageComponent implements OnInit {
                 if(col.usagePage! >= Config.usagePage) {
                   target = item;
                   break;
-                }  
+                }
               }
             }
           }
@@ -57,7 +65,20 @@ export class DeviceManageComponent implements OnInit {
         tap((device: HIDDevice) => this._device.setDevice(device)),
 
         // open select device
-        switchMap((device: HIDDevice) => (device && !device.opened ? device.open() : of())),
+        switchMap(async (device: HIDDevice) => {
+          if(device && !device.opened) {
+
+          try {
+            await device.open();
+          } catch (error) {
+            if(isMac()) {
+              this.hasMacPermission = false;
+            }
+          }
+          }
+
+          return of();
+        }),
       )
       .subscribe((_) => {
         // set device info if device opened
@@ -71,5 +92,9 @@ export class DeviceManageComponent implements OnInit {
 
   search() {
     this.select$.next();
+  }
+
+  howGetMacPermissionTip() {
+    return this._tr.instant("如果您的操作系统是 Mac OS，请打开输入监听权限。");
   }
 }
