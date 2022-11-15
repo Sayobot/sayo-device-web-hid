@@ -63,16 +63,28 @@ export class AppComponent implements OnDestroy {
 
   destory$ = new Subject<void>();
 
-  constructor(private http: HttpClient, private _device: DeviceService, private _tr: TranslateService, private _doc: DocService) {
-    this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
-      if (device.opened) this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-    });
+  constructor(private http: HttpClient,
+    private _device: DeviceService,
+    private _tr: TranslateService,
+    private _doc: DocService) {
 
-    this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json').subscribe((res) => {
-      this.langs = res.languages;
+    if (navigator.hid) {
+      this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
+        if (device.opened) this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+      });
 
-      this.setLanguage(this._tr.getBrowserLang() || 'en');
-    });
+      this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json').subscribe((res) => {
+        this.langs = res.languages;
+
+        this.setLanguage(this._tr.getBrowserLang() || 'en');
+      });
+    } else {
+      const url = "https://caniuse.com/?search=webhid";
+      const tip = `${this._tr.instant("请使用支持 Web HID 的浏览器，支持列表可查询")}:
+
+${url}`;
+      alert(tip);
+    }
   }
 
   ngOnDestroy(): void {

@@ -611,5 +611,6 @@
   "蓝牙关闭": "bluetooth off",
   "蓝牙开关": "bluetooth switch",
   "休眠超时(分)": "sleep timeout(minutes)",
-  "指示灯超时(秒)": "indicator_light_timeout(seconds)"
+  "指示灯超时(秒)": "indicator_light_timeout(seconds)",
+  "请使用支持 Web HID 的浏览器，支持列表可查询": "Please use a support Web HID browser, the support list can be queried"
 }
