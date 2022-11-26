@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DeviceService } from './core/device/device.service';
 import { DocService } from './core/doc/doc.service';
 import { Cmd } from './core/hid';
+import { Router } from "@angular/router";
 
 interface Menu {
   link: string;
@@ -51,6 +52,8 @@ interface Lang {
   title: string;
 }
 
+const KEYBOARD_PAGE = '/key'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -66,11 +69,15 @@ export class AppComponent implements OnDestroy {
   constructor(private http: HttpClient,
     private _device: DeviceService,
     private _tr: TranslateService,
-    private _doc: DocService) {
+    private _doc: DocService,
+    private _router: Router) {
 
     if (navigator.hid) {
       this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
-        if (device.opened) this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+        if (device.opened) {
+          this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+          this._router.navigate([KEYBOARD_PAGE]);
+        }
       });
 
       this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json').subscribe((res) => {
