@@ -1,7 +1,8 @@
 <main>
   <mat-toolbar color="primary" class="menu-bar">
     <button class="menu-bar-item" mat-button routerLink="/device">
-      <mat-icon>devices</mat-icon>Device
+      <mat-icon>devices</mat-icon>
+      {{ '设备' | translate }}
     </button>
 
     <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
