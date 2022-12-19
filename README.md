@@ -1,27 +1,22 @@
-# WebHidSayoDevice
+# Web HID Sayo Device
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
+这是 **Sayo Device** 的 Web HID 版本实现，一些需要系统权限的功能无法实现，需要的话请使用桌面版 [Sayo Device PC](https://dl.sayobot.cn/setting_v3.zip) 设置程序。
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### 运行
 
-## Code scaffolding
+- [online example](https://sayodevice.com/device) 
+- 本地打包后，进入 dist 当中已经打包的项目根目录中，使用 **http-server** 来运行，请使用 127.0.0.1 来访问，其他启动的 IP 会导致弹出 `当前浏览器不支持 Web HID` 的消息。
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 部署
 
-## Build
+打包后自行部署根目录下 dist 中的打包内容到服务器，请使用 https 或者代理到 `127.0.0.1`，否则会因为找不到 HID 对象导致弹出 `当前浏览器不支持 Web HID` 的消息。
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### TODO
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- [x] 按键
+- [x] 字符串
+- [x] 密码
+- [x] 灯光
+- [ ] 脚本
+- [ ] 备份
