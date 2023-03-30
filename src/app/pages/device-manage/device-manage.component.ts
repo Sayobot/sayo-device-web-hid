@@ -54,8 +54,11 @@ export class DeviceManageComponent implements OnInit {
             }
           }
 
-          if(target === null)
+          if(target === null) {
+            location.reload();
             throw new Error("could not find hid device.");
+          }
+
 
           return target;
         }),
