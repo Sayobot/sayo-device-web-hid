@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
   <title>Sayo Device</title>
@@ -13,6 +14,10 @@
 
 <body class="mat-typography">
   <app-root></app-root>
+  <footer>
+    ©2022–<span id="current-year"></span> by Sayo |
+    <a href="https://beian.miit.gov.cn/" target="_blank">&nbsp;鲁ICP备19061843号-2</a>
+  </footer>
 
   <script>
     const github = `
@@ -33,6 +38,10 @@
 
   <script async type="text/javascript"
     src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script async type="text/javascript">
+    document.getElementById("current-year").innerText = new Date().getFullYear();
+  </script>
 </body>
 
 </html>

@@ -10,6 +10,12 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .hidden {
   display: none;
 }
@@ -26,4 +32,8 @@ body {
 
 #google_translate_element select {
   margin-right: 8px;
+}
+
+a {
+  text-decoration: none;
 }

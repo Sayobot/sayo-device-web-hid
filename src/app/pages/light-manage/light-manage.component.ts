@@ -19,6 +19,10 @@ export class LightManageComponent implements OnInit {
   active: Light | undefined;
   vkeys$ = new BehaviorSubject<VKey[]>([]);
 
+  levels: Level[] = [];
+
+  level = 0;
+
   destory$ = new Subject();
 
   formData: OptionFormData | undefined;
@@ -30,8 +34,12 @@ export class LightManageComponent implements OnInit {
     this._light.data$.pipe(
       takeUntil(this.destory$),
     ).subscribe((keys) => {
-      const vkeys = keys.map((key) => this._light2vKey(key));
+      const vkeys = keys.map((key) => this._light2vKey(key, this.level));
       this.vkeys$.next(vkeys);
+
+      if (keys.length > 0 && this.levels.length !== keys[0].colors.length) {
+        this._setLevelName(keys[0].colors.length);
+      }
     });
 
     this.vkeys$.subscribe((_) => {
@@ -47,13 +55,27 @@ export class LightManageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this._light.data$.value.length === 0) {
-      loopRequestO2Service([this._key, this._light]);
+      if (this._key.data$.getValue().length === 0) {
+        loopRequestO2Service([this._key, this._light]);
+      } else {
+        loopRequestO2Service([this._light]);
+      }
     }
+
   }
 
   ngOnDestroy(): void {
     this.destory$.next(0);
     this.destory$.complete();
+  }
+
+  onLevelChange() {
+    const vkeys = this._light.data$.getValue().map((light) => this._light2vKey(light, this.level));
+    this.vkeys$.next(vkeys);
+
+    if (this.active) {
+      this._updateFormData();
+    };
   }
 
   onItemClicked(vkey: VKey) {
@@ -83,9 +105,17 @@ export class LightManageComponent implements OnInit {
     if (this.active) {
       const { files } = this._doc.mode(Cmd.Light, Number(code))!;
 
-      this.active.mode = Number(code);
-      this.active.values = files.map((file) => this._doc.param(file)!.def);
+      this.active.colors[this.level].action = Number(code);
+      this.active.colors[this.level].values = files.map((file) => this._doc.param(file)!.def);
       this._updateFormData();
+    }
+  }
+
+  private _setLevelName(length: number) {
+    this.levels = [];
+    for (let i = 0; i < length; i++) {
+      const name = i === 0 ? '基本层' : `Fn ${i}`;
+      this.levels.push({ id: i, name });
     }
   }
 
@@ -112,9 +142,8 @@ export class LightManageComponent implements OnInit {
         }
       }
 
-      this.active = {
-        ...this.active,
-        mode: Number(data.mode),
+      this.active.colors[this.level] = {
+        action: Number(data.mode),
         values
       }
 
@@ -145,8 +174,8 @@ export class LightManageComponent implements OnInit {
       let params: OptionControlData[] = [];
 
       if (this.active) {
-        const { mode, values } = this.active;
-        const modeDoc = this._doc.mode(Cmd.Light, mode);
+        const { action, values } = this.active.colors[this.level];
+        const modeDoc = this._doc.mode(Cmd.Light, action);
 
         if (modeDoc) {
           let count = 0;
@@ -189,14 +218,14 @@ export class LightManageComponent implements OnInit {
       mode: {
         type: ControlType.Select,
         key: 'mode',
-        value: String(this.active?.mode),
+        value: String(this.active?.colors[this.level].action),
         options: getModeOptions(),
       },
       params: getParams(),
     }
   }
 
-  private _light2vKey(light: Light): VKey {
+  private _light2vKey(light: Light, level: number): VKey {
     const spacer = 4, border = 10, width = 36, radius = 4;
 
     let pos = {
@@ -214,14 +243,16 @@ export class LightManageComponent implements OnInit {
         pos = item.pos;
     }
 
-    const name = this._light.getLightName(light.mode);
+    const { colors } = light;
+    const { action, values } = colors[level];
+    const name = this._light.getLightName(action);
 
     let color = "";
 
-    if (light.mode === LightMode.Static) {
-      const r = light.values[3],
-        g = light.values[4],
-        b = light.values[5];
+    if (action === LightMode.Static) {
+      const r = values[3],
+        g = values[4],
+        b = values[5];
 
       color = `rgb(${r},${g},${b})`;
     }

@@ -68,6 +68,8 @@ export const loopRequestByRead = <T extends ID>(
     takeUntil(done$),
     timeout(100),
     catchError((_) => {
+      console.error("has error");
+
       done$.next(true);
       done$.complete();
       return of();
@@ -82,7 +84,7 @@ export const loopRequestByRead = <T extends ID>(
         console.info("接受报告: ", buffer);
 
       const target = parser(buffer);
-      if (result.findIndex((item) => item.id === target.id) === -1) {
+      if (buffer[0] !== 0xff && buffer[0] !== 0x03) {
         result.push(target);
       } else {
         console.info("读取列表数据: ", result);
@@ -146,11 +148,18 @@ export const requestByRead = <T>(
  * @param reportData
  * @param handler
  */
-export const requestByWrite = (device: HIDDevice, reportData: Uint8Array, handler: (ok: boolean) => void) => {
+export const requestByWrite = (
+  device: HIDDevice,
+  reportData: Uint8Array,
+  handler: (ok: boolean) => void,
+  print: boolean = false) => {
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
   input$.subscribe(({ data }) => {
+    if (print)
+      console.info("发送写入报告: ", data);
+
     handler(data.getInt8(0) === 0);
     done$.next(true);
     done$.complete();

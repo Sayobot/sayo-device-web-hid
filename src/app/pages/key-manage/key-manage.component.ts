@@ -8,11 +8,6 @@ import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
 import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
 
-interface Level {
-  id: number;
-  name: string;
-}
-
 @Component({
   templateUrl: './key-manage.component.html',
   styleUrls: ['./key-manage.component.scss'],

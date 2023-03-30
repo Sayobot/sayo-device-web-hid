@@ -1,6 +1,13 @@
 import O2Core from './const';
 import * as iconvLite from 'iconv-lite';
 
+const FUNCTION_START = 16;
+const FUNCTION_LENGTH = 6;
+const TEXT_MAX_LENGTH = 56;
+const TEXT_START = 3;
+const COLOR_START = 2;
+const COLOR_LENGTH = 10;
+
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
   let info: DeviceInfo = {
     version: data[0] * 256 + data[1],
@@ -50,7 +57,7 @@ export const SimpleKeyFromBuffer: ParserFromFunc<SimpleKey> = (data: Uint8Array)
 };
 
 export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
-  const level = data[1];
+  const length = data[1];
 
   data = data.slice(2);
 
@@ -72,8 +79,8 @@ export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
   };
 
   let functions: KeyFunction[] = [];
-  for (let i = 0; i < (level - 16) / 6; i++) {
-    const start = 16 + i * 6;
+  for (let i = 0; i < (length - FUNCTION_START) / FUNCTION_LENGTH; i++) {
+    const start = FUNCTION_START + i * FUNCTION_LENGTH;
     functions.push({
       mode: data[start],
       values: [data[start + 2], data[start + 3], data[start + 4], data[start + 5]],
@@ -101,21 +108,18 @@ export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
 };
 
 export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
-  const Max_Length = 56;
-  const Text_Start = 3;
-
   data = data.slice(2);
 
   const id = data[1];
 
   let arr = [];
 
-  for (let i = 0; i < Max_Length; i += 2) {
-    if (data[Text_Start + i] === 0) {
-      arr.push(data[Text_Start + i + 1]);
+  for (let i = 0; i < TEXT_MAX_LENGTH; i += 2) {
+    if (data[TEXT_START + i] === 0) {
+      arr.push(data[TEXT_START + i + 1]);
     } else {
-      arr.push(data[Text_Start + i + 1]);
-      arr.push(data[Text_Start + i]);
+      arr.push(data[TEXT_START + i + 1]);
+      arr.push(data[TEXT_START + i]);
     }
   }
 
@@ -126,18 +130,15 @@ export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
 };
 
 export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
-  const Max_Length = 56;
-  const Text_Start = 3;
-
   data = data.slice(2);
 
   const id = data[1];
 
   let arr = [];
 
-  for (let i = 0; i < Max_Length; i += 2) {
-    const low = data[Text_Start + i + 1];
-    const high = data[Text_Start + i];
+  for (let i = 0; i < TEXT_MAX_LENGTH; i += 2) {
+    const low = data[TEXT_START + i + 1];
+    const high = data[TEXT_START + i];
 
     if (high + low !== 0) {
       arr.push(high);
@@ -152,18 +153,32 @@ export const UnicodeFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
 };
 
 export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
+  const length = data[1];
+
   data = data.slice(2);
 
   const id = data[1];
-  const action_mode = data[2];
 
-  let light: Light = { id, mode: action_mode, values: [...data.slice(3, 12)] };
+  let colors: LightColor[] = [];
+
+  for (let i = 0; i < (length - COLOR_START) / COLOR_LENGTH; i++) {
+    const start = COLOR_START + i * COLOR_LENGTH;
+    colors.push({
+      action: data[start],
+      values: [...data.slice(start + 1, start + COLOR_LENGTH)],
+    });
+  }
+
+  let light: Light = { id, colors };
 
   return light;
 }
 
 export const LightAsBuffer: ParserAsFunc<Light> = (light: Light) => {
-  return [light.mode, ...light.values];
+  return light.colors.reduce(
+    (result: number[], color: LightColor) => result.concat([color.action, ...color.values])
+    , [])
+    .concat([0]);
 }
 
 export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
@@ -173,7 +188,7 @@ export const SimpleKeyAsBuffer: ParserAsFunc<SimpleKey> = (key: SimpleKey) => {
 };
 
 export const KeyAsBuffer: ParserAsFunc<Key> = (key: Key) => {
-  const Data_start = 13;
+  const DATA_START = FUNCTION_START - 3;
 
   const { functions } = key;
 
@@ -182,10 +197,10 @@ export const KeyAsBuffer: ParserAsFunc<Key> = (key: Key) => {
 
   for (let i = 0; i < functions.length; i++) {
     const func = functions[i];
-    data[Data_start + i * 6] = func.mode;
+    data[DATA_START + i * 6] = func.mode;
 
     for (let j = 0; j < func.values.length; j++) {
-      data[Data_start + i * 6 + j + 2] = func.values[j];
+      data[DATA_START + i * 6 + j + 2] = func.values[j];
     }
   }
 

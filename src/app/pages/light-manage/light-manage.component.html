@@ -1,24 +1,29 @@
 <mat-drawer-container [hasBackdrop]="false">
-    <mat-drawer-content>
-        <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="active?.id"
-            [keys]="(this.vkeys$ | async)!" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
+  <mat-drawer-content>
+    <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="active?.id"
+      [keys]="(this.vkeys$ | async)!" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
 
-    </mat-drawer-content>
+    <mat-button-toggle-group appearance="legacy" [(ngModel)]="level" name="level" (change)="onLevelChange()">
+      <mat-button-toggle *ngFor="let level of levels; let i = index" [value]="level.id">
+        {{ level.name | translate}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-drawer-content>
 
-    <mat-drawer #editor position="end" [mode]="'side'">
-        <ng-container *ngIf="this.active">
-          <div class="editor-header">
-            <h2 class="editor-title">
-              Id：{{ this.active.id | order }}
-            </h2>
-            <mat-icon (click)="onEditorClosed()">close</mat-icon>
-          </div>
-          <div class="editor-content">
-            <ng-container *ngIf="formData">
-              <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)">
-              </dynamix-form>
-            </ng-container>
-          </div>
+  <mat-drawer #editor position="end" [mode]="'side'">
+    <ng-container *ngIf="this.active">
+      <div class="editor-header">
+        <h2 class="editor-title">
+          Id：{{ this.active.id | order }}
+        </h2>
+        <mat-icon (click)="onEditorClosed()">close</mat-icon>
+      </div>
+      <div class="editor-content">
+        <ng-container *ngIf="formData">
+          <dynamix-form [data]="formData" (modeChanged)="onModeChanged($event)" (valueChanged)="onFormSubmit($event)">
+          </dynamix-form>
         </ng-container>
-      </mat-drawer>
+      </div>
+    </ng-container>
+  </mat-drawer>
 </mat-drawer-container>

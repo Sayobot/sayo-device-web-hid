@@ -13,6 +13,8 @@ import O2Parser from './parser';
   providedIn: 'root',
 })
 export class O2Protocol {
+  isLog = false;
+
   constructor() { }
 
   save(device: HIDDevice, handler: SetHandler) {
@@ -146,7 +148,7 @@ export class O2Protocol {
 
   set_light(device: HIDDevice, light: Light, handler: SetHandler) {
     let data = [];
-    
+
     const buffer = O2Parser.toLightBuffer(light);
 
     data[O2Core.Offset.Cmd] = O2Core.Cmd.Light;
@@ -158,8 +160,7 @@ export class O2Protocol {
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
     data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
-    console.log(data);
-    
+
     const reportData = new Uint8Array(data);
     O2Utils.requestByWrite(device, reportData, handler);
   }

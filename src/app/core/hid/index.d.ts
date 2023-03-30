@@ -68,7 +68,11 @@ declare interface SimpleKey {
 
 declare interface Light {
   id: number;
-  mode: number;
+  colors: LightColor[];
+}
+
+declare interface LightColor {
+  action: number;
   values: number[];
 }
 
@@ -83,4 +87,9 @@ declare interface IText {
   id: number;
   encode: TextEncode;
   content: string;
+}
+
+interface Level {
+  id: number;
+  name: string;
 }

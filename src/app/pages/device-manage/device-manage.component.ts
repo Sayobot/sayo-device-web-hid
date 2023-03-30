@@ -4,6 +4,8 @@ import { debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUn
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Sayo_Device_filters, Config } from "src/app/core/hid";
+import { sendReport }from "src/app/core/hid/utils"
+
 
 const isMac = () => navigator.userAgent.includes("Mac OS");
 
@@ -81,7 +83,11 @@ export class DeviceManageComponent implements OnInit {
         }),
       )
       .subscribe((_) => {
-        // set device info if device opened
+        // 以下命令会进入设备的 BootLoader
+        // sendReport(this._device.instance!, new Uint8Array([0xff,0x02,0x72,0x96, 11]));
+        // setTimeout(() => {
+        //   sendReport(this._device.instance!, new Uint8Array([0xff,0x02,0x72,0x96, 11]));
+        // }, 1000);
         this._device.updateInfo();
       });
 
