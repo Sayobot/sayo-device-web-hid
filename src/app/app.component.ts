@@ -14,15 +14,18 @@ interface Menu {
   key: Cmd;
 }
 
+const KEYBOARD_PAGE = '/key';
+const SIMPLE_KEY_PAGE = '/simplekey'
+
 const MENUS: Menu[] = [
   {
-    link: '/key',
+    link: KEYBOARD_PAGE,
     icon: 'keyboard_alt',
     name: '按键',
     key: Cmd.Key,
   },
   {
-    link: '/simplekey',
+    link: SIMPLE_KEY_PAGE,
     icon: 'keyboard_alt',
     name: '按键',
     key: Cmd.SimpleKey,
@@ -52,8 +55,6 @@ interface Lang {
   title: string;
 }
 
-const KEYBOARD_PAGE = '/key'
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -76,7 +77,11 @@ export class AppComponent implements OnDestroy {
       this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
         if (device.opened) {
           this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-          this._router.navigate([KEYBOARD_PAGE]);
+          if(this._device.isSupport(Cmd.Key)) {
+            this._router.navigate([KEYBOARD_PAGE]);
+          } else {
+            this._router.navigate([SIMPLE_KEY_PAGE]);
+          }
         }
       });
 
