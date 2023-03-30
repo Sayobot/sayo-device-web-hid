@@ -24,6 +24,11 @@ footer {
   flex: 1 1 auto;
 }
 
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+
 #google_translate_element, .skiptranslate {
   display: flex;
   justify-content: center;
@@ -36,4 +41,5 @@ footer {
 
 a {
   text-decoration: none;
+  color: white;
 }

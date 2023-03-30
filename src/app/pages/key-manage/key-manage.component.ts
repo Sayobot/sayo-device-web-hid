@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';

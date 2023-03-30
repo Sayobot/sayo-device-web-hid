@@ -19,15 +19,14 @@
       <button mat-menu-item *ngFor="let item of langs" (click)="setLanguage(item.key)">{{ item.title }}</button>
     </mat-menu>
 
-    <a mat-icon-button href="https://github.com/SoulDee/WebSayoDevice" target="_blank">
-      Github
+    <a href="https://github.com/SoulDee/WebSayoDevice" target="_blank">
+      <i class="fa-brands fa-github"></i>
     </a>
   </mat-toolbar>
 
   <div class="page-container">
     <router-outlet></router-outlet>
   </div>
-  <div id="google_translate_element"></div>
 </main>
 
 <global-loading></global-loading>
