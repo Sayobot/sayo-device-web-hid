@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { OptionControlData, OptionFormData } from './type';
 
@@ -9,7 +9,7 @@ import { OptionControlData, OptionFormData } from './type';
   styleUrls: ['./dynamix-form.component.scss'],
 })
 export class DynamixFormComponent implements OnInit, OnChanges {
-  form: FormGroup | undefined;
+  form: UntypedFormGroup | undefined;
 
   modeChange$: Subscription | undefined;
 
@@ -17,7 +17,7 @@ export class DynamixFormComponent implements OnInit, OnChanges {
   @Output() modeChanged = new EventEmitter<string>();
   @Output() valueChanged = new EventEmitter<any>();
 
-  constructor(private _fb: FormBuilder) {}
+  constructor(private _fb: UntypedFormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] !== undefined) this.updateFormGroup();
