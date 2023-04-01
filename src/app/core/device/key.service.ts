@@ -6,7 +6,6 @@ import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
 import { Cmd } from 'src/app/core/hid';
 import { ControlType, General_Keys, Linux_Keys } from '../doc';
-import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from 'src/app/shared/components/loading/loader.service';
 
@@ -76,9 +75,9 @@ export class KeyService implements O2Service<Key> {
           const modifier_string = this.getModifierName('modifier_keys', modifier);
           const general_string = this.getGeneralName(general);
 
-          if (!_.isEmpty(modifier_string) && !_.isEmpty(general_string)) {
+          if (modifier_string !== "" && general_string !== "") {
             name = `${modifier_string} + ${general_string}`;
-          } else if (!_.isEmpty(modifier_string) && _.isEmpty(general_string)) {
+          } else if (modifier_string !== "" && general_string === "") {
             name = modifier_string;
           } else {
             name = general_string;
@@ -140,7 +139,7 @@ export class KeyService implements O2Service<Key> {
       }
 
       // 移除最后一个 “ + ”
-      if (!_.isEmpty(modifier_string)) {
+      if (modifier_string !== "") {
         modifier_string = modifier_string.slice(0, -fill.length);
       }
     }
@@ -158,8 +157,8 @@ export class KeyService implements O2Service<Key> {
       }
     }
 
-    if (!_.isEmpty(name)) {
-      return _.isEmpty(name) ? "" : this._tr.instant(name);
+    if (name !== "") {
+      return this._tr.instant(name);
     }
 
     for (const key of Linux_Keys) {
@@ -169,6 +168,6 @@ export class KeyService implements O2Service<Key> {
       }
     }
 
-    return _.isEmpty(name) ? "" : this._tr.instant(name);
+    return name === "" ? name : this._tr.instant(name);
   }
 }

@@ -6,7 +6,6 @@ import { DeviceService } from '../device/device.service';
 import { Param_File_Map } from './const';
 import { Observable, zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
 
 const Param_Dir = 'assets/param';
 
@@ -79,9 +78,7 @@ export class DocService {
    * @returns
    */
   cmd(cmdCode: number) {
-    if (!_.isNumber(cmdCode)) {
-      cmdCode = Number(cmdCode);
-    }
+    cmdCode = Number(cmdCode);
 
     if (!this._main) {
       throw new Error('please init main doc');
@@ -101,11 +98,7 @@ export class DocService {
    * @returns
    */
   mode(cmdCode: number, modeCode: number) {
-    const cmd = this.cmd(cmdCode)!;
-
-    if (!_.isNumber(cmdCode)) {
-      cmdCode = Number(cmdCode);
-    }
+    const cmd = this.cmd(Number(cmdCode))!;
 
     if (!cmd.modeMap.has(modeCode)) {
       console.error(`Error: Not found mode code: ${modeCode}`);

@@ -40,9 +40,6 @@ dependencies:
   iconv-lite:
     specifier: ^0.6.3
     version: 0.6.3
-  lodash:
-    specifier: ^4.17.21
-    version: 4.17.21
   ngx-color-picker:
     specifier: ^12.0.1
     version: 12.0.1(@angular/common@15.2.5)(@angular/core@15.2.5)(@angular/forms@15.2.5)
@@ -5325,6 +5322,7 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: true
 
   /log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}

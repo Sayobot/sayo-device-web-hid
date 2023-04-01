@@ -1,7 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { randomAsciiString } from '../../../utils';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'string-edit',
