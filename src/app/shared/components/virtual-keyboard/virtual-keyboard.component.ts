@@ -1,7 +1,25 @@
 /// <reference path="./index.d.ts" />
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { KeyType } from 'src/app/core/hid';
+
+const resize = (key: VKey, zoom: number) => {
+  const { size, point } = key.pos;
+
+  key.pos = {
+    size: {
+      width: size.width * zoom,
+      height: size.height * zoom,
+      radius: size.radius * zoom,
+    },
+    point: {
+      x: point.x * zoom,
+      y: point.y * zoom,
+    },
+  };
+
+  return key;
+}
 
 @Component({
   selector: 'Virtual-Keyboard',
@@ -28,34 +46,17 @@ export class VirtualKeyboardComponent implements OnInit {
   }
   set keys(data: VKey[]) {
     if (data?.length > 0) {
-      
+
       const { size, zoom } = this.getVKeyboardInfo(data);
       this.vkeyboardSize = size;
-      
-      this._keys = data.map((item) => {
-        const size = item.pos.size;
-        const point = item.pos.point;
 
-        item.pos = {
-          size: {
-            width: size.width * zoom,
-            height: size.height * zoom,
-            radius: size.radius * zoom,
-          },
-          point: {
-            x: point.x * zoom,
-            y: point.y * zoom,
-          },
-        };
-
-        return item;
-      });
+      this._keys = data.map((key) => resize(key, zoom));
     }
   }
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   get vkeyboardStyle() {
     return {

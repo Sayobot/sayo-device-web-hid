@@ -4,6 +4,8 @@
       <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [id]="activeKey?.id" [width]="1440" [height]="720"
         [keys]="vkeys" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
     </ng-container>
+
+    <app-footer></app-footer>
   </mat-drawer-content>
 
   <mat-drawer #editor position="end" [mode]="'side'">

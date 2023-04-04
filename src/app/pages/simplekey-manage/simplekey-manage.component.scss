@@ -1,5 +1,3 @@
-@use '../../theme/const';
-
 .mat-drawer-container {
   height: 100%;
 
@@ -47,7 +45,7 @@
       color: #fff;
     }
     .mat-button-toggle-checked {
-      background: const.$warn;
+      background: var(--warn-color);
     }
   }
 }

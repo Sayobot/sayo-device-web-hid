@@ -1,8 +1,8 @@
-<div class="string-edit-continer">
+<div class="string-edit-continer" (dblclick)="onEdit()">
 
     <ng-container *ngIf="!edited">
         <div class="id">{{id}}</div>
-        <div class="text" (dblclick)="onEdit()">{{text}}</div>
+        <div class="text">{{text}}</div>
 
         <mat-icon class="edit-indicator indicator" [matTooltip]="'edit' | translate" (click)="onEdit()">edit</mat-icon>
         <mat-icon cdkDragHandle class="drag-indicator indicator" [matTooltip]="'sort by dragging' | translate">

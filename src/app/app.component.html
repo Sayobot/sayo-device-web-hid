@@ -1,20 +1,15 @@
 <main>
   <mat-toolbar color="primary" class="menu-bar">
-    <button class="menu-bar-item" mat-button routerLink="/device">
-      <mat-icon>devices</mat-icon>
-      {{ '设备' | translate }}
-    </button>
 
-    <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
-      <mat-icon>{{ menu.icon }}</mat-icon>
-      {{ menu.name | translate }}
-    </button>
+    <ng-container *ngIf="matchSmallScreen; then smallScreenMenu else largeScreenMenu"></ng-container>
 
     <span class="spacer"></span>
 
-    <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">{{ '保存到设备' | translate }}</button>
+    <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">
+      {{ '保存到设备' | translate}}</button>
 
-    <button mat-button [matMenuTriggerFor]="langMenu">{{ lang.title }}</button>
+    <button id="lang-menu-trigger" mat-button [matMenuTriggerFor]="langMenu">{{ lang.title
+      }}<mat-icon>expand_more</mat-icon></button>
     <mat-menu #langMenu="matMenu">
       <button mat-menu-item *ngFor="let item of langs" (click)="setLanguage(item.key)">{{ item.title }}</button>
     </mat-menu>
@@ -30,3 +25,31 @@
 </main>
 
 <global-loading></global-loading>
+
+<ng-template #smallScreenMenu>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button class="menu-bar-item" mat-menu-item routerLink="/device">
+      <mat-icon>devices</mat-icon>
+      {{ '设备' | translate }}
+    </button>
+    <button *ngFor="let menu of menus" class="menu-bar-item" mat-menu-item [routerLink]="menu.link">
+      <mat-icon>{{ menu.icon }}</mat-icon>
+      {{ menu.name | translate }}
+    </button>
+  </mat-menu>
+</ng-template>
+
+<ng-template #largeScreenMenu>
+  <button class="menu-bar-item" mat-button routerLink="/device">
+    <mat-icon>devices</mat-icon>
+    {{ '设备' | translate }}
+  </button>
+
+  <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
+    <mat-icon>{{ menu.icon }}</mat-icon>
+    {{ menu.name | translate }}
+  </button>
+</ng-template>

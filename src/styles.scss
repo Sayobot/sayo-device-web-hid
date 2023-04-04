@@ -1,5 +1,10 @@
 @use './app/theme/theme';
 
+:root {
+  --primary-color: #3f51b5;
+  --warn-color: #e91e63;
+}
+
 html,
 body {
   height: 100%;
@@ -8,12 +13,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-width: 400px;
 }
 
 .hidden {
@@ -29,10 +29,15 @@ footer {
 }
 
 
-#google_translate_element, .skiptranslate {
+#google_translate_element,
+.skiptranslate {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 }
 
 #google_translate_element select {
@@ -41,5 +46,4 @@ footer {
 
 a {
   text-decoration: none;
-  color: white;
 }

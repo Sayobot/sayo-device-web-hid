@@ -19,6 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -29,6 +30,7 @@ const MAT_CDK = [
 ]
 
 const MAT_COMPONENT = [
+  MatAutocompleteModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatButtonModule,

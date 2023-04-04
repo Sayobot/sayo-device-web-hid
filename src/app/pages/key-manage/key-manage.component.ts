@@ -1,5 +1,6 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
@@ -7,6 +8,7 @@ import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
 import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
+import { Breakpointer, ScreenMatch, DisplaySizeMap } from 'src/app/utils';
 
 @Component({
   templateUrl: './key-manage.component.html',
@@ -14,6 +16,9 @@ import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/comp
 })
 export class KeyManageComponent implements OnInit, OnDestroy {
   activeKey: Key | undefined;
+
+  vkeyContanerWidget = 1200;
+  drawerMode: MatDrawerMode = 'side';
 
   vkeys$ = new BehaviorSubject<VKey[]>([]);
 
@@ -27,7 +32,12 @@ export class KeyManageComponent implements OnInit, OnDestroy {
 
   @ViewChild('editor') keyEditor!: MatDrawer;
 
-  constructor(private _key: KeyService, private _doc: DocService, private _snackBar: MatSnackBar) {
+  constructor(
+    private _key: KeyService,
+    private _doc: DocService,
+    private _snackBar: MatSnackBar,
+    private _bpo: BreakpointObserver) {
+
     this._key.data$
       .pipe(
         takeUntil(this.destory$),
@@ -40,6 +50,16 @@ export class KeyManageComponent implements OnInit, OnDestroy {
         this.vkeys$.next(vkeys);
       });
 
+    this._bpo.observe(ScreenMatch).pipe(takeUntil(this.destory$)).subscribe(result => {
+      for (const query of Object.keys(result.breakpoints)) {
+        if (result.breakpoints[query]) {
+          this.vkeyContanerWidget = DisplaySizeMap[query];
+          this.drawerMode = query === Breakpointer.XSmall ? "over" : "side";
+          this.vkeys$.next([...this.vkeys$.getValue()]);
+          break;
+        }
+      }
+    })
 
     this.vkeys$.subscribe((_) => {
       setTimeout(() => {

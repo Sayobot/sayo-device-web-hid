@@ -1,5 +1,3 @@
-@use '../../../../theme/const';
-
 .selected {
-  background-color: const.$warn !important;
+  background-color: var(--warn-color) !important;
 }

@@ -20,6 +20,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { LoadingComponent } from './loading/loading.component';
 import { ColorPickerControlComponent } from './color-picker-control';
+import { FooterComponent } from './footer/footer.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -34,7 +35,8 @@ const Components = [
   GeneralKeySelectDialog,
   StringEditComponent,
   LoadingComponent,
-  ColorPickerControlComponent
+  ColorPickerControlComponent,
+  FooterComponent
 ];
 
 @NgModule({

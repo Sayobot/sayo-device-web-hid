@@ -1,41 +1,45 @@
 .string-edit-continer {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 16px;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.5rem 2rem 0.5rem 0rem;
 
-    .id {
-        flex: 0 1 36px;
-        margin-right: 24px;
-        text-align: right;
-    }
+  .id {
+    flex: 0 1 36px;
+    margin-right: 24px;
+    text-align: right;
+  }
 
-    .mat-form-field,
-    .text {
-        flex: 1 1 auto;
-        margin-right: 16px;
-    }
+  .mat-mdc-form-field {
+    margin-right: 2rem;
+  }
 
-    .indicator {
-        cursor: pointer;
-        font-size: 16px;
-        width: 16px;
-        height: 16px;
-        margin-right: 4px;
-    }
+  .mat-form-field,
+  .text {
+    flex: 1 1 auto;
+    margin-right: 16px;
+  }
 
-    .drag-indicator,
-    .edit-indicator {
-        display: none;
-    }
+  .indicator {
+    cursor: pointer;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
 
-    &:hover .drag-indicator,
-    &:hover .edit-indicator {
-        display: block;
-    }
+  .drag-indicator,
+  .edit-indicator {
+    display: none;
+  }
 
-    &:hover {
-        background: rgb(240, 240, 240);
-    }
+  &:hover .drag-indicator,
+  &:hover .edit-indicator {
+    display: block;
+  }
+
+  &:hover {
+    background: rgb(240, 240, 240);
+  }
 }

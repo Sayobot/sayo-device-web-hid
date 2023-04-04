@@ -1,14 +1,14 @@
-<ng-container *ngIf="options.length > 0">
+<ng-container *ngIf="options.length > 0 && control">
   <div class="form-control-container">
     <mat-form-field appearance="fill">
-      <mat-label>{{ label }}</mat-label>
-      <mat-select [(ngModel)]="selected" (valueChange)="onSelectChange($event)">
-        <mat-option *ngFor="let item of options" [value]="item.value">
+      <mat-label>{{label}}</mat-label>
+      <input type="text" placeholder="Pick one" matInput [formControl]="control" [matAutocomplete]="auto">
+      <mat-icon matSuffix (click)="openVKeyboard($event)">keyboard</mat-icon>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSelectChange()">
+        <mat-option *ngFor="let item of filteredOptions$ | async" [value]="item">
           {{ item.key }}
         </mat-option>
-      </mat-select>
-
-      <mat-icon matSuffix (click)="openVKeyboard($event)">keyboard</mat-icon>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 </ng-container>

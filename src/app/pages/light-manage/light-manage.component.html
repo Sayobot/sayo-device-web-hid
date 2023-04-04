@@ -1,6 +1,6 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer-content>
-    <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="1440" [height]="720" [id]="active?.id"
+    <Virtual-Keyboard #vkeyboard class="virtual-keybaord" [width]="vkeyContanerWidget" [height]="720" [id]="active?.id"
       [keys]="(this.vkeys$ | async)!" (itemClicked)="onItemClicked($event)"></Virtual-Keyboard>
 
     <mat-button-toggle-group appearance="legacy" [(ngModel)]="level" name="level" (change)="onLevelChange()">
@@ -8,9 +8,11 @@
         {{ level.name | translate}}
       </mat-button-toggle>
     </mat-button-toggle-group>
+
+    <app-footer></app-footer>
   </mat-drawer-content>
 
-  <mat-drawer #editor position="end" [mode]="'side'">
+  <mat-drawer #editor position="end" [mode]="drawerMode">
     <ng-container *ngIf="this.active">
       <div class="editor-header">
         <h2 class="editor-title">
