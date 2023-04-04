@@ -5,7 +5,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { TextService } from 'src/app/core/device/text.service';
 
 @Component({
-  selector: 'app-text-manage',
   templateUrl: './text-manage.component.html',
   styleUrls: ['./text-manage.component.scss'],
 })

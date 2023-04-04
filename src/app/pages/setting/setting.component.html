@@ -1,0 +1,33 @@
+<div class="form-container">
+  <ng-container *ngIf="form">
+    <form [formGroup]="form">
+
+      <div class="setting-item">
+        <label>数据日志</label>
+        <mat-radio-group formControlName="log">
+          <mat-radio-button value="open">Open</mat-radio-button>
+          <mat-radio-button value="close">Close</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="setting-item">
+        <label>HID 报告日志</label>
+        <mat-radio-group formControlName="HIDLog">
+          <mat-radio-button value="open">Open</mat-radio-button>
+          <mat-radio-button value="close">Close</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="setting-item">
+        <label>HID 指令面板</label>
+        <mat-radio-group formControlName="HIDInput">
+          <mat-radio-button value="open">Open</mat-radio-button>
+          <mat-radio-button value="close">Close</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+    </form>
+  </ng-container>
+</div>
+
+<app-footer></app-footer>

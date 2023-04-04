@@ -4,7 +4,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { PwdService } from 'src/app/core/device/pwd.service';
 
 @Component({
-  selector: 'app-pwd-manage',
   templateUrl: './pwd-manage.component.html',
   styleUrls: ['./pwd-manage.component.scss'],
 })

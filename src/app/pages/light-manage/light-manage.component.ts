@@ -13,7 +13,6 @@ import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/comp
 import { Breakpointer, DisplaySizeMap, ScreenMatch } from 'src/app/utils';
 
 @Component({
-  selector: 'app-light-manage',
   templateUrl: './light-manage.component.html',
   styleUrls: ['./light-manage.component.scss']
 })

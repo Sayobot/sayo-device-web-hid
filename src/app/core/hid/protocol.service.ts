@@ -13,8 +13,6 @@ import O2Parser from './parser';
   providedIn: 'root',
 })
 export class O2Protocol {
-  isLog = false;
-
   constructor() { }
 
   save(device: HIDDevice, handler: SetHandler) {

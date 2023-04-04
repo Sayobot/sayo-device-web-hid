@@ -6,6 +6,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/device', pathMatch: 'full' },
   { path: 'device', loadChildren: () => import('./pages/device-manage/device-manage.module').then((m) => m.DeviceManageModule) },
   {
+    path: 'setting',
+    loadChildren: () => import('./pages/setting/setting.module').then((m) => m.SettingModule)
+  },
+  {
     path: 'key',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/key-manage/key-manage.module').then((m) => m.KeyManageModule),
@@ -29,7 +33,7 @@ const routes: Routes = [
     path: 'light',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/light-manage/light-manage.module').then(m => m.LightManageModule)
-  },
+  }
 ];
 
 @NgModule({

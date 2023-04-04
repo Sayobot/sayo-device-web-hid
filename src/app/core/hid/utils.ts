@@ -7,12 +7,9 @@ import { Cmd, Config, Method, Offset } from './const';
  * @param reportData
  * @returns
  */
-export const sendReport = (device: HIDDevice, reportData: Uint8Array, print = false) => {
+export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
   if (!device) throw new Error("could not connect device.");
   if (!device.opened) throw new Error("could not open device.");
-
-  if (print)
-    console.info("发送报告：", reportData);
 
   return device.sendReport(Config.reportId, reportData);
 };
@@ -59,7 +56,6 @@ export const loopRequestByRead = <T extends ID>(
   cmd: Cmd,
   parser: (data: Uint8Array) => T,
   handler: (data: T[]) => void,
-  print = false
 ) => {
   let result: T[] = [];
 
@@ -68,8 +64,6 @@ export const loopRequestByRead = <T extends ID>(
     takeUntil(done$),
     timeout(100),
     catchError((_) => {
-      console.error("has error");
-
       done$.next(true);
       done$.complete();
       return of();
@@ -79,16 +73,10 @@ export const loopRequestByRead = <T extends ID>(
   input$.subscribe((report: HIDInputReportEvent) => {
     if (report.data !== undefined) {
       const buffer = new Uint8Array(report.data.buffer);
-
-      if (print)
-        console.info("接受报告: ", buffer);
-
       const target = parser(buffer);
       if (buffer[0] !== 0xff && buffer[0] !== 0x03) {
         result.push(target);
       } else {
-        console.info("读取列表数据: ", result);
-
         done$.next(true);
         done$.complete();
       }
@@ -97,7 +85,7 @@ export const loopRequestByRead = <T extends ID>(
 
   const request$ = interval(Config.period).pipe(
     takeUntil(done$),
-    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id), print)),
+    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id))),
   );
 
   request$.subscribe();
@@ -118,8 +106,7 @@ export const requestByRead = <T>(
   device: HIDDevice,
   reportData: Uint8Array,
   parser: (data: Uint8Array) => T,
-  handler: (data: T) => void,
-  print = false
+  handler: (data: T) => void
 ) => {
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
@@ -127,23 +114,18 @@ export const requestByRead = <T>(
   input$.subscribe(({ data }) => {
     const buffer = new Uint8Array(data.buffer);
 
-    if (print)
-      console.info("接受报告: ", buffer);
-
     const result = parser(buffer);
     handler(result);
-
-    console.info("读取数据: ", result);
 
     done$.next(true);
     done$.complete();
   });
 
-  sendReport(device, reportData, print);
+  sendReport(device, reportData);
 };
 
 /**
- *
+ * 写入设备
  * @param device
  * @param reportData
  * @param handler
@@ -151,15 +133,13 @@ export const requestByRead = <T>(
 export const requestByWrite = (
   device: HIDDevice,
   reportData: Uint8Array,
-  handler: (ok: boolean) => void,
-  print: boolean = false) => {
+  handler: (ok: boolean) => void
+) => {
+
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
   input$.subscribe(({ data }) => {
-    if (print)
-      console.info("发送写入报告: ", data);
-
     handler(data.getInt8(0) === 0);
     done$.next(true);
     done$.complete();

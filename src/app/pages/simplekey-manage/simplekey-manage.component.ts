@@ -9,7 +9,6 @@ import { Cmd } from 'src/app/core/hid';
 import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
 
 @Component({
-  selector: 'app-simplekey-manage',
   templateUrl: './simplekey-manage.component.html',
   styleUrls: ['./simplekey-manage.component.scss'],
 })

@@ -1,0 +1,19 @@
+app-footer {
+  margin-top: 5rem;
+}
+
+.form-container {
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  .setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .mat-mdc-radio-button {
+    margin-right: 2rem;
+  }
+}
