@@ -1,4 +1,4 @@
-import { catchError, fromEvent, interval, of, Subject, switchMap, takeUntil, timeout } from 'rxjs';
+import { catchError, fromEvent, interval, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
 import { Cmd, Config, Method, Offset } from './const';
 
 /**
@@ -53,9 +53,7 @@ export const makeReadBuffer = (cmd: Cmd, id: number) => {
  */
 export const loopRequestByRead = <T extends ID>(
   device: HIDDevice,
-  cmd: Cmd,
-  parser: (data: Uint8Array) => T,
-  handler: (data: T[]) => void,
+  option: ReadListOption<T>
 ) => {
   let result: T[] = [];
 
@@ -63,7 +61,8 @@ export const loopRequestByRead = <T extends ID>(
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(
     takeUntil(done$),
     timeout(100),
-    catchError((_) => {
+    catchError((e) => {
+      console.error(e.message);
       done$.next(true);
       done$.complete();
       return of();
@@ -73,25 +72,41 @@ export const loopRequestByRead = <T extends ID>(
   input$.subscribe((report: HIDInputReportEvent) => {
     if (report.data !== undefined) {
       const buffer = new Uint8Array(report.data.buffer);
-      const target = parser(buffer);
+
+      if (option.HIDLog) {
+        console.log("HID Read Response:", option.key, buffer);
+      }
+
+      const target = option.parser(buffer);
       if (buffer[0] !== 0xff && buffer[0] !== 0x03) {
         result.push(target);
       } else {
+
+        if (option.log) {
+          console.log("Read Response: ", option.key, result);
+        }
+
         done$.next(true);
         done$.complete();
       }
     }
   });
 
-  const request$ = interval(Config.period).pipe(
+  interval(Config.period).pipe(
     takeUntil(done$),
-    switchMap((id) => sendReport(device, makeReadBuffer(cmd, id))),
-  );
+    switchMap((id) => {
+      const buffer = makeReadBuffer(option.cmd, id);
 
-  request$.subscribe();
+      if (option.HIDLog) {
+        console.log("HID Read Request:", option.key, buffer);
+      }
+
+      return sendReport(device, buffer);
+    }),
+  ).subscribe();
 
   done$.subscribe((done) => {
-    if (done) handler(result);
+    if (done) option.handler(result);
   });
 };
 
@@ -104,9 +119,7 @@ export const loopRequestByRead = <T extends ID>(
  */
 export const requestByRead = <T>(
   device: HIDDevice,
-  reportData: Uint8Array,
-  parser: (data: Uint8Array) => T,
-  handler: (data: T) => void
+  option: ReadItemOption<T>
 ) => {
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
@@ -114,14 +127,27 @@ export const requestByRead = <T>(
   input$.subscribe(({ data }) => {
     const buffer = new Uint8Array(data.buffer);
 
-    const result = parser(buffer);
-    handler(result);
+    if (option.HIDLog) {
+      console.log("HID Read Response:", option.key, buffer);
+    }
+
+    const result = option.parser(buffer);
+
+    if (option.log) {
+      console.log("Read Response:", option.key, result);
+    }
+
+    option.handler(result);
 
     done$.next(true);
     done$.complete();
   });
 
-  sendReport(device, reportData);
+  if (option.HIDLog) {
+    console.log("HID Read Request:", option.key, option.buffer);
+  }
+
+  sendReport(device, option.buffer);
 };
 
 /**
@@ -132,20 +158,31 @@ export const requestByRead = <T>(
  */
 export const requestByWrite = (
   device: HIDDevice,
-  reportData: Uint8Array,
-  handler: (ok: boolean) => void
+  option: WriteItemOption
 ) => {
 
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
   input$.subscribe(({ data }) => {
-    handler(data.getInt8(0) === 0);
+    const ok = data.getInt8(0) === 0;
+
+    if (option.HIDLog) {
+      ok ?
+        console.log("HID Write Response: ", option.key, "succesful") :
+        console.error("HID Write Response: ", option.key, "failure");
+    }
+
+    option.handler(ok);
     done$.next(true);
     done$.complete();
   });
 
-  sendReport(device, reportData);
+  if (option.HIDLog) {
+    console.log("HID Write Request:", option.key, option.buffer);
+  }
+
+  sendReport(device, option.buffer);
 };
 
 export default {

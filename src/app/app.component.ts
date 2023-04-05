@@ -4,9 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { DeviceService } from './core/device/device.service';
 import { DocService } from './core/doc/doc.service';
-import { Cmd } from './core/hid';
+import { Cmd, O2Protocol } from './core/hid';
 import { Router } from "@angular/router";
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Settings } from './core/device/settings.service';
 
 interface Menu {
   link: string;
@@ -74,15 +75,22 @@ export class AppComponent implements OnDestroy {
 
   constructor(private http: HttpClient,
     private _device: DeviceService,
+    private _protocol: O2Protocol,
     private _tr: TranslateService,
     private _doc: DocService,
     private _router: Router,
+    private _settings: Settings,
     private _bpo: BreakpointObserver) {
 
-    this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$)).subscribe(result => {
-      this.matchSmallScreen = result.breakpoints[SMALL_SCREEN];
-    })
+    this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
+      .subscribe(result => {
+        this.matchSmallScreen = result.breakpoints[SMALL_SCREEN];
+      })
 
+    this._settings.storage$.pipe(takeUntil(this.destory$)).subscribe(result => {
+      this._protocol.setLogEnable(result["log"] === "open");
+      this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
+    })
 
     if (navigator.hid) {
       this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {

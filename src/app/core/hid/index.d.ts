@@ -81,6 +81,32 @@ declare interface Password {
   content: string;
 }
 
+declare interface ReadListOption<T> {
+  cmd: number;
+  key: string;
+  parser: ParserFromFunc<T>;
+  handler: GetHandler<T[]>;
+  log: boolean;
+  HIDLog: boolean;
+}
+
+declare interface ReadItemOption<T> {
+  cmd: number;
+  key: string;
+  buffer: Uint8Array,
+  parser: ParserFromFunc<T>;
+  handler: GetHandler<T>;
+  log: boolean;
+  HIDLog: boolean;
+}
+
+declare interface WriteItemOption {
+  key: string;
+  buffer: Uint8Array,
+  handler: SetHandler;
+  HIDLog: boolean;
+}
+
 type TextEncode = 'GBK' | 'Unicode';
 
 declare interface IText {
@@ -93,3 +119,4 @@ interface Level {
   id: number;
   name: string;
 }
+
