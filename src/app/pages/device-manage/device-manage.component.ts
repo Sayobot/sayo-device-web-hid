@@ -4,8 +4,6 @@ import { debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUn
 import { DeviceService } from 'src/app/core/device/device.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Sayo_Device_filters, Config } from "src/app/core/hid";
-import { sendReport }from "src/app/core/hid/utils"
-
 
 const isMac = () => navigator.userAgent.includes("Mac OS");
 
@@ -28,14 +26,8 @@ export class DeviceManageComponent implements OnInit {
     this.select$
       .pipe(
         takeUntil(this.destory$),
-
-        // wait 100ms if clicked
         debounceTime(100),
-
-        // request hid device list
         switchMap((_) => navigator.hid.requestDevice({ filters: Sayo_Device_filters })),
-
-        // get first device
         map((devices: HIDDevice[]) => {
 
           let target: HIDDevice | null = null;
@@ -62,14 +54,8 @@ export class DeviceManageComponent implements OnInit {
 
           return target;
         }),
-
-        // check is changed
         distinctUntilChanged(),
-
-        // set select device to service
         tap((device: HIDDevice) => this._device.setDevice(device)),
-
-        // open select device
         switchMap(async (device: HIDDevice) => {
           if(device && !device.opened) {
 
@@ -86,11 +72,6 @@ export class DeviceManageComponent implements OnInit {
         }),
       )
       .subscribe((_) => {
-        // 以下命令会进入设备的 BootLoader
-        // sendReport(this._device.instance!, new Uint8Array([0xff,0x02,0x72,0x96, 11]));
-        // setTimeout(() => {
-        //   sendReport(this._device.instance!, new Uint8Array([0xff,0x02,0x72,0x96, 11]));
-        // }, 1000);
         this._device.updateInfo();
       });
 

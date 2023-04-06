@@ -54,6 +54,13 @@ const MENUS: Menu[] = [
   },
 ];
 
+const HIDMenu: Menu = {
+  link: "hid-report",
+  icon: "code",
+  name: "HID",
+  key: 0
+}
+
 interface Lang {
   key: string;
   title: string;
@@ -90,19 +97,36 @@ export class AppComponent implements OnDestroy {
     this._settings.storage$.pipe(takeUntil(this.destory$)).subscribe(result => {
       this._protocol.setLogEnable(result["log"] === "open");
       this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
+
+      if (this._device.isConnected()) {
+        const menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+
+        if (result["HIDInput"] === "open") {
+          menus.push(HIDMenu);
+        }
+
+        this.menus = [...menus];
+      }
     })
 
     if (navigator.hid) {
-      this._device.device$.pipe(takeUntil(this.destory$)).subscribe((device: HIDDevice) => {
-        if (device.opened) {
-          this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-          if (this._device.isSupport(Cmd.Key)) {
-            this._router.navigate([KEYBOARD_PAGE]);
-          } else {
-            this._router.navigate([SIMPLE_KEY_PAGE]);
+      this._device.device$
+        .pipe(takeUntil(this.destory$))
+        .subscribe((device: HIDDevice) => {
+          if (device.opened) {
+            this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+
+            if(this._settings.get("HIDInput") === "open") {
+              this.menus.push(HIDMenu);
+            }
+
+            if (this._device.isSupport(Cmd.Key)) {
+              this._router.navigate([KEYBOARD_PAGE]);
+            } else {
+              this._router.navigate([SIMPLE_KEY_PAGE]);
+            }
           }
-        }
-      });
+        });
 
       this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json').subscribe((res) => {
         this.langs = res.languages;

@@ -20,8 +20,8 @@ export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
  * @param checkBit
  * @returns
  */
-export const calcChecksum = (data: number[], checkBit: number) => {
-  return (data.slice(0, checkBit).reduce((sum, n) => sum + n) + Config.checkSumStepSize) % 256;
+export const calcChecksum = (data: number[]) => {
+  return (data.reduce((sum, n) => sum + n) + Config.checkSumStepSize) % 256;
 };
 
 /**
@@ -38,7 +38,7 @@ export const makeReadBuffer = (cmd: Cmd, id: number) => {
   reportData[Offset.Size] = Config.cmdSize;
   reportData[Offset.Method] = Method.Read;
   reportData[Offset.Id] = id;
-  reportData[checkOffset] = calcChecksum(reportData, checkOffset);
+  reportData[checkOffset] = calcChecksum(reportData.slice(0, checkOffset));
 
   return new Uint8Array(reportData);
 };

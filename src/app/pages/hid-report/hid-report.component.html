@@ -1,0 +1,30 @@
+<div class="page-container">
+  <div class="input-container">
+    <mat-form-field appearance="fill" floatLabel="always">
+      <input matInput #cmdInput [formControl]="control">
+      <span matTextPrefix class="pid">{{pid}}</span>
+      <div matTextSuffix class="checkSum">
+        {{checkSum}}
+        <mat-icon *ngIf="cmdInput.value.length > 0" class="clear-icon" (click)="cmdInput.value = ''">cancel</mat-icon>
+        <mat-icon class="send-icon" (click)="sendReport()">send</mat-icon>
+      </div>
+
+      <mat-hint>请输入十六进制值，通过空格隔开，不需要输入 pid 和 校验和。</mat-hint>
+      <mat-error *ngIf="control?.errors?.['required']">值不能为空</mat-error>
+      <mat-error *ngIf="control?.errors?.['HEXInvalid']">请输入正确的格式，值应该为十六进制，以空格隔开</mat-error>
+    </mat-form-field>
+  </div>
+  <textarea class="response" disabled [value]="response"></textarea>
+
+  <div class="quicker-container">
+    <h2>点击快捷填入</h2>
+    <mat-action-list>
+      <button mat-list-item class="quicker" *ngFor="let item of quicks" (click)="setData(item.value)">
+        <span class="content">
+          <mat-icon>arrow_forward</mat-icon>
+          <b>{{item.name}}</b>:&nbsp;&nbsp;&nbsp;{{item.value}}
+        </span>
+      </button>
+    </mat-action-list>
+  </div>
+</div>

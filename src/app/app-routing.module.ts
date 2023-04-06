@@ -10,6 +10,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/setting/setting.module').then((m) => m.SettingModule)
   },
   {
+    path: 'hid-report',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/hid-report/hid-report.module').then((m) => m.HidReportModule)
+  },
+  {
     path: 'key',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/key-manage/key-manage.module').then((m) => m.KeyManageModule),

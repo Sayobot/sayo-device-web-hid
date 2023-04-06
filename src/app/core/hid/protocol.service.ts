@@ -33,7 +33,7 @@ export class O2Protocol {
     let data = [O2Core.Cmd.Save, O2Core.Config.cmdSize, 0x72, 0x96];
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Save to device",
@@ -159,7 +159,7 @@ export class O2Protocol {
     data = data.concat(O2Parser.toSimpleBuffer(key));
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Simple Key",
@@ -186,7 +186,7 @@ export class O2Protocol {
     data = data.concat(O2Parser.toKeyBuffer(key));
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Key",
@@ -212,7 +212,7 @@ export class O2Protocol {
     data = data.concat(O2Parser.toPasswordBuffer(pwd));
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Password",
@@ -239,7 +239,7 @@ export class O2Protocol {
     data = data.concat(O2Parser.toGBKBuffer(text));
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "GBK",
@@ -268,7 +268,7 @@ export class O2Protocol {
     data = data.concat(buffer);
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Unicode",
@@ -296,7 +296,7 @@ export class O2Protocol {
     data = data.concat(buffer);
 
     const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
-    data[checkOffset] = O2Utils.calcCheckSum(data, checkOffset);
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
 
     const option: WriteItemOption = {
       key: "Light",
