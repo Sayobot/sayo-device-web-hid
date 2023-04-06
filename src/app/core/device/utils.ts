@@ -1,4 +1,4 @@
-import { BehaviorSubject, interval, pipe, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export const setItemHandler = <T extends ID>(data$: BehaviorSubject<T[]>, data: T, ok: boolean) => {
   if (ok) {
@@ -19,20 +19,8 @@ export const setItemHandler = <T extends ID>(data$: BehaviorSubject<T[]>, data: 
   }
 };
 
-export const loopRequestO2Service = (services: O2Service<any>[]) => {
-  let done$ = new Subject();
-  let count = 0;
-
-  interval(500).pipe(takeUntil(done$)).subscribe(() => {
-    if(count < services.length) {
-      if(services[count].isSupport()) {
-        services[count].init();
-      }
-
-      count++;
-    } else {
-      done$.next(true);
-      done$.complete();
-    }
-  });
+export const loopRequestO2Service = async (services: O2Service<any>[]) => {
+  for(let i = 0; i < services.length; i++) {
+    await services[i].init();
+  }
 }

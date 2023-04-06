@@ -13,16 +13,22 @@ export class PwdService implements O2Service<Password> {
 
   constructor(private _device: DeviceService, private _o2p: O2Protocol, private _loader: LoaderService) { }
 
-  init() {
-    if (!this._device.isConnected()) return;
+  init(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this._device.isConnected()) {
+        reject("device not connect.");
+      } else {
+        console.info("初始化密码数据");
 
-    console.info("初始化密码数据");
-
-    this._loader.loading();
-    this._o2p.get_pwd(this._device.instance!, (pwds) => {
-      this.data$.next(pwds);
-      this._loader.complete();
+        this._loader.loading();
+        this._o2p.get_pwd(this._device.instance!, (pwds) => {
+          this.data$.next(pwds);
+          resolve("init password successful.");
+          this._loader.complete();
+        });
+      }
     });
+
   }
 
   setItem(pwd: Password) {

@@ -4,6 +4,7 @@ import { Cmd, O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { KeyService } from './key.service';
 import { setItemHandler } from './utils';
+import { LoaderService } from 'src/app/shared/components/loading/loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,25 @@ import { setItemHandler } from './utils';
 export class SimpleKeyService implements O2Service<SimpleKey> {
   data$ = new BehaviorSubject<SimpleKey[]>([]);
 
-  constructor(private _device: DeviceService, private o2p: O2Protocol, private _key: KeyService) { }
+  constructor(private _device: DeviceService, private o2p: O2Protocol, private _key: KeyService, private _loader: LoaderService) { }
 
-  init() {
-    if (!this._device.isConnected()) return;
+  init(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this._device.isConnected()) {
+        reject("device not connect.");
+      } else {
+        this._loader.loading();
 
-    this.o2p.get_simplekey(this._device.instance!, (data: SimpleKey[]) => this.data$.next(data));
+        this.o2p.get_simplekey(this._device.instance!, (data: SimpleKey[]) => {
+          this.data$.next(data);
+          resolve("init simple key successful.");
+          this._loader.complete();
+        });
+      }
+    });
+
+
+
   }
 
   setItem(key: SimpleKey) {

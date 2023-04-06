@@ -15,29 +15,35 @@ export class TextService implements O2Service<IText> {
 
   constructor(private _device: DeviceService, private o2p: O2Protocol, private _loader: LoaderService) { }
 
-  init() {
-    if (!this._device.isConnected()) return;
+  init(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this._device.isConnected()) {
+        reject("device not connect.");
+      } else {
+        console.info('初始化字符串数据');
 
-    console.info('初始化字符串数据');
-
-    this._loader.loading();
-    switch (this.encode) {
-      case 'GBK':
-        this.o2p.get_gbk(this._device.instance!, (data: IText[]) => {
-          this.data$.next(data);
-          this._loader.complete();
-        });
-        break;
-      case 'Unicode':
-        this.o2p.get_unicode(this._device.instance!, (data: IText[]) => {
-          this.data$.next(data);
-          this._loader.complete();
-        });
-        break;
-      default:
-        console.error('不支持的文本编码格式：', this.encode);
-        break;
-    }
+        this._loader.loading();
+        switch (this.encode) {
+          case 'GBK':
+            this.o2p.get_gbk(this._device.instance!, (data: IText[]) => {
+              this.data$.next(data);
+              resolve("init GBK successful.");
+              this._loader.complete();
+            });
+            break;
+          case 'Unicode':
+            this.o2p.get_unicode(this._device.instance!, (data: IText[]) => {
+              this.data$.next(data);
+              resolve("init Unicode successful.");
+              this._loader.complete();
+            });
+            break;
+          default:
+            console.error('不支持的文本编码格式：', this.encode);
+            break;
+        }
+      }
+    });
   }
 
   isSupport() {

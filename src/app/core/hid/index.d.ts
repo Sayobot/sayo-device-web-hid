@@ -1,5 +1,5 @@
 declare interface O2Service<T> {
-  init(): void;
+  init(): Promise<string>;
   setItem(data: T): void;
   isSupport(): boolean;
 }
@@ -86,6 +86,7 @@ declare interface ReadListOption<T> {
   key: string;
   parser: ParserFromFunc<T>;
   handler: GetHandler<T[]>;
+  lock: O2Lock;
   log: boolean;
   HIDLog: boolean;
 }
@@ -120,3 +121,10 @@ interface Level {
   name: string;
 }
 
+declare interface O2Lock {
+  setLogEnable(ok: boolean): void;
+  isLock(): boolean;
+  lock(): boolean;
+  unlock(): boolean;
+  counter(): number;
+}

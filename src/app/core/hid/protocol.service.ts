@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import O2Core from './const';
 import O2Utils from './utils';
 import O2Parser from './parser';
+import { lockFactory } from './lock';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,8 @@ import O2Parser from './parser';
 export class O2Protocol {
   private _log = false;
   private _hidLog = false;
+
+  private lock = lockFactory("HID Request");
 
   constructor() { }
 
@@ -51,7 +54,7 @@ export class O2Protocol {
       buffer: reportData,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
     }
 
     O2Utils.requestByRead(device, option);
@@ -64,7 +67,8 @@ export class O2Protocol {
       parser: O2Parser.asSimpleKey,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);
@@ -77,7 +81,8 @@ export class O2Protocol {
       parser: O2Parser.asKey,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);
@@ -90,7 +95,8 @@ export class O2Protocol {
       parser: O2Parser.asPassword,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);
@@ -103,7 +109,8 @@ export class O2Protocol {
       parser: O2Parser.asGBK,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);
@@ -116,7 +123,8 @@ export class O2Protocol {
       parser: O2Parser.asUnicode,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);
@@ -129,7 +137,8 @@ export class O2Protocol {
       parser: O2Parser.asLight,
       handler: handler,
       log: this._log,
-      HIDLog: this._hidLog
+      HIDLog: this._hidLog,
+      lock: this.lock,
     }
 
     O2Utils.loopRequestByRead(device, option);

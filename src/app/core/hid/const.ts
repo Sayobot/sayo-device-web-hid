@@ -11,8 +11,7 @@ export const Config = {
   vendorId: 0x8089,
   reportId: 0x02,
 
-  checkSumStepSize: 2,
-  period: 10,
+  checkSumStepSize: 2
 };
 
 export enum Offset {

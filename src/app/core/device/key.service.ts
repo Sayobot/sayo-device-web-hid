@@ -18,28 +18,33 @@ export class KeyService implements O2Service<Key> {
   constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService,
     private _tr: TranslateService, private _loader: LoaderService) { }
 
-  init() {
-    if (!this._device.isConnected()) return;
+  init(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this._device.isConnected()) {
+        reject("device not connect.");
+      } else {
+        this._loader.loading();
+        this._o2p.get_key(this._device.instance!, (data: Key[]) => {
+          // filter size empty key
+          const newDatas = data
+            .filter((key => key.pos.size.width !== 0))
+            .map((key) => {
+              let newKey = key;
+              for (let i = 0; i < newKey.functions.length; i++) {
+                if (!this._doc.modeHas(Cmd.SimpleKey, newKey.functions[i].mode)) {
+                  newKey.functions[i].mode = 0;
+                }
+              }
 
-    this._loader.loading();
-    this._o2p.get_key(this._device.instance!, (data: Key[]) => {
-      // filter size empty key
-      const newDatas = data
-        .filter((key => key.pos.size.width !== 0))
-        .map((key) => {
-          let newKey = key;
-          for (let i = 0; i < newKey.functions.length; i++) {
-            if (!this._doc.modeHas(Cmd.SimpleKey, newKey.functions[i].mode)) {
-              newKey.functions[i].mode = 0;
-            }
-          }
+              return newKey;
+            });
 
-          return newKey;
+          this.data$.next(newDatas);
+          resolve("init key successful.")
+          this._loader.complete();
         });
-
-      this.data$.next(newDatas);
-      this._loader.complete();
-    });
+      }
+    })
   }
 
   setItem(key: Key) {

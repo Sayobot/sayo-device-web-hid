@@ -1,4 +1,4 @@
-import { catchError, fromEvent, interval, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
+import { catchError, filter, fromEvent, interval, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
 import { Cmd, Config, Method, Offset } from './const';
 
 /**
@@ -55,6 +55,8 @@ export const loopRequestByRead = <T extends ID>(
   device: HIDDevice,
   option: ReadListOption<T>
 ) => {
+  const lock = option.lock;
+  let id = 0;
   let result: T[] = [];
 
   const done$ = new Subject<boolean>();
@@ -70,6 +72,8 @@ export const loopRequestByRead = <T extends ID>(
   );
 
   input$.subscribe((report: HIDInputReportEvent) => {
+    lock.unlock();
+
     if (report.data !== undefined) {
       const buffer = new Uint8Array(report.data.buffer);
 
@@ -92,11 +96,13 @@ export const loopRequestByRead = <T extends ID>(
     }
   });
 
-  interval(Config.period).pipe(
+  interval(1).pipe(
     takeUntil(done$),
-    switchMap((id) => {
+    filter(() => !lock.isLock()),
+    switchMap((_) => {
+      lock.lock();
       const buffer = makeReadBuffer(option.cmd, id);
-
+      id++;
       if (option.HIDLog) {
         console.log("HID Read Request:", option.key, buffer);
       }
