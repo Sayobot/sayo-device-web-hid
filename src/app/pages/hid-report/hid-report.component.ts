@@ -21,10 +21,10 @@ const format = (n: number) => {
 const Quicks = [
   { name: "设备数据", value: "00 00" },
   { name: "按键V1 ID 0", value: "06 02 00 00" },
-  { name: "按键V2 ID 0", value: "22 02 00 00" },
-  { name: "密码 ID 0", value: "11 02 00 00" },
-  { name: "字符串 ID 0", value: "12 02 00 00" },
-  { name: "灯光 ID 0", value: "16 02 00 00" },
+  { name: "按键V2 ID 0", value: "16 02 00 00" },
+  { name: "密码 ID 0", value: "0B 02 00 00" },
+  { name: "字符串 ID 0", value: "0C 02 00 00" },
+  { name: "灯光 ID 0", value: "10 02 00 00" },
   { name: "Bootloader", value: "ff 02 72 96" },
 ]
 
@@ -50,6 +50,7 @@ export class HidReportComponent implements OnInit {
   constructor(private _device: DeviceService) {
     this.control.valueChanges.subscribe(value => {
       if (value) {
+
         const sum = calcChecksum(value.trim().split(" ").map(hex => parseInt(hex, 16)));
 
         this.checkSum = format(sum);

@@ -21,6 +21,7 @@ export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
  * @returns
  */
 export const calcChecksum = (data: number[]) => {
+
   return (data.reduce((sum, n) => sum + n) + Config.checkSumStepSize) % 256;
 };
 
