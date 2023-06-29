@@ -13,7 +13,7 @@ const isMac = () => navigator.userAgent.includes("Mac OS");
 })
 export class DeviceManageComponent implements OnInit {
 
-  hasMacPermission = true;
+  hasMacPermission = false;
 
   select$ = new Subject<void>();
 
@@ -61,6 +61,7 @@ export class DeviceManageComponent implements OnInit {
 
           try {
             await device.open();
+            this.hasMacPermission = true;
           } catch (error) {
             if(isMac()) {
               this.hasMacPermission = false;

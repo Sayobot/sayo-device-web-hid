@@ -144,6 +144,47 @@ export class O2Protocol {
     O2Utils.loopRequestByRead(device, option);
   }
 
+  get_option_byte(device: HIDDevice, handler: GetHandler<DeviceOption[]>) {
+    const option: ReadListOption<DeviceOption> = {
+      key: "Device Option",
+      cmd: O2Core.Cmd.Option,
+      parser: O2Parser.asOption,
+      handler: handler,
+      log: this._log,
+      HIDLog: this._hidLog,
+      lock: this.lock,
+    }
+
+    O2Utils.loopRequestByRead(device, option);
+  }
+
+  set_option_byte(device: HIDDevice, deviceOpt: DeviceOption, handler: SetHandler) {
+    if (this._log) {
+      console.log("Write Request: ", "Option Byte", deviceOpt);
+    }
+
+    let data = [];
+
+    data[O2Core.Offset.Cmd] = O2Core.Cmd.Option;
+    data[O2Core.Offset.Size] = 8;
+    data[O2Core.Offset.Method] = O2Core.Method.Write;
+    data[O2Core.Offset.Id] = deviceOpt.id;
+
+    data = data.concat(O2Parser.toOptionByte(deviceOpt));
+
+    const checkOffset = data[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
+    data[checkOffset] = O2Utils.calcCheckSum(data.slice(0, checkOffset));
+
+    const option: WriteItemOption = {
+      key: "Option Byte",
+      buffer: new Uint8Array(data),
+      handler: handler,
+      HIDLog: this._hidLog
+    }
+
+    O2Utils.requestByWrite(device, option);
+  }
+
   set_simplekey(device: HIDDevice, key: SimpleKey, handler: SetHandler) {
     if (this._log) {
       console.log("Write Request: ", "Simple Key", key);

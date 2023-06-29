@@ -24,6 +24,17 @@
                     ]
                 },
                 {
+                    "name": "短按长按2功能",
+                    "code": 1,
+                    "note": "",
+                    "values": [
+                        "modifier_keys.json",
+                        "general_keys.json",
+                        "modifier_keys.json",
+                        "general_keys.json"
+                    ]
+                },
+                {
                     "name": "鼠标模式",
                     "code": 2,
                     "note": "完整的鼠标控制，包括光标和按键",
@@ -51,15 +62,6 @@
                         "general_keys.json",
                         "modifier_keys.json",
                         "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器-轴",
-                    "code": 5,
-                    "note": "",
-                    "values": [
-                        "joystick.json",
-                        "u8.json"
                     ]
                 },
                 {
@@ -92,17 +94,6 @@
                     ]
                 },
                 {
-                    "name": "一键字符",
-                    "code": 9,
-                    "note": "",
-                    "values": [
-                        "unicode_text_2.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json"
-                    ]
-                },
-                {
                     "name": "自锁模式",
                     "code": 10,
                     "note": "按一下自动按住，再按一下取消",
@@ -116,16 +107,8 @@
                     "code": 11,
                     "note": "",
                     "values": [
-                        "mu_keys.json"
-                    ]
-                },
-                {
-                    "name": "未命名",
-                    "code": 12,
-                    "note": "",
-                    "values": [
-                        "general_keys.json",
-                        "general_keys.json"
+                        "mu_keys.json",
+                        "n.json"
                     ]
                 },
                 {
@@ -135,7 +118,8 @@
                     "values": [
                         "pwd.json",
                         "general_keys.json",
-                        "pwd_interval_time.json"
+                        "pwd_interval_time.json",
+                        "u8.json"
                     ]
                 },
                 {
@@ -150,7 +134,7 @@
                     ]
                 },
                 {
-                    "name": "Custom mode",
+                    "name": "Custom mode(Do not use)",
                     "code": 16,
                     "note": "",
                     "values": [
@@ -561,6 +545,22 @@
                         "no_more.json",
                         "keep_on_time.json",
                         "no_more.json"
+                    ]
+                },
+                {
+                    "name": "渐变一次",
+                    "code": 5,
+                    "note": "",
+                    "values": [
+                        "led_mode_color.json",
+                        "led_mode_speed.json",
+                        "led_submode.json",
+                        "color2arr_lock.json",
+                        "no_more.json",
+                        "no_more.json",
+                        "keep_on_time.json",
+                        "no_more.json",
+                        "color_table.json"
                     ]
                 },
                 {

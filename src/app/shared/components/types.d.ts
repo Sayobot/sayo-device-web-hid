@@ -1,4 +1,4 @@
-import { ControlType } from "src/app/core/doc";
+import { ControlType } from "./dynamix-form";
 
 export interface OptionControlData {
   type: ControlType;
@@ -15,7 +15,7 @@ export interface OptionFormData {
   params: OptionControlData[];
 }
 
-export interface FormData {
+export interface DynamixFormData {
   mode: string;
   params: string[];
 }

@@ -5,9 +5,10 @@ import { O2Protocol } from '../hid';
 import { DeviceService } from './device.service';
 import { setItemHandler } from './utils';
 import { Cmd } from 'src/app/core/hid';
-import { ControlType, General_Keys, Linux_Keys } from '../doc';
+import { General_Keys, Linux_Keys } from '../doc';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from 'src/app/shared/components/loading/loader.service';
+import { ControlType } from 'src/app/shared/components/dynamix-form';
 
 @Injectable({
   providedIn: 'root',

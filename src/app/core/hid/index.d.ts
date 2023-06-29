@@ -81,6 +81,11 @@ declare interface Password {
   content: string;
 }
 
+declare interface DeviceOption {
+  id: number;
+  values: number[]
+}
+
 declare interface ReadListOption<T> {
   cmd: number;
   key: string;

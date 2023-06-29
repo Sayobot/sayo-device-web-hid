@@ -1,0 +1,57 @@
+<ng-container *ngIf="param" [ngSwitch]="param.type">
+  <!-- Switch -->
+  <div *ngSwitchCase="'switch'" class="form-control-switch">
+    <label>{{ param.key }}:</label>
+    <mat-radio-group (ngModelChange)="valueChange($event)" [ngModel]="result">
+      <mat-radio-button *ngFor="let item of param.options" [value]="item.value">{{ item.key }}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!-- Input number -->
+  <div *ngSwitchCase="'input'">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ param.key }}</mat-label>
+      <input type="number" [ngModel]="result" (ngModelChange)="valueChange($event)" matInput />
+    </mat-form-field>
+  </div>
+
+  <!-- Color -->
+  <color-picker-control *ngSwitchCase="'color'" [ngModel]="result" (ngModelChange)="valueChange($event)"></color-picker-control>
+
+  <!-- Common -->
+  <div *ngSwitchCase="'common'">
+    <general-key-select-control [label]="param.key" [options]="param.options" [ngModel]="result" (ngModelChange)="valueChange($event)">
+    </general-key-select-control>
+  </div>
+
+  <!-- Select -->
+  <div *ngSwitchCase="'select'">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ param.key }}</mat-label>
+      <mat-select [ngModel]="result" (ngModelChange)="valueChange($event)">
+        <mat-option *ngFor="let item of param.options" [value]="item.value">
+          {{ item.key }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Multi -->
+  <div *ngSwitchCase="'multi'">
+    <multi-select-control [ngModel]="result" (ngModelChange)="valueChange($event)" [label]="param.key" [options]="param.options">
+    </multi-select-control>
+  </div>
+
+  <!-- String -->
+  <div *ngSwitchCase="'string'">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ param.key }}</mat-label>
+      <input [ngModel]="result" (ngModelChange)="valueChange($event)" matInput />
+    </mat-form-field>
+  </div>
+
+  <!-- Empty -->
+  <div *ngSwitchCase="'empty'"></div>
+
+  <div *ngSwitchDefault>Not match control type.</div>
+</ng-container>

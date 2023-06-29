@@ -7,7 +7,7 @@
     "data": [
         {
             "code": 1,
-            "name": "启动延时"
+            "name": "上电启动延时"
         },
         {
             "code": 2,
@@ -15,7 +15,19 @@
         },
         {
             "code": 4,
-            "name": "KVM兼容模式"
+            "name": "KVM Compatibility mode"
+        },
+        {
+            "code": 8,
+            "name": "禁用灯光"
+        },
+        {
+            "code": 16,
+            "name": "surface dial mode"
+        },
+        {
+            "code": 32,
+            "name": "AZERTY keyboard"
         }
     ]
 }

@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class MultiSelectControlComponent implements ControlValueAccessor {
   @Input() label = 'label';
   @Input() options: { key: string; value: string }[] = [];
+  @Output() valueChange = new EventEmitter<string>();
 
   selected: string[] = [];
 

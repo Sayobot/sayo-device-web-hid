@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { OptionControlData, OptionFormData } from './type';
+import { OptionControlData, OptionFormData } from '../types';
 
 @Component({
   selector: 'dynamix-form',
@@ -17,13 +17,13 @@ export class DynamixFormComponent implements OnInit, OnChanges {
   @Output() modeChanged = new EventEmitter<string>();
   @Output() valueChanged = new EventEmitter<any>();
 
-  constructor(private _fb: UntypedFormBuilder) {}
+  constructor(private _fb: UntypedFormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] !== undefined) this.updateFormGroup();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
     this.valueChanged.emit(this.form?.value);
@@ -44,9 +44,10 @@ export class DynamixFormComponent implements OnInit, OnChanges {
         params: createParams(this.data.params),
       });
 
-      this.modeChange$ = this.form.controls['mode'].valueChanges.subscribe((code) => {
-        this.modeChanged.emit(code);
-      });
+      this.modeChange$ = this.form.controls['mode'].valueChanges
+        .subscribe((code) => {
+          this.modeChanged.emit(code);
+        });
     }
   }
 }

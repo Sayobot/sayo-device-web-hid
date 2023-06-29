@@ -6,10 +6,10 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
 import { LightService } from 'src/app/core/device/light.service';
 import { loopRequestO2Service } from 'src/app/core/device/utils';
-import { ControlType } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd, KeyType, LightMode } from 'src/app/core/hid';
-import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
+import { ControlType } from 'src/app/shared/components/dynamix-form';
+import { DynamixFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/types';
 import { Breakpointer, DisplaySizeMap, ScreenMatch } from 'src/app/utils';
 
 @Component({
@@ -139,7 +139,7 @@ export class LightManageComponent implements OnInit {
     }
   }
 
-  onFormSubmit(data: FormData) {
+  onFormSubmit(data: DynamixFormData) {
     if (this.active) {
       let values = [];
       const modeDoc = this._doc.mode(Cmd.Light, Number(data.mode));

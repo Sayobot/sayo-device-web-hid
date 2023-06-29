@@ -1,10 +1,8 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { GeneralKeySelectDialog } from './general-key-select-dialog/general-key-select-dialog.component';
-import { map, Observable, of } from 'rxjs';
-
-const isString = (obj: any) => obj.toString().includes("string");
+import { map, Observable } from 'rxjs';
 
 interface Option {
   key: string;
@@ -22,6 +20,8 @@ const Reg_Char = "+?*${}[]().\^|";
 export class GeneralKeySelectControlComponent implements ControlValueAccessor {
   @Input() label = 'label';
   @Input() options: Option[] = [];
+
+  @Output() valueChange = new EventEmitter<string>();
 
   filteredOptions$: Observable<Option[]>;
 

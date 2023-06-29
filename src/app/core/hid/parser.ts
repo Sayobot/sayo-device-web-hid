@@ -8,13 +8,18 @@ const TEXT_START = 3;
 const COLOR_START = 2;
 const COLOR_LENGTH = 10;
 
+const SUPPORT_START = 10;
+
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
+
+
   let info: DeviceInfo = {
     version: data[0] * 256 + data[1],
     mode: 'app',
     name: '',
-    api: [...new Set(data.slice(8, data[1]))],
+    api: [...new Set(data.slice(SUPPORT_START, SUPPORT_START + data[1]))],
   };
+  console.log(info);
 
   // remove simplekey if has key
   if (info.api.includes(O2Core.Cmd.SimpleKey) && info.api.includes(O2Core.Cmd.Key)) {
@@ -174,6 +179,19 @@ export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
   return light;
 }
 
+export const OptionFromBuffer: ParserFromFunc<DeviceOption> = (data: Uint8Array) => {
+  let result: DeviceOption = {
+    id: 0,
+    values: [...data.slice(5)]
+  }
+
+  return result;
+};
+
+export const OptionAsBuffer: ParserAsFunc<DeviceOption> = (option: DeviceOption) => {
+  return [0, ...option.values];
+}
+
 export const LightAsBuffer: ParserAsFunc<Light> = (light: Light) => {
   return light.colors.reduce(
     (result: number[], color: LightColor) => result.concat([color.action, ...color.values])
@@ -268,6 +286,7 @@ export default {
   asKey: KeyFromBuffer,
   asSimpleKey: SimpleKeyFromBuffer,
   asLight: LightFromBuffer,
+  asOption: OptionFromBuffer,
 
   // data to buffer
   toGBKBuffer: GbkAsBuffer,
@@ -275,5 +294,6 @@ export default {
   toPasswordBuffer: PwdAsBuffer,
   toSimpleBuffer: SimpleKeyAsBuffer,
   toKeyBuffer: KeyAsBuffer,
-  toLightBuffer: LightAsBuffer
+  toLightBuffer: LightAsBuffer,
+  toOptionByte: OptionAsBuffer
 }

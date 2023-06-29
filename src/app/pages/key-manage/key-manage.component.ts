@@ -4,10 +4,11 @@ import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { KeyService } from 'src/app/core/device/key.service';
-import { ControlType, General_Keys, Linux_Keys } from 'src/app/core/doc';
+import { General_Keys, Linux_Keys } from 'src/app/core/doc';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
-import { FormData, OptionControlData, OptionFormData } from 'src/app/shared/components/dynamix-form';
+import { ControlType } from 'src/app/shared/components/dynamix-form';
+import { DynamixFormData, OptionControlData, OptionFormData } from 'src/app/shared/components/types';
 import { Breakpointer, ScreenMatch, DisplaySizeMap } from 'src/app/utils';
 
 @Component({
@@ -126,7 +127,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormSubmit(data: FormData) {
+  onFormSubmit(data: DynamixFormData) {
     if (this.activeKey) {
       this.activeKey.functions[this.level] = {
         mode: Number(data.mode),
@@ -156,38 +157,7 @@ export class KeyManageComponent implements OnInit, OnDestroy {
       const { mode, values } = this.activeKey?.functions[level]!;
       const { files } = this._doc.mode(Cmd.SimpleKey, mode)!;
 
-      let params = [];
-
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-
-        let data: OptionControlData = {
-          type: this._doc.controlType(file)!,
-          key: this._doc.param(file)?.title!,
-          value: String(values[i]),
-          options: [],
-        };
-
-        if (data.type === ControlType.Common) {
-          data.options.push({ key: 'None', value: String('0') });
-
-          for (const { code, name } of General_Keys) {
-            data.options.push({ key: name, value: String(code) });
-          }
-
-          for (const { code, name } of Linux_Keys) {
-            data.options.push({ key: name, value: String(code) });
-          }
-        } else {
-          for (const [code, name] of this._doc.param(file)?.optionMap!) {
-            data.options.push({ key: name, value: String(code) });
-          }
-        }
-
-        params.push(data);
-      }
-
-      return params;
+      return this._doc.createControlData(files, values);
     };
 
     this.formData = {

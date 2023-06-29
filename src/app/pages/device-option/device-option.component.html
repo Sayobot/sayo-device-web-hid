@@ -1,0 +1,8 @@
+<div class="container" *ngIf="params.length > 0 && form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ng-container formArrayName="options">
+        <dynamix-form-field *ngFor="let param of params; let i = index" [param]="param" [formControlName]="i"></dynamix-form-field>
+      </ng-container>
+    <button class="submit-button" mat-raised-button color="primary">Ok</button>
+  </form>
+</div>

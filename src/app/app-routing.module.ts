@@ -38,6 +38,11 @@ const routes: Routes = [
     path: 'light',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/light-manage/light-manage.module').then(m => m.LightManageModule)
+  },
+  {
+    path: "device-option",
+    canActivate: [AuthGuard],
+    loadChildren: () => import("./pages/device-option/device-option.module").then(m => m.DeviceOptionModule)
   }
 ];
 

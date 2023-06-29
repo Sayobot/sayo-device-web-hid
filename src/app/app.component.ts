@@ -52,6 +52,12 @@ const MENUS: Menu[] = [
     name: '灯光',
     key: Cmd.Light,
   },
+  {
+    link: '/device-option',
+    icon: 'settings_suggest',
+    name: "设备选项",
+    key: Cmd.Option
+  }
 ];
 
 const HIDMenu: Menu = {

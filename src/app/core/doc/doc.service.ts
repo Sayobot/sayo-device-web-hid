@@ -3,11 +3,65 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
-import { Param_File_Map } from './const';
 import { Observable, zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { ControlType } from 'src/app/shared/components/dynamix-form';
+import { OptionControlData } from 'src/app/shared/components/types';
+import { General_Keys, Linux_Keys } from './const';
 
 const Param_Dir = 'assets/param';
+
+const Param_File_Map: Map<string, ControlType> = new Map([
+  ["auto_enter", ControlType.Switch],
+  ["color_table", ControlType.Param],
+  ["color2arr_lock", ControlType.Color],
+  ["color2arr", ControlType.Color],
+  ["consumer_control", ControlType.Select],
+  ["general_keys", ControlType.Common],
+  ["indicator_light", ControlType.Select],
+  ["joystick_key", ControlType.Select],
+  ["joystick", ControlType.Select],
+  ["kb_led_off", ControlType.Select],
+  ["kb_led_on", ControlType.Select],
+  ["keep_off_time", ControlType.Param],
+  ["keep_on_time", ControlType.Param],
+  ["keys_switch", ControlType.Select],
+  ["led_ctrl", ControlType.Select],
+  ["led_mode_color", ControlType.Select],
+  ["led_mode_speed", ControlType.Select],
+  ["led_submode", ControlType.Select],
+  ["modifier_keys", ControlType.Multi],
+  ["mouse_keys", ControlType.Multi],
+  ["mouse_scroll", ControlType.Param],
+  ["mouse_x", ControlType.Param],
+  ["mouse_xy", ControlType.Select],
+  ["mouse_y", ControlType.Param],
+  ["mu_keys", ControlType.Select],
+  ["no_more", ControlType.Empty],
+  ["ok_string", ControlType.Select],
+  ["parameter", ControlType.Select],
+  ["pwd_interval_time", ControlType.Param],
+  ["pwd", ControlType.Select],
+  ["reg", ControlType.Select],
+  ["signed_char", ControlType.Param],
+  ["smjb", ControlType.Param],
+  ["u8", ControlType.Param],
+  ["u8roll", ControlType.Param],
+  ["u8rollx256", ControlType.Param],
+  ["u8rollx8", ControlType.Param],
+  ["u16", ControlType.Param],
+  ["x1", ControlType.Param],
+  ["x256", ControlType.Param],
+  ["unicode_text_2", ControlType.String],
+  ["mini_opt_1", ControlType.Multi],
+  ["key_delay", ControlType.Param],
+  ["mini_opt_2", ControlType.Multi],
+  ["std_opt_HID_report", ControlType.Multi],
+  ["control_option", ControlType.Select],
+  ["sleep_timeout", ControlType.Param],
+  ["wireless_mode", ControlType.Select],
+  ["indicator_light_timeout", ControlType.Param],
+]);
 
 @Injectable({
   providedIn: 'root',
@@ -128,6 +182,41 @@ export class DocService {
     }
 
     return Param_File_Map.get(file);
+  }
+
+  createControlData(files: string[], values: number[]) {
+    let control_data: OptionControlData[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      let data: OptionControlData = {
+        type: this.controlType(file)!,
+        key: this.param(file)?.title!,
+        value: String(values[i]),
+        options: [],
+      };
+
+      if (data.type === ControlType.Common) {
+        data.options.push({ key: 'None', value: String('0') });
+
+        for (const { code, name } of General_Keys) {
+          data.options.push({ key: name, value: String(code) });
+        }
+
+        for (const { code, name } of Linux_Keys) {
+          data.options.push({ key: name, value: String(code) });
+        }
+      } else {
+        for (const [code, name] of this.param(file)?.optionMap!) {
+          data.options.push({ key: name, value: String(code) });
+        }
+      }
+
+      control_data.push(data);
+    }
+
+    return control_data;
   }
 
   private _parseParamDoc(json: ParamJson) {

@@ -33,7 +33,8 @@ export enum Cmd {
   Key = 0x16,
   SimpleKey = 0x06,
   Password = 0x0B,
-  Text = 0x0C
+  Text = 0x0C,
+  Option = 0xfc
 }
 
 export enum LightMode {
