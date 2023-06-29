@@ -12,7 +12,7 @@
 
     <ng-container formArrayName="params">
       <dynamix-form-field *ngFor="let param of data?.params; let i = index" [param]="param" [formControlName]="i"></dynamix-form-field>
-    </ng-container> >
+    </ng-container>
 
     <button class="submit-button" mat-raised-button color="primary">Submit</button>
   </form>

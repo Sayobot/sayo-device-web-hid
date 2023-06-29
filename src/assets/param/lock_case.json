@@ -1,0 +1,17 @@
+{
+  "version":"1.0",
+  "title":"锁定大小写",
+  "multiple_choice":false,
+  "input_type":"choice",
+  "defVal":0,
+  "data":[
+      {
+          "code":0,
+          "name":"关"
+      },
+      {
+          "code":1,
+          "name":"开"
+      }
+  ]
+}
