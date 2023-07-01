@@ -8,16 +8,19 @@ const TEXT_START = 3;
 const COLOR_START = 2;
 const COLOR_LENGTH = 10;
 
-const SUPPORT_START = 10;
+const SUPPORT_START = 8;
 
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
 
+  const length = data[1];
+
+  data = data.slice(2);
 
   let info: DeviceInfo = {
     version: data[0] * 256 + data[1],
     mode: 'app',
     name: '',
-    api: [...new Set(data.slice(SUPPORT_START, SUPPORT_START + data[1]))],
+    api: [...new Set(data.slice(SUPPORT_START, SUPPORT_START + length))],
   };
   console.log(info);
 

@@ -9,10 +9,11 @@ import { ControlType } from 'src/app/shared/components/dynamix-form';
 import { OptionControlData } from 'src/app/shared/components/types';
 import { General_Keys, Linux_Keys } from './const';
 
-const Param_Dir = 'assets/param';
+const PARAM_DIRECTION = 'assets/param';
 
-const Param_File_Map: Map<string, ControlType> = new Map([
+const PARAM_MAP_CONTROL_TYPE: Map<string, ControlType> = new Map([
   ["n", ControlType.Param],
+  ['layout_azerty', ControlType.Switch],
   ["lock_case", ControlType.Switch],
   ["auto_enter", ControlType.Switch],
   ["color_table", ControlType.Param],
@@ -72,7 +73,11 @@ export class DocService {
   private _main?: DocMain;
   private _paramMap: Map<string, DocParam> = new Map();
 
-  constructor(private http: HttpClient, private _tr: TranslateService, private device: DeviceService) {
+  constructor(
+    private http: HttpClient,
+    private _tr: TranslateService,
+    private device: DeviceService
+  ) {
     this.device.device$.subscribe(() => {
       this.load(device.filename());
     });
@@ -84,13 +89,13 @@ export class DocService {
   loadParamDoc() {
     const requests: Observable<ParamJson>[] = [];
 
-    for (const file of Param_File_Map.keys()) {
-      const req = this.http.get<ParamJson>(`${Param_Dir}/${file}.json`);
+    for (const file of PARAM_MAP_CONTROL_TYPE.keys()) {
+      const req = this.http.get<ParamJson>(`${PARAM_DIRECTION}/${file}.json`);
       requests.push(req);
     }
 
     zip(requests).subscribe((res) => {
-      const files = Array.from(Param_File_Map.keys());
+      const files = Array.from(PARAM_MAP_CONTROL_TYPE.keys());
       for (let i = 0; i < files.length; i++) {
         let doc = this._parseParamDoc(res[i]);
         doc.title = this._tr.instant(doc.title);
@@ -105,7 +110,7 @@ export class DocService {
    * @param file
    */
   load(file: string = 'main.json') {
-    const subscribe = this.http.get<MainJson>(`${Param_Dir}/${file}`).subscribe((res) => {
+    const subscribe = this.http.get<MainJson>(`${PARAM_DIRECTION}/${file}`).subscribe((res) => {
       console.info(`加载选项数据: ${file}`);
 
       subscribe.unsubscribe();
@@ -121,7 +126,7 @@ export class DocService {
   param(key: string) {
     if (key.endsWith('.json')) key = key.slice(0, key.length - 5);
 
-    if (!Param_File_Map.has(key)) {
+    if (!PARAM_MAP_CONTROL_TYPE.has(key)) {
       console.error(`Error: Not found param file: ${key}`);
     }
 
@@ -179,11 +184,11 @@ export class DocService {
       file = file.slice(0, file.length - 5);
     }
 
-    if (!Param_File_Map.has(file)) {
+    if (!PARAM_MAP_CONTROL_TYPE.has(file)) {
       console.error(`Error: Not found param file: ${file}`);
     }
 
-    return Param_File_Map.get(file);
+    return PARAM_MAP_CONTROL_TYPE.get(file);
   }
 
   createControlData(files: string[], values: number[]) {

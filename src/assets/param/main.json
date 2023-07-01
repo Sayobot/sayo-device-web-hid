@@ -2277,7 +2277,7 @@
                 }
             ]
         },
-        
+
         {
             "title": "电池",
             "cmd": "api_code",
@@ -2303,7 +2303,7 @@
                 }
             ]
         },
-        
+
         {
             "title": "选项字节",
             "cmd": "api_code",
@@ -2330,7 +2330,8 @@
                         "no_more.json",
                         "no_more.json",
                         "no_more.json",
-                        "wireless_mode.json"
+                        "wireless_mode.json",
+                        "layout_azerty.json"
                     ]
                 }
             ]

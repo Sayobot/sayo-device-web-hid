@@ -49,8 +49,9 @@ export class DeviceService {
 
     this._o2p.get_metaInfo(this.instance, (info: DeviceInfo) => {
       this.info = info;
-      console.log("功能支持:", this.info.api);
-      
+
+      console.log("设备信息: ", info);
+
       this.device$.next(this.instance!);
     });
   }
