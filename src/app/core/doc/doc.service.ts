@@ -12,6 +12,7 @@ import { General_Keys, Linux_Keys } from './const';
 const Param_Dir = 'assets/param';
 
 const Param_File_Map: Map<string, ControlType> = new Map([
+  ["n", ControlType.Param],
   ["lock_case", ControlType.Switch],
   ["auto_enter", ControlType.Switch],
   ["color_table", ControlType.Param],
