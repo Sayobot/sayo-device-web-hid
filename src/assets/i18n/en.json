@@ -648,5 +648,6 @@
   "指示灯超时(秒)": "indicator_light_timeout(seconds)",
   "如果您的操作系统是 Mac OS，请打开输入监听权限。": "If your operating system is Mac OS, please turn on input listening permission.",
   "请使用支持 Web HID 的浏览器，支持列表可查询": "Please use a support Web HID browser, the support list can be queried",
-  "锁定大小写": "lock case"
+  "锁定大小写": "lock case",
+  "当前设备有新固件可以更新!": "The current device has new firmware can be updated!"
 }

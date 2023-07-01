@@ -17,8 +17,9 @@ export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array)
   data = data.slice(2);
 
   let info: DeviceInfo = {
+    pid: 0,
     version: data[0] * 256 + data[1],
-    mode: 'app',
+    mode_code: data[2] * 256 + data[3],
     name: '',
     api: [...new Set(data.slice(SUPPORT_START, SUPPORT_START + length))],
   };

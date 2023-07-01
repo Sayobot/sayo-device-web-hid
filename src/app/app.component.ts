@@ -8,6 +8,8 @@ import { Cmd, O2Protocol } from './core/hid';
 import { Router } from "@angular/router";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
+import { FirmwareService } from './core/device/firmware.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Menu {
   link: string;
@@ -87,50 +89,40 @@ export class AppComponent implements OnDestroy {
   destory$ = new Subject<void>();
 
   constructor(private http: HttpClient,
+    private _firmware: FirmwareService,
     private _device: DeviceService,
     private _protocol: O2Protocol,
     private _tr: TranslateService,
     private _doc: DocService,
     private _router: Router,
     private _settings: Settings,
-    private _bpo: BreakpointObserver) {
+    private _bpo: BreakpointObserver,
+    private _snackbar: MatSnackBar
+  ) {
 
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
       .subscribe(result => {
         this.matchSmallScreen = result.breakpoints[SMALL_SCREEN];
       })
 
-    this._settings.storage$.pipe(takeUntil(this.destory$)).subscribe(result => {
-      this._protocol.setLogEnable(result["log"] === "open");
-      this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
+    this._settings.storage$
+      .pipe(takeUntil(this.destory$)).subscribe(result => {
+        this._protocol.setLogEnable(result["log"] === "open");
+        this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
 
-      if (this._device.isConnected()) {
-        const menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-
-        if (result["HIDInput"] === "open") {
-          menus.push(HIDMenu);
+        if (this._device.isConnected()) {
+          this.menus = [...this.createMenus()];
         }
-
-        this.menus = [...menus];
-      }
-    })
+      })
 
     if (navigator.hid) {
       this._device.device$
         .pipe(takeUntil(this.destory$))
         .subscribe((device: HIDDevice) => {
           if (device.opened) {
-            this.menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-
-            if(this._settings.get("HIDInput") === "open") {
-              this.menus.push(HIDMenu);
-            }
-
-            if (this._device.isSupport(Cmd.Key)) {
-              this._router.navigate([KEYBOARD_PAGE]);
-            } else {
-              this._router.navigate([SIMPLE_KEY_PAGE]);
-            }
+            this.menus = [...this.createMenus()];
+            this.toFirstPage();
+            this.checkVersion();
           }
         });
 
@@ -144,6 +136,39 @@ export class AppComponent implements OnDestroy {
       const tip = `${this._tr.instant("请使用支持 Web HID 的浏览器，支持列表可查询")}:${url}`;
       alert(tip);
     }
+  }
+
+  async checkVersion() {
+    const yes = await this._firmware.hasNewVersino(this._device.info());
+
+    if (yes) {
+      const ref = this._snackbar.open(this._tr.instant("当前设备有新固件可以更新!"), "Download", {
+        horizontalPosition: "right",
+        verticalPosition: "top",
+      });
+
+      ref.afterDismissed().subscribe(_ => {
+        this._firmware.download();
+      })
+    }
+  }
+
+  private toFirstPage() {
+    if (this._device.isSupport(Cmd.Key)) {
+      this._router.navigate([KEYBOARD_PAGE]);
+    } else {
+      this._router.navigate([SIMPLE_KEY_PAGE]);
+    }
+  }
+
+  private createMenus() {
+    let menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
+
+    if (this._settings.get("HIDInput") === "open") {
+      menus.push(HIDMenu);
+    }
+
+    return menus;
   }
 
   ngOnDestroy(): void {

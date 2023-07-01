@@ -26,9 +26,10 @@ declare interface ID {
 
 declare interface DeviceInfo {
   version: number;
-  mode: 'app';
+  mode_code: number;
   api: number[];
   name: string;
+  pid: number;
 }
 
 declare interface Point {

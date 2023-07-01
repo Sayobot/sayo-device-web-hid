@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { DeviceService } from 'src/app/core/device/device.service';
 import { KeyService } from 'src/app/core/device/key.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Cmd } from 'src/app/core/hid';
@@ -34,7 +33,6 @@ export class KeyManageComponent implements OnInit, OnDestroy {
   @ViewChild('editor') keyEditor!: MatDrawer;
 
   constructor(
-    private _device: DeviceService,
     private _key: KeyService,
     private _doc: DocService,
     private _snackBar: MatSnackBar,
@@ -146,15 +144,9 @@ export class KeyManageComponent implements OnInit, OnDestroy {
 
   private _updateFormData() {
     const getModeOptions = () => {
-      const { version } = this._device.info!;
-
       let options = [];
       for (const [code, mode] of this._doc.cmd(Cmd.SimpleKey)?.modeMap!) {
-        if (version > 75 && code === 8) {
-          // TDOD: 此处根据版本移除一键密码 v1，重新设计 Web HID 的 json 机制来避免这样的特殊处理
-        } else {
-          options.push({ key: mode.name, value: String(code) });
-        }
+        options.push({ key: mode.name, value: String(code) });
       }
 
       return options;

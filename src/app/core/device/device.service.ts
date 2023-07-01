@@ -6,7 +6,7 @@ import { O2Protocol } from '../hid';
   providedIn: 'root',
 })
 export class DeviceService {
-  info?: DeviceInfo;
+  _info?: DeviceInfo;
   instance?: HIDDevice;
 
   device$ = new ReplaySubject<HIDDevice>(1);
@@ -16,15 +16,19 @@ export class DeviceService {
   constructor(private _o2p: O2Protocol) {}
 
   isSupport(code: number) {
-    if (!this.instance || !this.info) return false;
-    return this.info.api.includes(code);
+    if (!this.instance || !this._info) return false;
+    return this._info.api.includes(code);
+  }
+
+  info() {
+    return this._info!;
   }
 
   setDevice(device: HIDDevice) {
     if (device) {
       if (device !== this.instance) {
         this.instance = device;
-        console.info('连接设备: ', this.instance.productName);
+        console.info('连接设备: ', this.instance);
       } else {
         console.error('请选择其他设备');
       }
@@ -48,7 +52,9 @@ export class DeviceService {
     if (!this.instance) return;
 
     this._o2p.get_metaInfo(this.instance, (info: DeviceInfo) => {
-      this.info = info;
+      this._info = info;
+
+      this._info.pid = this.instance?.productId!;
 
       console.log("设备信息: ", info);
 
