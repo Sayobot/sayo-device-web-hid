@@ -102,9 +102,12 @@ export class SimplekeyManageComponent implements OnInit, OnDestroy {
     const getModeOptions = () => {
       const { version } = this._device._info!;
 
+      // 多媒体控制 | 一键密码
+      const HIGH_VERSION_DISABLE = [3, 8];
+
       let options = [];
       for (const [code, mode] of this._doc.cmd(Cmd.SimpleKey)?.modeMap!) {
-        if (version > 75 && code === 8) {
+        if (version > 75 && HIGH_VERSION_DISABLE.includes(code)) {
           // TDOD: 此处根据版本移除一键密码 v1，重新设计 Web HID 的 json 机制来避免这样的特殊处理
         } else {
           options.push({ key: mode.name, value: String(code) });

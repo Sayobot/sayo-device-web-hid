@@ -1,15 +1,12 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { GeneralKeySelectDialog } from './general-key-select-dialog/general-key-select-dialog.component';
-import { map, Observable } from 'rxjs';
 
 interface Option {
   key: string;
   value: string;
 }
-
-const Reg_Char = "+?*${}[]().\^|";
 
 @Component({
   selector: 'general-key-select-control',
@@ -23,39 +20,23 @@ export class GeneralKeySelectControlComponent implements ControlValueAccessor {
 
   @Output() valueChange = new EventEmitter<string>();
 
-  filteredOptions$: Observable<Option[]>;
-
-  onChange = (code: string) => { };
+  onChange = (_: string) => { };
   onTouched = () => { };
   touched = false;
   disabled = false;
 
-  control = new FormControl<Option | string>("");
+  displayText = "";
+  result = "";
 
-  constructor(private _dialog: MatDialog) {
-    this.filteredOptions$ = this.control.valueChanges.pipe(map(val => {
-
-      if (typeof val === "string") {
-        const str = (val as string).split("").map(char => Reg_Char.includes(char) ? `\${char}` : char).join("");
-        const reg = new RegExp(str, "i");
-        return this.options.filter(option => reg.test(option.key));
-      } else {
-        return this.options
-      }
-    }));
-  }
+  constructor(private _dialog: MatDialog) { }
 
   ngOnInit(): void { }
 
-  openVKeyboard(event: MouseEvent) {
-    event.stopPropagation();
-
-    const { value } = this.control.value as Option;
-
+  openVKeyboard() {
     const ref = this._dialog
       .open(GeneralKeySelectDialog, {
         width: '1200px',
-        data: { value },
+        data: { value: this.result },
       })
       .afterClosed()
       .subscribe((res: { code: string } | undefined) => {
@@ -63,27 +44,24 @@ export class GeneralKeySelectControlComponent implements ControlValueAccessor {
           const fetch = this.options.find(option => option.value === res.code);
 
           if (fetch) {
-            this.control.setValue(fetch);
-            this.onChange(res.code);
+            this.displayText = fetch.key;
+            this.result = res.code;
+            this.onChange(this.result);
           }
         }
         ref.unsubscribe();
       });
   }
-
-  displayFn(option: Option) {
-    return option && option.key ? option.key : "";
-  }
-
-  onSelectChange() {
-    const { value } = this.control.value as Option;
-    this.onChange(value);
+  onClickIcon(event: MouseEvent) {
+    event.stopPropagation();
+    this.openVKeyboard();
   }
 
   writeValue(val: string): void {
     const fetch = this.options.find(option => option.value === val);
     if (fetch) {
-      this.control.setValue(fetch);
+      this.displayText = fetch.key;
+      this.result = fetch.value;
     }
   }
 

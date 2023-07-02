@@ -1,5 +1,10 @@
 .form-control-container {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.input {
+  cursor: pointer;
 }
