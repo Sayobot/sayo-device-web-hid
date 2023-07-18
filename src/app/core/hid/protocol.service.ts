@@ -166,7 +166,7 @@ export class O2Protocol {
     let data = [];
 
     data[O2Core.Offset.Cmd] = O2Core.Cmd.Option;
-    data[O2Core.Offset.Size] = 8;
+    data[O2Core.Offset.Size] = deviceOpt.values.length;
     data[O2Core.Offset.Method] = O2Core.Method.Write;
     data[O2Core.Offset.Id] = deviceOpt.id;
 

@@ -26,6 +26,7 @@ const Quicks = [
   { name: "字符串 ID 0", value: "0C 02 00 00" },
   { name: "灯光 ID 0", value: "10 02 00 00" },
   { name: "Bootloader", value: "ff 02 72 96" },
+  { name: "恢复出厂", value: "4f 02 72 96"},
 ]
 
 @Component({

@@ -6,7 +6,7 @@
     "subtype":"int",
     "min":1,
     "max":255,
-    "defVal":0,
+    "defVal":10,
     "data":[
         {
             "code":0,

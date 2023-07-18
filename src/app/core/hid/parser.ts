@@ -23,7 +23,6 @@ export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array)
     name: '',
     api: [...new Set(data.slice(SUPPORT_START, SUPPORT_START + length))],
   };
-  console.log(info);
 
   // remove simplekey if has key
   if (info.api.includes(O2Core.Cmd.SimpleKey) && info.api.includes(O2Core.Cmd.Key)) {
@@ -184,6 +183,7 @@ export const LightFromBuffer: ParserFromFunc<Light> = (data: Uint8Array) => {
 }
 
 export const OptionFromBuffer: ParserFromFunc<DeviceOption> = (data: Uint8Array) => {
+
   let result: DeviceOption = {
     id: 0,
     values: [...data.slice(5)]

@@ -43,6 +43,7 @@ export class DeviceOptionComponent implements OnInit {
   }
 
   updateParams(values: number[]) {
+
     const { files } = this._doc.mode(Cmd.Option, 0)!;
 
     this.params = [...this._doc.createControlData(files, values)];

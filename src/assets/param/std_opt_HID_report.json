@@ -3,7 +3,7 @@
     "title":"HID功能",
     "multiple_choice":true,
     "input_type":"choice",
-    "defVal":0,
+    "defVal":3,
     "data": [
         {
             "code": 1,

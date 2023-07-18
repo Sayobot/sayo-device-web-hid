@@ -59,14 +59,8 @@ export class DeviceManageComponent implements OnInit {
         switchMap(async (device: HIDDevice) => {
           if(device && !device.opened) {
 
-          try {
             await device.open();
-            this.hasMacPermission = true;
-          } catch (error) {
-            if(isMac()) {
-              this.hasMacPermission = false;
-            }
-          }
+            this.hasMacPermission = isMac() && device.opened;
           }
 
           return of();
