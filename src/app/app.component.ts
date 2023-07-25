@@ -10,6 +10,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
 import { FirmwareService } from './core/device/firmware.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { FirmwareUpdateDialogComponent } from './shared/components/firmware-update-dialog/firmware-update-dialog.component';
 
 interface Menu {
   link: string;
@@ -88,7 +90,8 @@ export class AppComponent implements OnDestroy {
 
   destory$ = new Subject<void>();
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private _firmware: FirmwareService,
     private _device: DeviceService,
     private _protocol: O2Protocol,
@@ -97,7 +100,8 @@ export class AppComponent implements OnDestroy {
     private _router: Router,
     private _settings: Settings,
     private _bpo: BreakpointObserver,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private _dialog: MatDialog
   ) {
 
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
@@ -142,13 +146,12 @@ export class AppComponent implements OnDestroy {
     const yes = await this._firmware.hasNewVersino(this._device.info());
 
     if (yes) {
-      const ref = this._snackbar.open(this._tr.instant("当前设备有新固件可以更新!"), "Download", {
-        horizontalPosition: "right",
-        verticalPosition: "top",
-      });
+      const ref = this._dialog.open(FirmwareUpdateDialogComponent);
 
-      ref.afterDismissed().subscribe(_ => {
-        this._firmware.download();
+      ref.afterClosed().subscribe((state) => {
+        if(state) {
+          this._firmware.download();
+        }
       })
     }
   }

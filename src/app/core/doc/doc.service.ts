@@ -64,6 +64,8 @@ const PARAM_MAP_CONTROL_TYPE: Map<string, ControlType> = new Map([
   ["sleep_timeout", ControlType.Param],
   ["wireless_mode", ControlType.Select],
   ["indicator_light_timeout", ControlType.Param],
+  ["rocker_axia", ControlType.Select],
+  ["rocker_direction", ControlType.Select,]
 ]);
 
 @Injectable({

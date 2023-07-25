@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "title": "轴",
+  "defVal": 0,
+  "data": [
+    {
+      "code": 0,
+      "name": "x"
+    },
+    {
+      "code": 1,
+      "name": "y"
+    },
+    {
+      "code": 2,
+      "name": "z"
+    },
+    {
+      "code": 3,
+      "name": "rx"
+    },
+    {
+      "code": 4,
+      "name": "ry"
+    },
+    {
+      "code": 5,
+      "name": "rz"
+    }
+  ]
+}

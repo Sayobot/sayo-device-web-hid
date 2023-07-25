@@ -121,6 +121,15 @@
                     ]
                 },
                 {
+                  "name": "摇杆模拟",
+                  "code": 59,
+                  "note": "",
+                  "values": [
+                      "rocker_axia.json",
+                      "rocker_direction.json"
+                  ]
+              },
+                {
                     "name": "用户脚本1",
                     "code": 64,
                     "note": "",
