@@ -9,9 +9,9 @@ import { Router } from "@angular/router";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
 import { FirmwareService } from './core/device/firmware.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { FirmwareUpdateDialogComponent } from './shared/components/firmware-update-dialog/firmware-update-dialog.component';
+import { LoaderService } from './shared/components/loading/loader.service';
 
 interface Menu {
   link: string;
@@ -100,8 +100,8 @@ export class AppComponent implements OnDestroy {
     private _router: Router,
     private _settings: Settings,
     private _bpo: BreakpointObserver,
-    private _snackbar: MatSnackBar,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _loading: LoaderService
   ) {
 
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
@@ -122,11 +122,16 @@ export class AppComponent implements OnDestroy {
     if (navigator.hid) {
       this._device.device$
         .pipe(takeUntil(this.destory$))
-        .subscribe((device: HIDDevice) => {
+        .subscribe(async (device: HIDDevice) => {
           if (device.opened) {
             this.menus = [...this.createMenus()];
+            await this.checkVersion();
+
+            if(!this._doc.isLoaded())  {
+              await this._doc.load(this._device.filename());
+            }
+
             this.toFirstPage();
-            this.checkVersion();
           }
         });
 
@@ -149,7 +154,7 @@ export class AppComponent implements OnDestroy {
       const ref = this._dialog.open(FirmwareUpdateDialogComponent);
 
       ref.afterClosed().subscribe((state) => {
-        if(state) {
+        if (state) {
           this._firmware.download();
         }
       })
@@ -180,17 +185,20 @@ export class AppComponent implements OnDestroy {
   }
 
   setLanguage(key: string) {
-    this._tr.use(key).subscribe(() => {
+    this._tr.use(key).subscribe(async () => {
+      this._loading.loading();
       const lang = this.langs.find((item) => item.key === this._tr.currentLang);
 
       if (lang) {
         this.lang = lang;
 
-        this._doc.loadParamDoc();
+        await this._doc.loadParamDoc();
 
         if (this._device.isConnected()) {
-          this._doc.load(this._device.filename());
+          await this._doc.load(this._device.filename());
         };
+
+        this._loading.complete();
       }
     });
   }

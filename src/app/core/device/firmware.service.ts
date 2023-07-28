@@ -13,10 +13,15 @@ export class FirmwareService {
   ) { }
 
   hasNewVersino(info: DeviceInfo) {
-    return lastValueFrom(this.httpClient.get<Firmware>(`https://dl.sayobot.cn/firmware/update/${info.pid}.json`)
+    debugger
+    if((!info.api.includes(0xff))) {
+      return lastValueFrom(of(false));
+    }
+
+    return lastValueFrom(this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${info.pid}.json`)
       .pipe(
         map(res => res.data.filter(item => item.model_code === info.mode_code)[0]),
-        tap(_ => this.downloadUrl = `https://dl.sayobot.cn/firmware/update/${info.pid}.zip`),
+        tap(_ => this.downloadUrl = `https://a.sayobot.cn/firmware/update/${info.pid}.zip`),
         map(item => item.version > info.version)
       ))
   }

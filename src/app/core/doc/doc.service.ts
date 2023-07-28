@@ -3,11 +3,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DeviceService } from '../device/device.service';
-import { Observable, zip } from 'rxjs';
+import { Observable, lastValueFrom, zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ControlType } from 'src/app/shared/components/dynamix-form';
 import { OptionControlData } from 'src/app/shared/components/types';
 import { General_Keys, Linux_Keys } from './const';
+import { LoaderService } from 'src/app/shared/components/loading/loader.service';
 
 const PARAM_DIRECTION = 'assets/param';
 
@@ -72,23 +73,30 @@ const PARAM_MAP_CONTROL_TYPE: Map<string, ControlType> = new Map([
   providedIn: 'root',
 })
 export class DocService {
+  private _loaded = false;
   private _main?: DocMain;
   private _paramMap: Map<string, DocParam> = new Map();
 
   constructor(
     private http: HttpClient,
     private _tr: TranslateService,
-    private device: DeviceService
+    private device: DeviceService,
+    private _loader: LoaderService
   ) {
-    this.device.device$.subscribe(() => {
-      this.load(device.filename());
+    this.device.device$.subscribe(async () => {
+      await this.load(device.filename());
     });
+  }
+
+  isLoaded() {
+    return this._loaded;
   }
 
   /**
    * 加载 params 文档
    */
-  loadParamDoc() {
+  async loadParamDoc() {
+    this._loader.loading();
     const requests: Observable<ParamJson>[] = [];
 
     for (const file of PARAM_MAP_CONTROL_TYPE.keys()) {
@@ -96,28 +104,29 @@ export class DocService {
       requests.push(req);
     }
 
-    zip(requests).subscribe((res) => {
-      const files = Array.from(PARAM_MAP_CONTROL_TYPE.keys());
-      for (let i = 0; i < files.length; i++) {
-        let doc = this._parseParamDoc(res[i]);
-        doc.title = this._tr.instant(doc.title);
+    const res = await lastValueFrom(zip(requests));
 
-        this._paramMap.set(files[i], doc);
-      }
-    });
+    const files = Array.from(PARAM_MAP_CONTROL_TYPE.keys());
+    for (let i = 0; i < files.length; i++) {
+      let doc = this._parseParamDoc(res[i]);
+      doc.title = this._tr.instant(doc.title);
+
+      this._paramMap.set(files[i], doc);
+    }
+
+    this._loader.complete();
   }
 
   /**
    * 加载 main 文档
    * @param file
    */
-  load(file: string = 'main.json') {
-    const subscribe = this.http.get<MainJson>(`${PARAM_DIRECTION}/${file}`).subscribe((res) => {
-      console.info(`加载选项数据: ${file}`);
-
-      subscribe.unsubscribe();
-      this._main = this._parseMainDoc(res);
-    });
+  async load(file: string = 'main.json') {
+    this._loader.loading();
+    const res = await lastValueFrom(this.http.get<MainJson>(`${PARAM_DIRECTION}/${file}`));
+    this._main = this._parseMainDoc(res);
+    this._loaded = true;
+    this._loader.complete();
   }
 
   /**
