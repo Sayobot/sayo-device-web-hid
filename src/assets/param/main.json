@@ -1,2349 +1,2345 @@
 {
-    "version": "1.0",
-    "title": "emmmm",
-    "uri": "/api/devices",
-    "methods": [
-        "read",
-        "write",
-        "save"
-    ],
-    "data": [
+  "version": "1.0",
+  "title": "emmmm",
+  "uri": "/api/devices",
+  "methods": [
+    "read",
+    "write",
+    "save"
+  ],
+  "data": [
+    {
+      "title": "按键",
+      "cmd": "buttons",
+      "cmd_code": 6,
+      "format": null,
+      "mode": [
         {
-            "title": "按键",
-            "cmd": "buttons",
-            "cmd_code":6,
-            "format":null,
-            "mode": [
-                {
-                    "name": "默认",
-                    "code": 0,
-                    "note": "包含键盘组合键、普通按键的一种模式",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "键盘",
-                    "code": 1,
-                    "note": "包含键盘组合键、普通按键，可设置多个普通按键",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "general_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "鼠标模式",
-                    "code": 2,
-                    "note": "完整的鼠标控制，包括光标和按键",
-                    "values": [
-                        "mouse_keys.json",
-                        "mouse_x.json",
-                        "mouse_y.json",
-                        "mouse_scroll.json"
-                    ]
-                },
-                {
-                    "name": "多媒体控制",
-                    "code": 3,
-                    "note": "一些系统控制选项",
-                    "values": [
-                        "mu_keys.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器-按键",
-                    "code": 40,
-                    "note": "",
-                    "values": [
-                        "joystick_key.json"
-                    ]
-                },
-                {
-                    "name": "一键密码",
-                    "code": 8,
-                    "note": "自动输入一系列的字符，请在“高级”选项卡修改",
-                    "values": [
-                        "pwd.json",
-                        "auto_enter.json",
-                        "pwd_interval_time.json"
-                    ]
-                },
-                {
-                    "name": "一键写诗",
-                    "code": 48,
-                    "note": "",
-                    "values": [
-                        "ok_string.json",
-                        "auto_enter.json"
-                    ]
-                },
-                {
-                    "name": "键盘二步操作",
-                    "code": 33,
-                    "note": "",
-                    "values": [
-                        "modifier_keys.json",
-                        "general_keys.json",
-                        "modifier_keys.json",
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "FN",
-                    "code": 128,
-                    "values": [
-                        "keys_switch.json"
-                    ]
-                },
-                {
-                    "name": "SW",
-                    "code": 129,
-                    "values": [
-                        "keys_switch.json"
-                    ]
-                },
-                {
-                    "name": "BLE_SW",
-                    "code": 130,
-                    "values": [
-                        "keys_switch.json"
-                    ]
-                },
-                {
-                    "name": "控制选项",
-                    "code": 63,
-                    "note": "",
-                    "values": [
-                        "control_option.json"
-                    ]
-                },
-                {
-                  "name": "摇杆模拟",
-                  "code": 59,
-                  "note": "",
-                  "values": [
-                      "rocker_axia.json",
-                      "rocker_direction.json"
-                  ]
-              },
-                {
-                    "name": "用户脚本1",
-                    "code": 64,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本2",
-                    "code": 65,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本3",
-                    "code": 66,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本4",
-                    "code": 67,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本5",
-                    "code": 68,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本6",
-                    "code": 69,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本7",
-                    "code": 70,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本8",
-                    "code": 71,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本9",
-                    "code": 72,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本10",
-                    "code": 73,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本11",
-                    "code": 74,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本12",
-                    "code": 75,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本13",
-                    "code": 76,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本14",
-                    "code": 77,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本15",
-                    "code": 78,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本16",
-                    "code": 79,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本17",
-                    "code": 80,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本18",
-                    "code": 81,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本19",
-                    "code": 82,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本20",
-                    "code": 83,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本21",
-                    "code": 84,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本22",
-                    "code": 85,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本23",
-                    "code": 86,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本24",
-                    "code": 87,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本25",
-                    "code": 88,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本26",
-                    "code": 89,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本27",
-                    "code": 90,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本28",
-                    "code": 91,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本29",
-                    "code": 92,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本30",
-                    "code": 93,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本31",
-                    "code": 94,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本32",
-                    "code": 95,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本33",
-                    "code": 96,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本34",
-                    "code": 97,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本35",
-                    "code": 98,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本36",
-                    "code": 99,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本37",
-                    "code": 100,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本38",
-                    "code": 101,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本39",
-                    "code": 102,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本40",
-                    "code": 103,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本41",
-                    "code": 104,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本42",
-                    "code": 105,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本43",
-                    "code": 106,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本44",
-                    "code": 107,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本45",
-                    "code": 108,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本46",
-                    "code": 109,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本47",
-                    "code": 110,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本48",
-                    "code": 111,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本49",
-                    "code": 112,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本50",
-                    "code": 113,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本51",
-                    "code": 114,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本52",
-                    "code": 115,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本53",
-                    "code": 116,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本54",
-                    "code": 117,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本55",
-                    "code": 118,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本56",
-                    "code": 119,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本57",
-                    "code": 120,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本58",
-                    "code": 121,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本59",
-                    "code": 122,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本60",
-                    "code": 123,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本61",
-                    "code": 124,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本62",
-                    "code": 125,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本63",
-                    "code": 126,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                },
-                {
-                    "name": "用户脚本64",
-                    "code": 127,
-                    "note": "",
-                    "values": [
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json",
-                        "smjb.json"
-                    ]
-                }
-            ]
+          "name": "默认",
+          "code": 0,
+          "note": "包含键盘组合键、普通按键的一种模式",
+          "values": [
+            "modifier_keys.json",
+            "general_keys.json"
+          ]
         },
         {
-            "title": "灯光",
-            "cmd": "lighting",
-            "cmd_code":7,
-            "format":null,
-            "mode": [
-                {
-                    "name": "指定颜色",
-                    "code": 0,
-                    "note": "貌似没啥好解释的2333",
-                    "values": [
-                        "color.json",
-                        "col_event.json",
-                        "col_cmd_len_5.json"
-                    ]
-                },
-                {
-                    "name": "指示灯",
-                    "code": 1,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "indicator_light.json",
-                        "col_cmd_len_5.json"
-                    ]
-                },
-                {
-                    "name": "指定颜色-呼吸(双停止间隔)",
-                    "code": 2,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "指定颜色-呼吸(常亮间隔)",
-                    "code": 3,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "指定颜色-呼吸(熄灭间隔)",
-                    "code": 5,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "指定颜色-闪烁",
-                    "code": 48,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-呼吸(双停止间隔)",
-                    "code": 20,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-呼吸(常亮间隔)",
-                    "code": 21,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-呼吸(熄灭间隔)",
-                    "code": 22,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-切换",
-                    "code": 37,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-渐变",
-                    "code": 29,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "随机颜色-闪烁",
-                    "code": 52,
-                    "note": "",
-                    "values": [
-                        "color.json",
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-呼吸(双停止间隔)",
-                    "code": 9,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-呼吸(常亮间隔)",
-                    "code": 12,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-呼吸(熄灭间隔)",
-                    "code": 15,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-渐变",
-                    "code": 27,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-切换",
-                    "code": 35,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色间隔-闪烁",
-                    "code": 50,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-呼吸(双停止间隔)",
-                    "code": 8,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-呼吸(常亮间隔)",
-                    "code": 11,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-呼吸(熄灭间隔)",
-                    "code": 14,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-渐变",
-                    "code": 26,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-切换",
-                    "code": 34,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                },
-                {
-                    "name": "12色相邻-闪烁",
-                    "code": 49,
-                    "note": "",
-                    "values": [
-                        "col_speed.json",
-                        "col_event.json",
-                        "col_interval_time.json",
-                        "col_cmd_len_6.json"
-                    ]
-                }
-            ]
+          "name": "键盘",
+          "code": 1,
+          "note": "包含键盘组合键、普通按键，可设置多个普通按键",
+          "values": [
+            "modifier_keys.json",
+            "general_keys.json",
+            "general_keys.json",
+            "general_keys.json"
+          ]
         },
         {
-            "title": "灯光v2",
-            "cmd": "api_code",
-            "cmd_code":16,
-            "format":null,
-            "mode": [
-                {
-                    "name": "静态",
-                    "code": 0,
-                    "note": "貌似没啥好解释的2333",
-                    "values": [
-                        "led_mode_color.json",
-                        "no_more.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "指示灯",
-                    "code": 1,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "no_more.json",
-                        "indicator_light.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "呼吸",
-                    "code": 2,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "keep_off_time.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "呼吸一次",
-                    "code": 3,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "渐变",
-                    "code": 4,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "切换",
-                    "code": 6,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "切换一次",
-                    "code": 7,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "闪烁",
-                    "code": 8,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "keep_off_time.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "闪烁一次",
-                    "code": 9,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "keep_on_time.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "渐隐",
-                    "code": 14,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                },
-                {
-                    "name": "渐显",
-                    "code": 15,
-                    "note": "",
-                    "values": [
-                        "led_mode_color.json",
-                        "led_mode_speed.json",
-                        "led_submode.json",
-                        "color2arr_lock.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color_table.json"
-                    ]
-                }
-            ]
+          "name": "鼠标模式",
+          "code": 2,
+          "note": "完整的鼠标控制，包括光标和按键",
+          "values": [
+            "mouse_keys.json",
+            "mouse_x.json",
+            "mouse_y.json",
+            "mouse_scroll.json"
+          ]
         },
         {
-            "title": "色表设置",
-            "cmd": "api_code",
-            "cmd_code":17,
-            "format":null,
-            "mode": [
-                {
-                    "name": "10色色表",
-                    "code": 10,
-                    "note": "貌似没啥好解释的2333",
-                    "values": [
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json"
-                    ]
-                }
-            ]
+          "name": "多媒体控制",
+          "code": 3,
+          "note": "一些系统控制选项",
+          "values": [
+            "mu_keys.json"
+          ]
         },
         {
-            "title": "脚本选择",
-            "cmd": "script_sw",
-            "cmd_code":241,
-            "format":null,
-            "mode": [
-                {
-                    "name": "未选择，选中以编辑",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "script_name.json"
-                    ]
-                },
-                {
-                    "name": "已选择，到脚本步骤选项卡编辑",
-                    "code": 1,
-                    "note": "",
-                    "values": [
-                        "script_name.json"
-                    ]
-                }
-            ]
+          "name": "游戏控制器-按键",
+          "code": 40,
+          "note": "",
+          "values": [
+            "joystick_key.json"
+          ]
         },
         {
-            "title": "脚本步骤",
-            "cmd": "script",
-            "cmd_code":240,
-            "format":null,
-            "mode": [
-                {
-                    "name": "结束",
-                    "code": 0,
-                    "note": "编译到此停止",
-                    "values": []
-                },
-                {
-                    "name": "none",
-                    "code": 1,
-                    "note": "啥都不做",
-                    "values": []
-                },
-                {
-                    "name": "地址跳转",
-                    "code": 2,
-                    "note": "跳转到指定的地址",
-                    "values": [
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "延时-x256",
-                    "code": 5,
-                    "note": "毫秒x256",
-                    "values": [
-                        "x256.json"
-                    ]
-                },
-                {
-                    "name": "延时-x1",
-                    "code": 6,
-                    "note": "0~255毫秒",
-                    "values": [
-                        "x1.json"
-                    ]
-                },
-                {
-                    "name": "延时-随机-x256",
-                    "code": 7,
-                    "note": "roll 0~x 毫秒x256",
-                    "values": [
-                        "u8rollx256.json"
-                    ]
-                },
-                {
-                    "name": "延时-随机-x1",
-                    "code": 8,
-                    "note": "roll 0~x 毫秒x256",
-                    "values": [
-                        "u8roll.json"
-                    ]
-                },
-                {
-                    "name": "延时-参数-x256",
-                    "code": 9,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "延时-参数-x1",
-                    "code": 10,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "延时-随机-参数-x8",
-                    "code": 11,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "延时-随机-参数-x1",
-                    "code": 12,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "组合键-键值-按下",
-                    "code": 16,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "modifier_keys.json"
-                    ]
-                },
-                {
-                    "name": "一般键-键值-按下",
-                    "code": 17,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "鼠标键-键值-按下",
-                    "code": 18,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mouse_keys.json"
-                    ]
-                },
-                {
-                    "name": "多媒体-键值-按下",
-                    "code": 19,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mu_keys.json"
-                    ]
-                },
-                {
-                    "name": "组合键-传参-按下",
-                    "code": 20,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "一般键-传参-按下",
-                    "code": 21,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "鼠标键-传参-按下",
-                    "code": 22,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "多媒体-传参-按下",
-                    "code": 23,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "组合键-键值-松开",
-                    "code": 24,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "modifier_keys.json"
-                    ]
-                },
-                {
-                    "name": "一般键-键值-松开",
-                    "code": 25,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "general_keys.json"
-                    ]
-                },
-                {
-                    "name": "鼠标键-键值-松开",
-                    "code": 26,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mouse_keys.json"
-                    ]
-                },
-                {
-                    "name": "多媒体-键值-松开",
-                    "code": 27,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mu_keys.json"
-                    ]
-                },
-                {
-                    "name": "组合键-传参-松开",
-                    "code": 28,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "一般键-传参-松开",
-                    "code": 29,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "鼠标键-传参-松开",
-                    "code": 30,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "多媒体-传参-松开",
-                    "code": 31,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器按键-键值-按下",
-                    "code": 44,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "joystick_key.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器按键-传参-按下",
-                    "code": 45,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器按键-键值-松开",
-                    "code": 46,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "joystick_key.json"
-                    ]
-                },
-                {
-                    "name": "游戏控制器按键-传参-松开",
-                    "code": 47,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "鼠标-光标移动-值",
-                    "code": 33,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mouse_xy.json",
-                        "signed_char.json"
-                    ]
-                },
-                {
-                    "name": "鼠标-光标移动-传参",
-                    "code": 34,
-                    "note": "如题（待修改）",
-                    "values": [
-                        "mouse_xy.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "鼠标-光标定位",
-                    "code": 37,
-                    "note": "",
-                    "values": [
-                        "u16.json",
-                        "u16.json"
-                    ]
-                },
-                {
-                    "name": "鼠标-光标定位—传参",
-                    "code": 38,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "JC_FLAG (CY == 1 ? JUMP_TO_FLAG)",
-                    "code": 72,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "JNC_FLAG (CY == 0 ? JUMP_TO_FLAG)",
-                    "code": 73,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "JZ_FLAG (REG == 0 ? JUMP_TO_FLAG)",
-                    "code": 74,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "JNZ_FLAG (REG != 0 ? JUMP_TO_FLAG)",
-                    "code": 75,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "DJNZ_FLAG (REG - 1 != 0 ? JUMP_TO_FLAG)",
-                    "code": 76,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "CJNE_FLAG (REG1 != REG2 ? JUMP_TO_FLAG;CY = REG1 < REG2)",
-                    "code": 77,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "JC",
-                    "code": 78,
-                    "note": "",
-                    "values": [
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "JNC",
-                    "code": 79,
-                    "note": "",
-                    "values": [
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "JZ",
-                    "code": 80,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "JNZ",
-                    "code": 81,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "DJNZ",
-                    "code": 82,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "CJNE",
-                    "code": 83,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json",
-                        "u8.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "ANL (REG1 = REG1 & REG2)",
-                    "code": 86,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "ANL_DATA (REG = REG & #DATA)",
-                    "code": 87,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "ADD (A += REG)",
-                    "code": 88,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "ADD_DATA (A += #DATA)",
-                    "code": 89,
-                    "note": "",
-                    "values": [
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "SUB (A -= REG)",
-                    "code": 90,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "SUB_DATA (A -= #DATA)",
-                    "code": 91,
-                    "note": "",
-                    "values": [
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "ORL (A |= REG)",
-                    "code": 92,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "ORL_DATA (A |= #DATA)",
-                    "code": 93,
-                    "note": "",
-                    "values": [
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "DEC (REG -= 1)",
-                    "code": 94,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "INC (REG += 1)",
-                    "code": 95,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "MUL (A = A * B)",
-                    "code": 96,
-                    "note": "",
-                    "values": [
-                    ]
-                },
-                {
-                    "name": "DIV (A = A / B;B = A % B)",
-                    "code": 97,
-                    "note": "",
-                    "values": [
-                    ]
-                },
-                {
-                    "name": "XRL (REG1 ^= REG2)",
-                    "code": 98,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "XRL_DATA (REG ^= #DATA)",
-                    "code": 99,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "RL (REG1 <<= REG2)",
-                    "code": 100,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "RL_DATA (REG <<= #DATA)",
-                    "code": 101,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "RR (REG1 >>= REG2)",
-                    "code": 102,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "RR_DATA (REG >>= #DATA)",
-                    "code": 103,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "CLR (REG = 0)",
-                    "code": 104,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "CPL (REG = ~REG)",
-                    "code": 105,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "XCH (REG1 <-> REG2)",
-                    "code": 106,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "MOV (REG1 ← REG2)",
-                    "code": 110,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "MOV_DATA REG ← #DATA",
-                    "code": 111,
-                    "note": "",
-                    "values": [
-                        "parameter.json",
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "SET_FLAG REG ← &address",
-                    "code": 246,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "刷新按键",
-                    "code": 32,
-                    "note": "操作按键后必须刷新才可生效",
-                    "values": []
-                },
-                {
-                    "name": "灯光控制",
-                    "code": 224,
-                    "note": "",
-                    "values": [
-                        "led_ctrl.json"
-                    ]
-                },
-                {
-                    "name": "灯光颜色设定",
-                    "code": 225,
-                    "note": "",
-                    "values": [
-                        "color2arr.json",
-                        "no_more.json",
-                        "no_more.json"
-                    ]
-                },
-                {
-                    "name": "START",
-                    "code": 226,
-                    "note": "",
-                    "values": [
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "STOP",
-                    "code": 227,
-                    "note": "",
-                    "values": [
-                        "u8.json"
-                    ]
-                },
-                {
-                    "name": "重载参数",
-                    "code": 247,
-                    "note": "",
-                    "values": [
-                        "parameter.json"
-                    ]
-                },
-                {
-                    "name": "进入点动模式",
-                    "code": 248,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "按键松开时阻塞",
-                    "code": 249,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "按键按下时阻塞",
-                    "code": 250,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "如果按键松开退出",
-                    "code": 251,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "如果按键按下退出",
-                    "code": 252,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "按下任意键退出",
-                    "code": 253,
-                    "note": "",
-                    "values": []
-                },
-                {
-                    "name": "从头开始再来一次",
-                    "note": "就是循环执行咯",
-                    "code": 254,
-                    "values": []
-                },
-                {
-                    "name": "退出脚本",
-                    "code": 255,
-                    "note": "溜了溜了",
-                    "values": []
-                }
-            ]
+          "name": "一键密码",
+          "code": 8,
+          "note": "自动输入一系列的字符，请在“高级”选项卡修改",
+          "values": [
+            "pwd.json",
+            "auto_enter.json",
+            "pwd_interval_time.json"
+          ]
         },
         {
-            "title": "脚本自启动",
-            "cmd": "api_code",
-            "cmd_code":242,
-            "format":null,
-            "mode": [
-                {
-                    "name": "选择需要启动的项目",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "startup.json"
-                    ]
-                }
-            ]
+          "name": "一键写诗",
+          "code": 48,
+          "note": "",
+          "values": [
+            "ok_string.json",
+            "auto_enter.json"
+          ]
         },
         {
-            "title": "VID/PID",
-            "cmd": "dev_id",
-            "cmd_code":254,
-            "format":null,
-            "mode": [
-                {
-                    "name": "id",
-                    "code": 0,
-                    "note": "VID：厂商ID  PID：产品ID",
-                    "values": [
-                        "u16_vid.json",
-                        "u16_pid.json"
-                    ]
-                }
-            ]
+          "name": "键盘二步操作",
+          "code": 33,
+          "note": "",
+          "values": [
+            "modifier_keys.json",
+            "general_keys.json",
+            "modifier_keys.json",
+            "general_keys.json"
+          ]
         },
         {
-            "title": "字符串(Uincode)",
-            "cmd": "api_code",
-            "cmd_code":12,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入字符串",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "unicode_text.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json"
-                    ]
-                }
-            ]
+          "name": "FN",
+          "code": 128,
+          "values": [
+            "keys_switch.json"
+          ]
         },
         {
-            "title": "字符串(GBK)",
-            "cmd": "string_gbk",
-            "cmd_code":12,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入字符串",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "gbk_text.json"
-                    ]
-                }
-            ]
+          "name": "SW",
+          "code": 129,
+          "values": [
+            "keys_switch.json"
+          ]
         },
         {
-            "title": "密码",
-            "cmd": "ok_pwd",
-            "cmd_code":11,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入密码",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "string_ascii.json"
-                    ]
-                }
-            ]
+          "name": "BLE_SW",
+          "code": 130,
+          "values": [
+            "keys_switch.json"
+          ]
         },
         {
-            "title": "键盘锁",
-            "cmd": "kb_lock",
-            "cmd_code":248,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入密码锁定，为空解除",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "string_ascii.json"
-                    ]
-                }
-            ]
+          "name": "控制选项",
+          "code": 63,
+          "note": "",
+          "values": [
+            "control_option.json"
+          ]
         },
         {
-            "title": "键盘锁",
-            "cmd": "kb_unlock",
-            "cmd_code":249,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入密码解锁",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "string_ascii.json"
-                    ]
-                }
-            ]
+          "name": "wooting key to asix",
+          "code": 59,
+          "note": "",
+          "values": [
+            "controller_axis.json",
+            "controller_align.json"
+          ]
         },
         {
-            "title": "设备名称",
-            "cmd": "dev_name",
-            "cmd_code":8,
-            "format":null,
-            "mode": [
-                {
-                    "name": "请输入设备名称~",
-                    "code": 0,
-                    "note": "最多15个Unicode字符;对于O2C,与一键密码冲突",
-                    "values": [
-                        "string_unicode.json"
-                    ]
-                }
-            ]
+          "name": "用户脚本1",
+          "code": 64,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
         },
         {
-            "title": "触摸灵敏度",
-            "cmd": "api_code",
-            "cmd_code":10,
-            "format":null,
-            "mode": [
-                {
-                    "name": "在右边输入数值，数值越小灵敏度越高",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "no_more.json",
-                        "u8.json"
-                    ]
-                }
-            ]
+          "name": "用户脚本2",
+          "code": 65,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
         },
         {
-            "title": "延迟时间",
-            "cmd": "api_code",
-            "cmd_code":21,
-            "format":null,
-            "mode": [
-                {
-                    "name": "设置多开键盘的延迟时间",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "x1.json",
-                        "x256.json"
-                    ]
-                }
-            ]
+          "name": "用户脚本3",
+          "code": 66,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
         },
-
         {
-            "title": "电池",
-            "cmd": "api_code",
-            "cmd_code":80,
-            "format":null,
-            "mode": [
-                {
-                    "name": "",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "_s8.json",
-                        "no_more.json",
-                        "_u16.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "_u32.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json"
-                    ]
-                }
-            ]
+          "name": "用户脚本4",
+          "code": 67,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
         },
-
         {
-            "title": "选项字节",
-            "cmd": "api_code",
-            "cmd_code":252,
-            "format":null,
-            "mode": [
-                {
-                    "name": "",
-                    "code": 0,
-                    "note": "",
-                    "values": [
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "key_delay.json",
-                        "std_opt_HID_report.json",
-                        "sleep_timeout.json",
-                        "indicator_light_timeout.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "no_more.json",
-                        "wireless_mode.json",
-                        "layout_azerty.json"
-                    ]
-                }
-            ]
+          "name": "用户脚本5",
+          "code": 68,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本6",
+          "code": 69,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本7",
+          "code": 70,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本8",
+          "code": 71,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本9",
+          "code": 72,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本10",
+          "code": 73,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本11",
+          "code": 74,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本12",
+          "code": 75,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本13",
+          "code": 76,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本14",
+          "code": 77,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本15",
+          "code": 78,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本16",
+          "code": 79,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本17",
+          "code": 80,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本18",
+          "code": 81,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本19",
+          "code": 82,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本20",
+          "code": 83,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本21",
+          "code": 84,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本22",
+          "code": 85,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本23",
+          "code": 86,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本24",
+          "code": 87,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本25",
+          "code": 88,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本26",
+          "code": 89,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本27",
+          "code": 90,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本28",
+          "code": 91,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本29",
+          "code": 92,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本30",
+          "code": 93,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本31",
+          "code": 94,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本32",
+          "code": 95,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本33",
+          "code": 96,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本34",
+          "code": 97,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本35",
+          "code": 98,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本36",
+          "code": 99,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本37",
+          "code": 100,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本38",
+          "code": 101,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本39",
+          "code": 102,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本40",
+          "code": 103,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本41",
+          "code": 104,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本42",
+          "code": 105,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本43",
+          "code": 106,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本44",
+          "code": 107,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本45",
+          "code": 108,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本46",
+          "code": 109,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本47",
+          "code": 110,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本48",
+          "code": 111,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本49",
+          "code": 112,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本50",
+          "code": 113,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本51",
+          "code": 114,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本52",
+          "code": 115,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本53",
+          "code": 116,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本54",
+          "code": 117,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本55",
+          "code": 118,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本56",
+          "code": 119,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本57",
+          "code": 120,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本58",
+          "code": 121,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本59",
+          "code": 122,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本60",
+          "code": 123,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本61",
+          "code": 124,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本62",
+          "code": 125,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本63",
+          "code": 126,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
+        },
+        {
+          "name": "用户脚本64",
+          "code": 127,
+          "note": "",
+          "values": [
+            "smjb.json",
+            "smjb.json",
+            "smjb.json",
+            "smjb.json"
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "title": "灯光",
+      "cmd": "lighting",
+      "cmd_code": 7,
+      "format": null,
+      "mode": [
+        {
+          "name": "指定颜色",
+          "code": 0,
+          "note": "貌似没啥好解释的2333",
+          "values": [
+            "color.json",
+            "col_event.json",
+            "col_cmd_len_5.json"
+          ]
+        },
+        {
+          "name": "指示灯",
+          "code": 1,
+          "note": "",
+          "values": [
+            "color.json",
+            "indicator_light.json",
+            "col_cmd_len_5.json"
+          ]
+        },
+        {
+          "name": "指定颜色-呼吸(双停止间隔)",
+          "code": 2,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "指定颜色-呼吸(常亮间隔)",
+          "code": 3,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "指定颜色-呼吸(熄灭间隔)",
+          "code": 5,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "指定颜色-闪烁",
+          "code": 48,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-呼吸(双停止间隔)",
+          "code": 20,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-呼吸(常亮间隔)",
+          "code": 21,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-呼吸(熄灭间隔)",
+          "code": 22,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-切换",
+          "code": 37,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-渐变",
+          "code": 29,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "随机颜色-闪烁",
+          "code": 52,
+          "note": "",
+          "values": [
+            "color.json",
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-呼吸(双停止间隔)",
+          "code": 9,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-呼吸(常亮间隔)",
+          "code": 12,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-呼吸(熄灭间隔)",
+          "code": 15,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-渐变",
+          "code": 27,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-切换",
+          "code": 35,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色间隔-闪烁",
+          "code": 50,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-呼吸(双停止间隔)",
+          "code": 8,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-呼吸(常亮间隔)",
+          "code": 11,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-呼吸(熄灭间隔)",
+          "code": 14,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-渐变",
+          "code": 26,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-切换",
+          "code": 34,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        },
+        {
+          "name": "12色相邻-闪烁",
+          "code": 49,
+          "note": "",
+          "values": [
+            "col_speed.json",
+            "col_event.json",
+            "col_interval_time.json",
+            "col_cmd_len_6.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "灯光v2",
+      "cmd": "api_code",
+      "cmd_code": 16,
+      "format": null,
+      "mode": [
+        {
+          "name": "静态",
+          "code": 0,
+          "note": "貌似没啥好解释的2333",
+          "values": [
+            "led_mode_color.json",
+            "no_more.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "指示灯",
+          "code": 1,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "no_more.json",
+            "indicator_light.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "呼吸",
+          "code": 2,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "keep_off_time.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "呼吸一次",
+          "code": 3,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "渐变",
+          "code": 4,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "切换",
+          "code": 6,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "切换一次",
+          "code": 7,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "闪烁",
+          "code": 8,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "keep_off_time.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "闪烁一次",
+          "code": 9,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "keep_on_time.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "渐隐",
+          "code": 14,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        },
+        {
+          "name": "渐显",
+          "code": 15,
+          "note": "",
+          "values": [
+            "led_mode_color.json",
+            "led_mode_speed.json",
+            "led_submode.json",
+            "color2arr_lock.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "color_table.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "色表设置",
+      "cmd": "api_code",
+      "cmd_code": 17,
+      "format": null,
+      "mode": [
+        {
+          "name": "10色色表",
+          "code": 10,
+          "note": "貌似没啥好解释的2333",
+          "values": [
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json",
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "脚本选择",
+      "cmd": "script_sw",
+      "cmd_code": 241,
+      "format": null,
+      "mode": [
+        {
+          "name": "未选择，选中以编辑",
+          "code": 0,
+          "note": "",
+          "values": [
+            "script_name.json"
+          ]
+        },
+        {
+          "name": "已选择，到脚本步骤选项卡编辑",
+          "code": 1,
+          "note": "",
+          "values": [
+            "script_name.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "脚本步骤",
+      "cmd": "script",
+      "cmd_code": 240,
+      "format": null,
+      "mode": [
+        {
+          "name": "结束",
+          "code": 0,
+          "note": "编译到此停止",
+          "values": []
+        },
+        {
+          "name": "none",
+          "code": 1,
+          "note": "啥都不做",
+          "values": []
+        },
+        {
+          "name": "地址跳转",
+          "code": 2,
+          "note": "跳转到指定的地址",
+          "values": [
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "延时-x256",
+          "code": 5,
+          "note": "毫秒x256",
+          "values": [
+            "x256.json"
+          ]
+        },
+        {
+          "name": "延时-x1",
+          "code": 6,
+          "note": "0~255毫秒",
+          "values": [
+            "x1.json"
+          ]
+        },
+        {
+          "name": "延时-随机-x256",
+          "code": 7,
+          "note": "roll 0~x 毫秒x256",
+          "values": [
+            "u8rollx256.json"
+          ]
+        },
+        {
+          "name": "延时-随机-x1",
+          "code": 8,
+          "note": "roll 0~x 毫秒x256",
+          "values": [
+            "u8roll.json"
+          ]
+        },
+        {
+          "name": "延时-参数-x256",
+          "code": 9,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "延时-参数-x1",
+          "code": 10,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "延时-随机-参数-x8",
+          "code": 11,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "延时-随机-参数-x1",
+          "code": 12,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "组合键-键值-按下",
+          "code": 16,
+          "note": "如题（待修改）",
+          "values": [
+            "modifier_keys.json"
+          ]
+        },
+        {
+          "name": "一般键-键值-按下",
+          "code": 17,
+          "note": "如题（待修改）",
+          "values": [
+            "general_keys.json"
+          ]
+        },
+        {
+          "name": "鼠标键-键值-按下",
+          "code": 18,
+          "note": "如题（待修改）",
+          "values": [
+            "mouse_keys.json"
+          ]
+        },
+        {
+          "name": "多媒体-键值-按下",
+          "code": 19,
+          "note": "如题（待修改）",
+          "values": [
+            "mu_keys.json"
+          ]
+        },
+        {
+          "name": "组合键-传参-按下",
+          "code": 20,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "一般键-传参-按下",
+          "code": 21,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "鼠标键-传参-按下",
+          "code": 22,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "多媒体-传参-按下",
+          "code": 23,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "组合键-键值-松开",
+          "code": 24,
+          "note": "如题（待修改）",
+          "values": [
+            "modifier_keys.json"
+          ]
+        },
+        {
+          "name": "一般键-键值-松开",
+          "code": 25,
+          "note": "如题（待修改）",
+          "values": [
+            "general_keys.json"
+          ]
+        },
+        {
+          "name": "鼠标键-键值-松开",
+          "code": 26,
+          "note": "如题（待修改）",
+          "values": [
+            "mouse_keys.json"
+          ]
+        },
+        {
+          "name": "多媒体-键值-松开",
+          "code": 27,
+          "note": "如题（待修改）",
+          "values": [
+            "mu_keys.json"
+          ]
+        },
+        {
+          "name": "组合键-传参-松开",
+          "code": 28,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "一般键-传参-松开",
+          "code": 29,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "鼠标键-传参-松开",
+          "code": 30,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "多媒体-传参-松开",
+          "code": 31,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "游戏控制器按键-键值-按下",
+          "code": 44,
+          "note": "如题（待修改）",
+          "values": [
+            "joystick_key.json"
+          ]
+        },
+        {
+          "name": "游戏控制器按键-传参-按下",
+          "code": 45,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "游戏控制器按键-键值-松开",
+          "code": 46,
+          "note": "如题（待修改）",
+          "values": [
+            "joystick_key.json"
+          ]
+        },
+        {
+          "name": "游戏控制器按键-传参-松开",
+          "code": 47,
+          "note": "如题（待修改）",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "鼠标-光标移动-值",
+          "code": 33,
+          "note": "如题（待修改）",
+          "values": [
+            "mouse_xy.json",
+            "signed_char.json"
+          ]
+        },
+        {
+          "name": "鼠标-光标移动-传参",
+          "code": 34,
+          "note": "如题（待修改）",
+          "values": [
+            "mouse_xy.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "鼠标-光标定位",
+          "code": 37,
+          "note": "",
+          "values": [
+            "u16.json",
+            "u16.json"
+          ]
+        },
+        {
+          "name": "鼠标-光标定位—传参",
+          "code": 38,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "JC_FLAG (CY == 1 ? JUMP_TO_FLAG)",
+          "code": 72,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "JNC_FLAG (CY == 0 ? JUMP_TO_FLAG)",
+          "code": 73,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "JZ_FLAG (REG == 0 ? JUMP_TO_FLAG)",
+          "code": 74,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "JNZ_FLAG (REG != 0 ? JUMP_TO_FLAG)",
+          "code": 75,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "DJNZ_FLAG (REG - 1 != 0 ? JUMP_TO_FLAG)",
+          "code": 76,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "CJNE_FLAG (REG1 != REG2 ? JUMP_TO_FLAG;CY = REG1 < REG2)",
+          "code": 77,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "JC",
+          "code": 78,
+          "note": "",
+          "values": [
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "JNC",
+          "code": 79,
+          "note": "",
+          "values": [
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "JZ",
+          "code": 80,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "JNZ",
+          "code": 81,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "DJNZ",
+          "code": 82,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "CJNE",
+          "code": 83,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json",
+            "u8.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "ANL (REG1 = REG1 & REG2)",
+          "code": 86,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "ANL_DATA (REG = REG & #DATA)",
+          "code": 87,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "ADD (A += REG)",
+          "code": 88,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "ADD_DATA (A += #DATA)",
+          "code": 89,
+          "note": "",
+          "values": [
+            "u8.json"
+          ]
+        },
+        {
+          "name": "SUB (A -= REG)",
+          "code": 90,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "SUB_DATA (A -= #DATA)",
+          "code": 91,
+          "note": "",
+          "values": [
+            "u8.json"
+          ]
+        },
+        {
+          "name": "ORL (A |= REG)",
+          "code": 92,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "ORL_DATA (A |= #DATA)",
+          "code": 93,
+          "note": "",
+          "values": [
+            "u8.json"
+          ]
+        },
+        {
+          "name": "DEC (REG -= 1)",
+          "code": 94,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "INC (REG += 1)",
+          "code": 95,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "MUL (A = A * B)",
+          "code": 96,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "DIV (A = A / B;B = A % B)",
+          "code": 97,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "XRL (REG1 ^= REG2)",
+          "code": 98,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "XRL_DATA (REG ^= #DATA)",
+          "code": 99,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "RL (REG1 <<= REG2)",
+          "code": 100,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "RL_DATA (REG <<= #DATA)",
+          "code": 101,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "RR (REG1 >>= REG2)",
+          "code": 102,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "RR_DATA (REG >>= #DATA)",
+          "code": 103,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "CLR (REG = 0)",
+          "code": 104,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "CPL (REG = ~REG)",
+          "code": 105,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "XCH (REG1 <-> REG2)",
+          "code": 106,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "MOV (REG1 ← REG2)",
+          "code": 110,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "MOV_DATA REG ← #DATA",
+          "code": 111,
+          "note": "",
+          "values": [
+            "parameter.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "SET_FLAG REG ← &address",
+          "code": 246,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "刷新按键",
+          "code": 32,
+          "note": "操作按键后必须刷新才可生效",
+          "values": []
+        },
+        {
+          "name": "灯光控制",
+          "code": 224,
+          "note": "",
+          "values": [
+            "led_ctrl.json"
+          ]
+        },
+        {
+          "name": "灯光颜色设定",
+          "code": 225,
+          "note": "",
+          "values": [
+            "color2arr.json",
+            "no_more.json",
+            "no_more.json"
+          ]
+        },
+        {
+          "name": "START",
+          "code": 226,
+          "note": "",
+          "values": [
+            "u8.json"
+          ]
+        },
+        {
+          "name": "STOP",
+          "code": 227,
+          "note": "",
+          "values": [
+            "u8.json"
+          ]
+        },
+        {
+          "name": "重载参数",
+          "code": 247,
+          "note": "",
+          "values": [
+            "parameter.json"
+          ]
+        },
+        {
+          "name": "进入点动模式",
+          "code": 248,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "按键松开时阻塞",
+          "code": 249,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "按键按下时阻塞",
+          "code": 250,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "如果按键松开退出",
+          "code": 251,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "如果按键按下退出",
+          "code": 252,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "按下任意键退出",
+          "code": 253,
+          "note": "",
+          "values": []
+        },
+        {
+          "name": "从头开始再来一次",
+          "note": "就是循环执行咯",
+          "code": 254,
+          "values": []
+        },
+        {
+          "name": "退出脚本",
+          "code": 255,
+          "note": "溜了溜了",
+          "values": []
+        }
+      ]
+    },
+    {
+      "title": "脚本自启动",
+      "cmd": "api_code",
+      "cmd_code": 242,
+      "format": null,
+      "mode": [
+        {
+          "name": "选择需要启动的项目",
+          "code": 0,
+          "note": "",
+          "values": [
+            "startup.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "VID/PID",
+      "cmd": "dev_id",
+      "cmd_code": 254,
+      "format": null,
+      "mode": [
+        {
+          "name": "id",
+          "code": 0,
+          "note": "VID：厂商ID  PID：产品ID",
+          "values": [
+            "u16_vid.json",
+            "u16_pid.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "字符串(Uincode)",
+      "cmd": "api_code",
+      "cmd_code": 12,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入字符串",
+          "code": 0,
+          "note": "",
+          "values": [
+            "unicode_text.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "字符串(GBK)",
+      "cmd": "string_gbk",
+      "cmd_code": 12,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入字符串",
+          "code": 0,
+          "note": "",
+          "values": [
+            "gbk_text.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "密码",
+      "cmd": "ok_pwd",
+      "cmd_code": 11,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入密码",
+          "code": 0,
+          "note": "",
+          "values": [
+            "string_ascii.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "键盘锁",
+      "cmd": "kb_lock",
+      "cmd_code": 248,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入密码锁定，为空解除",
+          "code": 0,
+          "note": "",
+          "values": [
+            "string_ascii.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "键盘锁",
+      "cmd": "kb_unlock",
+      "cmd_code": 249,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入密码解锁",
+          "code": 0,
+          "note": "",
+          "values": [
+            "string_ascii.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "设备名称",
+      "cmd": "dev_name",
+      "cmd_code": 8,
+      "format": null,
+      "mode": [
+        {
+          "name": "请输入设备名称~",
+          "code": 0,
+          "note": "最多15个Unicode字符;对于O2C,与一键密码冲突",
+          "values": [
+            "string_unicode.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "触摸灵敏度",
+      "cmd": "api_code",
+      "cmd_code": 10,
+      "format": null,
+      "mode": [
+        {
+          "name": "在右边输入数值，数值越小灵敏度越高",
+          "code": 0,
+          "note": "",
+          "values": [
+            "no_more.json",
+            "u8.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "延迟时间",
+      "cmd": "api_code",
+      "cmd_code": 21,
+      "format": null,
+      "mode": [
+        {
+          "name": "设置多开键盘的延迟时间",
+          "code": 0,
+          "note": "",
+          "values": [
+            "x1.json",
+            "x256.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "电池",
+      "cmd": "api_code",
+      "cmd_code": 80,
+      "format": null,
+      "mode": [
+        {
+          "name": "",
+          "code": 0,
+          "note": "",
+          "values": [
+            "_s8.json",
+            "no_more.json",
+            "_u16.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "_u32.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "选项字节",
+      "cmd": "api_code",
+      "cmd_code": 252,
+      "format": null,
+      "mode": [
+        {
+          "name": "",
+          "code": 0,
+          "note": "",
+          "values": [
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "key_delay.json",
+            "std_opt_HID_report.json",
+            "sleep_timeout.json",
+            "indicator_light_timeout.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "no_more.json",
+            "wireless_mode.json",
+            "layout_azerty.json"
+          ]
+        }
+      ]
+    }
+  ]
 }

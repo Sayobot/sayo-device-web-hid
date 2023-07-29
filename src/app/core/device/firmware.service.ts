@@ -13,7 +13,6 @@ export class FirmwareService {
   ) { }
 
   hasNewVersino(info: DeviceInfo) {
-    debugger
     if((!info.api.includes(0xff))) {
       return lastValueFrom(of(false));
     }

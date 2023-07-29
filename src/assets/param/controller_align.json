@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "title": "controller axis",
+  "multiple_choice": false,
+  "input_type": "choice",
+  "data_len": 1,
+  "defVal": 0,
+  "data": [
+    {
+      "code": 0,
+      "name": "left"
+    },
+    {
+      "code": 1,
+      "name": "right"
+    },
+    {
+      "code": 2,
+      "name": "Center Left"
+    },
+    {
+      "code": 3,
+      "name": "Center Right"
+    }
+  ]
+}
