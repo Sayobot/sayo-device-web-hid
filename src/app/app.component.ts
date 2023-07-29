@@ -12,6 +12,7 @@ import { FirmwareService } from './core/device/firmware.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FirmwareUpdateDialogComponent } from './shared/components/firmware-update-dialog/firmware-update-dialog.component';
 import { LoaderService } from './shared/components/loading/loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Menu {
   link: string;
@@ -101,7 +102,8 @@ export class AppComponent implements OnDestroy {
     private _settings: Settings,
     private _bpo: BreakpointObserver,
     private _dialog: MatDialog,
-    private _loading: LoaderService
+    private _loading: LoaderService,
+    private _snackbar: MatSnackBar
   ) {
 
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
@@ -124,14 +126,20 @@ export class AppComponent implements OnDestroy {
         .pipe(takeUntil(this.destory$))
         .subscribe(async (device: HIDDevice) => {
           if (device.opened) {
-            this.menus = [...this.createMenus()];
             await this.checkVersion();
-
-            if(!this._doc.isLoaded())  {
-              await this._doc.load(this._device.filename());
+            const info = this._device.info();
+            if (this._firmware.isO3C(info) && info.version < 0x63) {
+              this._snackbar.open(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"), "Ok", {
+                horizontalPosition: 'center',
+                verticalPosition: "bottom"
+              });
+            } else {
+              if (!this._doc.isLoaded()) {
+                await this._doc.load(this._device.filename());
+              }
+              this.menus = [...this.createMenus()];
+              this.toFirstPage();
             }
-
-            this.toFirstPage();
           }
         });
 

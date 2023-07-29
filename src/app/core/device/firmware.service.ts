@@ -25,6 +25,10 @@ export class FirmwareService {
       ))
   }
 
+  isO3C(info: DeviceInfo) {
+    return info.pid === 5 && info.mode_code === 4;
+  }
+
   download() {
     const a = document.createElement('a');
     a.style.display = 'none';
