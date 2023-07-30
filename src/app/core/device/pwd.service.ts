@@ -11,7 +11,15 @@ import { setItemHandler } from './utils';
 export class PwdService implements O2Service<Password> {
   data$ = new BehaviorSubject<Password[]>([]);
 
-  constructor(private _device: DeviceService, private _o2p: O2Protocol, private _loader: LoaderService) { }
+  constructor(
+    private _device: DeviceService,
+    private _o2p: O2Protocol,
+    private _loader: LoaderService
+  ) {
+    this._device.device$.subscribe(async () => {
+      this.data$.next([]);
+    });
+  }
 
   init(): Promise<string> {
     return new Promise((resolve, reject) => {

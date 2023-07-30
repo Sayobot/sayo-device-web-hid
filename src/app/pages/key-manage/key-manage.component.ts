@@ -36,7 +36,8 @@ export class KeyManageComponent implements OnInit, OnDestroy {
     private _key: KeyService,
     private _doc: DocService,
     private _snackBar: MatSnackBar,
-    private _bpo: BreakpointObserver) {
+    private _bpo: BreakpointObserver
+  ) {
 
     this._key.data$
       .pipe(

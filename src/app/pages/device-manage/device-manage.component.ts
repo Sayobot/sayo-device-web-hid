@@ -29,7 +29,6 @@ export class DeviceManageComponent implements OnInit {
         debounceTime(100),
         switchMap((_) => navigator.hid.requestDevice({ filters: Sayo_Device_filters })),
         map((devices: HIDDevice[]) => {
-
           let target: HIDDevice | null = null;
 
           for(let i = 0; i < devices.length; i++) {
@@ -57,6 +56,7 @@ export class DeviceManageComponent implements OnInit {
         distinctUntilChanged(),
         tap((device: HIDDevice) => this._device.setDevice(device)),
         switchMap(async (device: HIDDevice) => {
+
           if(device && !device.opened) {
 
             await device.open();

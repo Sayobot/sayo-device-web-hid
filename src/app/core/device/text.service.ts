@@ -13,7 +13,15 @@ export class TextService implements O2Service<IText> {
 
   private _encode: TextEncode = "GBK";
 
-  constructor(private _device: DeviceService, private o2p: O2Protocol, private _loader: LoaderService) { }
+  constructor(
+    private _device: DeviceService,
+    private o2p: O2Protocol,
+    private _loader: LoaderService
+  ) {
+    this._device.device$.subscribe(async () => {
+      this.data$.next([]);
+    });
+  }
 
   init(): Promise<string> {
     return new Promise((resolve, reject) => {

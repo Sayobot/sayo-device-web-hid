@@ -14,7 +14,11 @@ export class DeviceOptService implements O2Service<DeviceOption> {
     private _device: DeviceService,
     private _o2p: O2Protocol,
     private _loader: LoaderService
-  ) { }
+  ) {
+    this._device.device$.subscribe(async () => {
+      this.data$.next({ id: 0, values: [] });
+    });
+  }
 
   init(): Promise<string> {
     return new Promise((resolve, reject) => {

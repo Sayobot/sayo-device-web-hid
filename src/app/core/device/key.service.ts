@@ -16,8 +16,17 @@ import { ControlType } from 'src/app/shared/components/dynamix-form';
 export class KeyService implements O2Service<Key> {
   data$ = new BehaviorSubject<Key[]>([]);
 
-  constructor(private _device: DeviceService, private _o2p: O2Protocol, private _doc: DocService,
-    private _tr: TranslateService, private _loader: LoaderService) { }
+  constructor(
+    private _device: DeviceService,
+    private _o2p: O2Protocol,
+    private _doc: DocService,
+    private _tr: TranslateService,
+    private _loader: LoaderService
+  ) {
+    this._device.device$.subscribe(async () => {
+      this.data$.next([]);
+    });
+  }
 
   init(): Promise<string> {
     return new Promise((resolve, reject) => {

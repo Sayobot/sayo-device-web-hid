@@ -12,7 +12,16 @@ import { LoaderService } from 'src/app/shared/components/loading/loader.service'
 export class SimpleKeyService implements O2Service<SimpleKey> {
   data$ = new BehaviorSubject<SimpleKey[]>([]);
 
-  constructor(private _device: DeviceService, private o2p: O2Protocol, private _key: KeyService, private _loader: LoaderService) { }
+  constructor(
+    private _device: DeviceService,
+    private o2p: O2Protocol,
+    private _key: KeyService,
+    private _loader: LoaderService
+  ) {
+    this._device.device$.subscribe(async () => {
+      this.data$.next([]);
+    });
+  }
 
   init(): Promise<string> {
     return new Promise((resolve, reject) => {
