@@ -31,7 +31,6 @@ export class DeviceOptionComponent implements OnInit {
   }
 
   onSubmit() {
-
     const { options: values } = this.form?.value;
 
     const opt = {
