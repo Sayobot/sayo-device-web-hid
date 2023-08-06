@@ -128,7 +128,10 @@ export class AppComponent implements OnDestroy {
           if (device.opened) {
             await this.checkVersion();
             const info = this._device.info();
-            if (this._firmware.isO3C(info) && info.version < 0x63) {
+
+            const O3C_MIN_VERSION = 98;
+
+            if (this._firmware.isO3C(info) && info.version < O3C_MIN_VERSION) {
               this._snackbar.open(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"), "Ok", {
                 horizontalPosition: 'center',
                 verticalPosition: "bottom"
