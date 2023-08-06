@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ config.title }}</h1>
+<div mat-dialog-content>
+  {{ config.content }}
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-button (click)="close()">{{ config.concal ? config.concal : "Concal"}}</button>
+  <button mat-button color="warn" cdkFocusInitial (click)="comfirm()">{{ config.ok ? config.ok : "Ok"  }}</button>
+</div>

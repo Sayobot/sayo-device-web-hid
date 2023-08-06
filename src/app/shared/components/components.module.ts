@@ -22,7 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoadingComponent } from './loading/loading.component';
 import { ColorPickerControlComponent } from './color-picker-control';
 import { FooterComponent } from './footer/footer.component';
-import { FirmwareUpdateDialogComponent } from './firmware-update-dialog/firmware-update-dialog.component';
+import { GetBoolDialog } from './get-bool-dialog/get-bool-dialog.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -41,7 +41,7 @@ const Components = [
   LoadingComponent,
   ColorPickerControlComponent,
   FooterComponent,
-  FirmwareUpdateDialogComponent
+  GetBoolDialog
 ];
 
 @NgModule({

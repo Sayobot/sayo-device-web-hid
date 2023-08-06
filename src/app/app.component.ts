@@ -10,9 +10,9 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
 import { FirmwareService } from './core/device/firmware.service';
 import { MatDialog } from '@angular/material/dialog';
-import { FirmwareUpdateDialogComponent } from './shared/components/firmware-update-dialog/firmware-update-dialog.component';
 import { LoaderService } from './shared/components/loading/loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GetBoolDialog } from './shared/components/get-bool-dialog/get-bool-dialog.component';
 
 interface Menu {
   link: string;
@@ -132,10 +132,7 @@ export class AppComponent implements OnDestroy {
             const O3C_MIN_VERSION = 98;
 
             if (this._firmware.isO3C(info) && info.version < O3C_MIN_VERSION) {
-              this._snackbar.open(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"), "Ok", {
-                horizontalPosition: 'center',
-                verticalPosition: "bottom"
-              });
+              this.confirmUpdate(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"));
             } else {
               if (!this._doc.isLoaded()) {
                 await this._doc.load(this._device.filename());
@@ -162,14 +159,23 @@ export class AppComponent implements OnDestroy {
     const yes = await this._firmware.hasNewVersino(this._device.info());
 
     if (yes) {
-      const ref = this._dialog.open(FirmwareUpdateDialogComponent);
-
-      ref.afterClosed().subscribe((state) => {
-        if (state) {
-          this._firmware.download();
-        }
-      })
+      this.confirmUpdate("当前设备有新固件可以更新!");
     }
+  }
+
+  private confirmUpdate(content = "") {
+    const ref = this._dialog.open(GetBoolDialog, {
+      data: {
+        title: "Update!!!",
+        content: this._tr.instant(content)
+      }
+    });
+
+    ref.afterClosed().subscribe((state) => {
+      if (state) {
+        this._firmware.download();
+      }
+    })
   }
 
   private toFirstPage() {
