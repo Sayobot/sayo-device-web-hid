@@ -1,4 +1,4 @@
-import { catchError, filter, fromEvent, interval, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
+import { catchError, filter, fromEvent, interval, lastValueFrom, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
 import { Cmd, Config, Method, Offset } from './const';
 
 /**
@@ -157,6 +157,33 @@ export const requestByRead = <T>(
   sendReport(device, option.buffer);
 };
 
+export async function sendReport2(device: HIDDevice, out_buf: Uint8Array) {
+  if (!device) throw new Error("could not connect device.");
+  if (!device.opened) throw new Error("could not open device.");
+
+  return new Promise<ArrayBuffer>((resolve, reject) => {
+    const done$ = new Subject<boolean>();
+    const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
+      .pipe(
+        takeUntil(done$),
+        catchError((e) => {
+          console.error(e.message);
+          done$.next(true);
+          done$.complete();
+          return of();
+        }),
+      );
+
+    input$.subscribe(({ data }) => {
+      done$.next(true);
+      done$.complete();
+      resolve(data.buffer);
+    });
+
+    device.sendReport(Config.reportId, out_buf);
+  })
+}
+
 /**
  * 写入设备
  * @param device
@@ -198,5 +225,6 @@ export default {
   requestByRead,
   requestByWrite,
   makeReadBuffer,
-  sendReport
+  sendReport,
+  sendReport2,
 }

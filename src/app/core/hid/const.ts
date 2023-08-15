@@ -27,14 +27,33 @@ export enum Method {
 }
 
 export enum Cmd {
-  Save = 0x04,
   MetaInfo = 0x00,
-  Light = 0x10,
-  Key = 0x16,
+  MemoryRead = 0x01,
+  MemoryWrite = 0x02,
+  ExecApp = 0x03,
+  Save = 0x04,
+  EraseFlash = 0x04,
+  FirmwareVerify = 0x05,
   SimpleKey = 0x06,
   Password = 0x0B,
   Text = 0x0C,
-  Option = 0xfc
+  Light = 0x10,
+  Palette = 0x11,
+  Key = 0x16,
+  Option = 0xfc,
+  Bootloader = 0xff
+}
+
+export enum ResponseType {
+  None = -1,
+  NotSupport = 0xff,      // 不支持的指令
+  Continue = 0xfe,        // 继续接受响应码
+  Done = 0x00,            // 成功且已经返回全部数据
+  Ok = 0x01,              // 成功
+  Message = 0x02,         // 提示
+  NotSuppotData = 0x03,   // 数据不支持
+  ErrorCheck = 0x04,      // 错误的校验和
+  ErrorData = 0x05        // 数据错误
 }
 
 export enum LightMode {

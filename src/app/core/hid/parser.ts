@@ -10,6 +10,18 @@ const COLOR_LENGTH = 10;
 
 const SUPPORT_START = 8;
 
+export const BL_MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data) => {
+
+  let info: DeviceInfo = {
+    pid: 0,
+    version: 0,
+    mode_code: data[4] * 256 + data[5],
+    name: '',
+    api: [],
+  };
+  return info;
+}
+
 export const MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data: Uint8Array) => {
 
   const length = data[1];
@@ -281,8 +293,11 @@ export const UnicodeAsBuffer: ParserAsFunc<IText> = (data: IText) => {
   return arr;
 };
 
+const onlyStatu: ParserFromFunc<null> = (_) => null;
+
 export default {
   // buffer to data
+  asBLMetaInfo: BL_MetaInfoFromBuffer,
   asMetaInfo: MetaInfoFromBuffer,
   asGBK: GbkFromBuffer,
   asUnicode: UnicodeFromBuffer,
@@ -291,6 +306,8 @@ export default {
   asSimpleKey: SimpleKeyFromBuffer,
   asLight: LightFromBuffer,
   asOption: OptionFromBuffer,
+
+  onlyStatu,
 
   // data to buffer
   toGBKBuffer: GbkAsBuffer,

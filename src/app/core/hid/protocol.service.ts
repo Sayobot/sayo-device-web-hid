@@ -5,10 +5,52 @@
 /// <reference path="./index.d.ts" />
 
 import { Injectable } from '@angular/core';
-import O2Core from './const';
+import O2Core, { ResponseType as O2ResType, ResponseType } from './const';
 import O2Utils from './utils';
 import O2Parser from './parser';
 import { lockFactory } from './lock';
+
+export interface O2Response<T> {
+  statu: O2ResType,
+  data: T;
+}
+
+function wait(ms: number) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true);
+    }, ms);
+  });
+}
+
+const REQUEST_SIZE = 63;
+
+// 字节序是否为小端
+const isLittleEndian = () => {
+  const buffer = new ArrayBuffer(2);
+  new DataView(buffer).setInt16(0, 256, true);
+  return new Int16Array(buffer)[0] === 256;
+};
+
+const isLittle = isLittleEndian();
+
+const getAddrArray = (addr: number, addr_len: number, isLittle: boolean) => {
+  const addr_buf = new ArrayBuffer(addr_len);
+  const dataview = new DataView(addr_buf);
+
+
+  switch (addr_len) {
+    case 2:
+      dataview.setUint16(0, addr);
+      break;
+    case 4:
+      dataview.setUint32(0, addr);
+      break;
+  }
+
+  const addr_arr = [...new Uint8Array(addr_buf)];
+  return isLittle ? [...addr_arr.reverse()] : [...addr_arr];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +84,89 @@ export class O2Protocol {
       HIDLog: this._hidLog
     }
     O2Utils.requestByWrite(device, option);
+  }
+
+  async write_memory(device: HIDDevice, addr: number, addr_len: number, data: number[]) {
+    const out_array = Array(REQUEST_SIZE).fill(0);
+    out_array[0] = O2Core.Cmd.MemoryWrite;
+    out_array[1] = data.length + addr_len;
+
+    const ADDR_START = 2;
+    const DATA_START = ADDR_START + addr_len;
+
+    const addr_array = getAddrArray(addr, addr_len, isLittle);
+    out_array.splice(ADDR_START, addr_len, ...addr_array);
+    out_array.splice(DATA_START, data.length, ...data);
+
+    const out_buf = this.fillBuffer(out_array);
+
+    // console.log("addr: ", i);
+    // console.log("Num array : ", [...out_buf].map(n => n).join(" "));
+    // console.log("HEX buffer: ", [...out_buf].map(n => (n > 15 ? n.toString(16) : `0${n.toString(16)}`)).join(" "));
+    // console.log("out index : ", [...out_buf].map((n, i) => i > 9 ? i : `0${i}`).join(" "));
+
+    return await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
+  async bootlodaer_model_code(device: HIDDevice) {
+    const out_buf = this.fillBuffer([1, 0, 3]);
+    return await this.takeData(device, out_buf, O2Parser.asBLMetaInfo);
+  }
+
+  async erase_firmware(device: HIDDevice) {
+    // 02 04 00 06
+    const out_buf = this.fillBuffer([O2Core.Cmd.EraseFlash, 0]);
+    return await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
+  async verify_firmware(device: HIDDevice) {
+    // 02 05 00 07
+    const out_buf = this.fillBuffer([O2Core.Cmd.FirmwareVerify, 0]);
+    return await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
+  async jump_bootloader(device: HIDDevice) {
+    // 02 ff 02 72 96 0b 发两次
+    let out_buf = this.fillBuffer([O2Core.Cmd.Bootloader, O2Core.Config.cmdSize, 0x72, 0x96]);
+
+    await this.takeData(device, out_buf, O2Parser.onlyStatu);
+    await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
+  async jump_app(device: HIDDevice) {
+    // 02 03 00 05
+    let out_buf = this.fillBuffer([O2Core.Cmd.ExecApp, 0]);
+    return await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
+  async get_metaInfo_2(device: HIDDevice) {
+    const out_buf = new Uint8Array([O2Core.Cmd.MetaInfo, 0x00, 0x02]);
+    return this.takeData(device, out_buf, O2Parser.asMetaInfo);
+  };
+
+  private async takeData<T>(device: HIDDevice, out_buf: Uint8Array, parser: ParserFromFunc<T>): Promise<O2Response<T>> {
+    if (this._hidLog) {
+      console.log("Out Report Buffer:", out_buf);
+    }
+
+    const in_buf = await O2Utils.sendReport2(device, out_buf);
+    const uint8_buf = new Uint8Array(in_buf);
+
+    if (this._hidLog) {
+      console.log("In Report Buffer:", uint8_buf);
+    }
+
+    const result = parser(uint8_buf);
+    return { statu: uint8_buf[0], data: result };
+  }
+
+  private fillBuffer(data: number[]): Uint8Array {
+    const result = [...data];
+
+    const checkOffset = result[O2Core.Offset.Size] + O2Core.Config.checkSumStepSize;
+    result[checkOffset] = O2Utils.calcCheckSum(result.slice(0, checkOffset));
+
+    return new Uint8Array(result);
   }
 
   get_metaInfo(device: HIDDevice, handler: GetHandler<DeviceInfo>) {

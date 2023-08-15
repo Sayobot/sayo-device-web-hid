@@ -27,6 +27,12 @@ const Quicks = [
   { name: "灯光 ID 0", value: "10 02 00 00" },
   { name: "Bootloader", value: "ff 02 72 96" },
   { name: "恢复出厂", value: "4f 02 72 96"},
+
+  // 临时
+  { name: "App", value: "03 00"},
+  { name: "固件擦除", value: "04 00"},
+  { name: "固件验证", value: "05 00"},
+  { name: "设备信息", value: "01 00"}
 ]
 
 @Component({

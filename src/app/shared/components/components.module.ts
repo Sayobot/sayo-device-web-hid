@@ -23,6 +23,8 @@ import { LoadingComponent } from './loading/loading.component';
 import { ColorPickerControlComponent } from './color-picker-control';
 import { FooterComponent } from './footer/footer.component';
 import { GetBoolDialog } from './get-bool-dialog/get-bool-dialog.component';
+import { ProgressDialog } from './progress-dialog/progress-dialog.component';
+import { InformationDialog } from './information-dialog/information-dialog.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -41,7 +43,9 @@ const Components = [
   LoadingComponent,
   ColorPickerControlComponent,
   FooterComponent,
-  GetBoolDialog
+  GetBoolDialog,
+  ProgressDialog,
+  InformationDialog
 ];
 
 @NgModule({

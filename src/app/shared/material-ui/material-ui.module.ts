@@ -20,6 +20,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressBarModule } from "@angular/material/progress-bar"
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -51,6 +52,7 @@ const MAT_COMPONENT = [
   MatRippleModule,
   MatMenuModule,
   MatProgressSpinnerModule,
+  MatProgressBarModule
 ]
 
 const MAT_UI = [

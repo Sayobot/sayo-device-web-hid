@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 import { DeviceService } from './core/device/device.service';
 import { DocService } from './core/doc/doc.service';
 import { Cmd, O2Protocol } from './core/hid';
@@ -9,10 +9,17 @@ import { Router } from "@angular/router";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
 import { FirmwareService } from './core/device/firmware.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoaderService } from './shared/components/loading/loader.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { GetBoolDialog } from './shared/components/get-bool-dialog/get-bool-dialog.component';
+import { ProgressDialog } from './shared/components/progress-dialog/progress-dialog.component';
+import { InformationDialog } from './shared/components/information-dialog/information-dialog.component';
+
+const isWeChat = navigator.userAgent.toLowerCase().includes("micromessenger");
+const isO3C = (pid: number, mode_code: number) => (pid === 5 && mode_code === 4);
+const caniuse = () => navigator.hid && !isWeChat;
+
+const O3C_MIN_VERSION = 98;
 
 interface Menu {
   link: string;
@@ -91,6 +98,9 @@ export class AppComponent implements OnDestroy {
 
   destory$ = new Subject<void>();
 
+  deviceInfo: DeviceInfo | undefined;
+  firmwareConfig: Firmware | undefined;
+
   constructor(
     private http: HttpClient,
     private _firmware: FirmwareService,
@@ -103,79 +113,159 @@ export class AppComponent implements OnDestroy {
     private _bpo: BreakpointObserver,
     private _dialog: MatDialog,
     private _loading: LoaderService,
-    private _snackbar: MatSnackBar
   ) {
+    if (!this.caniuse()) {
+      return;
+    }
 
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
       .subscribe(result => {
         this.matchSmallScreen = result.breakpoints[SMALL_SCREEN];
       })
 
-    this._settings.storage$
-      .pipe(takeUntil(this.destory$)).subscribe(result => {
-        this._protocol.setLogEnable(result["log"] === "open");
-        this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
-
-        if (this._device.isConnected()) {
-          this.menus = [...this.createMenus()];
-        }
-      })
-
-    if (navigator.hid) {
-      this._device.device$
-        .pipe(takeUntil(this.destory$))
-        .subscribe(async (device: HIDDevice) => {
-          if (device.opened) {
-            await this.checkVersion();
-            const info = this._device.info();
-
-            const O3C_MIN_VERSION = 98;
-
-            if (this._firmware.isO3C(info) && info.version < O3C_MIN_VERSION) {
-              this.confirmUpdate(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"));
-            } else {
-              if (!this._doc.isLoaded()) {
-                await this._doc.load(this._device.filename());
-              }
-              this.menus = [...this.createMenus()];
-              this.toFirstPage();
-            }
-          }
-        });
-
-      this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json').subscribe((res) => {
+    this.http.get<{ languages: Lang[] }>('/assets/i18n/lang.json')
+      .pipe(takeUntil(this.destory$))
+      .subscribe((res) => {
         this.langs = res.languages;
-
         this.setLanguage(this._tr.getBrowserLang() || 'en');
       });
-    } else {
+
+    this._device.device$
+      .pipe(takeUntil(this.destory$))
+      .subscribe(async (device: HIDDevice) => {
+        if (!device.opened) {
+          return console.error("please connect device.");;
+        }
+
+        const isBootloader = await this._firmware.isBootloader(device);
+        if (isBootloader) {
+          this.upgrade(device);
+          return;
+        }
+
+        this.deviceInfo = this._device.info();
+
+        const { pid, mode_code, version } = this.deviceInfo;
+        if (isO3C(pid, mode_code) && version < O3C_MIN_VERSION) {
+          const ok = await this.confirmUpdate(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"));
+          if (ok) {
+            this.jumpToBootloader();
+          }
+          return;
+        }
+
+        this.firmwareConfig = await this._firmware.config(pid);
+        if (this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
+          const ok = await this.confirmUpdate(this._tr.instant("当前设备有新固件可以更新"));
+          if (ok) {
+            this.jumpToBootloader();
+            return;
+          }
+        };
+
+        if (!this._doc.isLoaded()) {
+          await this._doc.load(this._device.filename());
+        }
+
+        this.menus = [...this.createMenus()];
+        this.toFirstPage();
+
+        this._settings.storage$
+          .pipe(takeUntil(this.destory$)).subscribe(result => {
+            this._protocol.setLogEnable(result["log"] === "open");
+            this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
+
+            if (this._device.isConnected()) {
+              this.menus = [...this.createMenus()];
+            }
+          })
+      });
+  }
+
+  private caniuse() {
+    if (!caniuse()) {
       const url = "https://caniuse.com/?search=webhid";
       const tip = `${this._tr.instant("请使用支持 Web HID 的浏览器，支持列表可查询")}:${url}`;
       alert(tip);
+      return false;
     }
+
+    return true;
   }
 
-  async checkVersion() {
-    const yes = await this._firmware.hasNewVersino(this._device.info());
+  private async upgrade(device: HIDDevice) {
+    const config: MatDialogConfig = {
+      disableClose: true,
+      data: {
+        title: this._tr.instant("固件升级中，请不要断开连接或者关闭窗口...")
+      }
+    };
 
-    if (yes) {
-      this.confirmUpdate("当前设备有新固件可以更新!");
+    const ref = this._dialog.open(ProgressDialog, config);
+
+    this._firmware.upgrade$
+      .pipe(takeUntil(this.destory$))
+      .subscribe((progress) => {
+        if (progress.done) {
+          ref.componentInstance.setValue(100);
+          ref.componentInstance.setContent("固件升级结束，窗口关闭后请重新连接设备...");
+
+          setTimeout(() => {
+            ref.close();
+            this._router.navigate(["/device"]);
+          }, 2000);
+
+          return;
+        }
+
+        ref.componentInstance.setValue(100 * (progress.value / progress.total));
+        ref.componentInstance.setContent(`${progress.value}/${progress.total} byte`);
+      });
+
+    this.deviceInfo = await this._firmware.bl_device_info(device);
+
+    if (!this.firmwareConfig) {
+      this.firmwareConfig = await this._firmware.config(device.productId);
     }
+
+    const info = this._firmware.firmwareInfo(this.firmwareConfig, this.deviceInfo.mode_code);
+
+    if (!info) {
+      console.error("没找到对应固件用于升级");
+      return;
+    }
+
+    this._firmware.upgrade(device, info, this.firmwareConfig);
   }
 
-  private confirmUpdate(content = "") {
-    const ref = this._dialog.open(GetBoolDialog, {
+  private async confirmUpdate(content = "") {
+    const config = {
       data: {
         title: "Update!!!",
-        content: this._tr.instant(content)
+        content: content
       }
-    });
+    }
 
-    ref.afterClosed().subscribe((state) => {
-      if (state) {
-        this._firmware.download();
+    const confirmRef = this._dialog.open(GetBoolDialog, config);
+    return await lastValueFrom(confirmRef.afterClosed())
+  }
+
+  private async jumpToBootloader() {
+    if (!this.deviceInfo) return;
+
+    const config = {
+      disableClose: true,
+      data: {
+        content: this._tr.instant("设备正在进入 Bootloader，稍后请重新选择并连接设备后开始自动在线升级"),
+        title: this._tr.instant("Bootloader")
       }
-    })
+    }
+
+    const ref = this._dialog.open(InformationDialog, config);
+    await this._firmware.bootloader(this._device.instance!, 3000, () => {
+      ref.close();
+      this._router.navigate(["/device"]);
+    });
   }
 
   private toFirstPage() {
