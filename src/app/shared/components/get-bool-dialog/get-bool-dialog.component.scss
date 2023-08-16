@@ -1,5 +1,9 @@
 .actions {
   display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  justify-content: flex-end;
+  align-items: center;
+
+  button {
+    min-width: 120px;
+  }
 }

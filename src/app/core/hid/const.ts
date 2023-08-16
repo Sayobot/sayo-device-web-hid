@@ -41,7 +41,10 @@ export enum Cmd {
   Palette = 0x11,
   Key = 0x16,
   Option = 0xfc,
-  Bootloader = 0xff
+  Bootloader = 0xff,
+  ScreenStart = 0x31,
+  ScreenMain = 0x32,
+  ScreenSleep = 0x33,
 }
 
 export enum ResponseType {

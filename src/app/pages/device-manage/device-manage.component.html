@@ -8,5 +8,11 @@
     </div>
   </ng-container>
 
+  <ng-container *ngIf="isBootloader()">
+    <div class="upgrade-tip">
+      {{"当前设备已经进入 Bootloader 状态，请重新搜索并连接名称中包含 bootloader 或者 DEV 的设备，连接后将会自动开始固件升级。" | translate}}
+    </div>
+  </ng-container>
+
   <app-footer></app-footer>
 </div>

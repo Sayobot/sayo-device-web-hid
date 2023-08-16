@@ -23,6 +23,8 @@ const afterMemoryEmpty = (buf: number[], i: number) => {
 @Injectable({ providedIn: 'root' })
 export class FirmwareService {
 
+  onBootloader: boolean = false;
+
   upgrade$ = new Subject<UpgradeProgress>();
 
   constructor(

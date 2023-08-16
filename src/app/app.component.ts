@@ -69,6 +69,12 @@ const MENUS: Menu[] = [
     icon: 'settings_suggest',
     name: "设备选项",
     key: Cmd.Option
+  },
+  {
+    link: "screen",
+    icon: "dashboard",
+    name: "屏幕编辑",
+    key: Cmd.ScreenMain
   }
 ];
 
@@ -196,6 +202,7 @@ export class AppComponent implements OnDestroy {
   private async upgrade(device: HIDDevice) {
     const config: MatDialogConfig = {
       disableClose: true,
+      width: "500px",
       data: {
         title: this._tr.instant("固件升级中，请不要断开连接或者关闭窗口...")
       }
@@ -235,14 +242,16 @@ export class AppComponent implements OnDestroy {
       return;
     }
 
+    this._firmware.onBootloader = false;
     this._firmware.upgrade(device, info, this.firmwareConfig);
   }
 
   private async confirmUpdate(content = "") {
-    const config = {
+    const config: MatDialogConfig = {
+      width: "500px",
       data: {
         title: "Update!!!",
-        content: content
+        content: content,
       }
     }
 
@@ -253,8 +262,9 @@ export class AppComponent implements OnDestroy {
   private async jumpToBootloader() {
     if (!this.deviceInfo) return;
 
-    const config = {
+    const config: MatDialogConfig = {
       disableClose: true,
+      width: "500px",
       data: {
         content: this._tr.instant("设备正在进入 Bootloader，稍后请重新选择并连接设备后开始自动在线升级"),
         title: this._tr.instant("Bootloader")
@@ -264,6 +274,7 @@ export class AppComponent implements OnDestroy {
     const ref = this._dialog.open(InformationDialog, config);
     await this._firmware.bootloader(this._device.instance!, 3000, () => {
       ref.close();
+      this._firmware.onBootloader = true;
       this._router.navigate(["/device"]);
     });
   }

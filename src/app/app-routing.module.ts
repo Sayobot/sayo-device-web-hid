@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/light-manage/light-manage.module').then(m => m.LightManageModule)
   },
   {
+    path: "screen",
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/screen-edit/screen-edit.module').then(m => m.ScreenEditModule)
+  },
+  {
     path: "device-option",
     canActivate: [AuthGuard],
     loadChildren: () => import("./pages/device-option/device-option.module").then(m => m.DeviceOptionModule)
