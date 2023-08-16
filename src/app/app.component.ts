@@ -150,7 +150,6 @@ export class AppComponent implements OnDestroy {
         }
 
         this.deviceInfo = this._device.info();
-
         const { pid, mode_code, version } = this.deviceInfo;
         if (isO3C(pid, mode_code) && version < O3C_MIN_VERSION) {
           const ok = await this.confirmUpdate(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"));
@@ -161,7 +160,8 @@ export class AppComponent implements OnDestroy {
         }
 
         this.firmwareConfig = await this._firmware.config(pid);
-        if (this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
+
+        if (this.firmwareConfig && this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
           const ok = await this.confirmUpdate(this._tr.instant("当前设备有新固件可以更新"));
           if (ok) {
             this.jumpToBootloader();
@@ -174,6 +174,9 @@ export class AppComponent implements OnDestroy {
         }
 
         this.menus = [...this.createMenus()];
+        if (this._settings.get("HIDInput") === "open") {
+          this.menus.push(HIDMenu);
+        }
         this.toFirstPage();
 
         this._settings.storage$
@@ -183,6 +186,10 @@ export class AppComponent implements OnDestroy {
 
             if (this._device.isConnected()) {
               this.menus = [...this.createMenus()];
+
+              if (this._settings.get("HIDInput") === "open") {
+                this.menus.push(HIDMenu);
+              }
             }
           })
       });
@@ -208,6 +215,20 @@ export class AppComponent implements OnDestroy {
       }
     };
 
+    this.deviceInfo = await this._firmware.bl_device_info(device);
+    this.firmwareConfig = await this._firmware.config(device.productId);
+
+    if (!this.firmwareConfig) {
+      return;
+    }
+
+    const info = this._firmware.firmwareInfo(this.firmwareConfig, this.deviceInfo.mode_code);
+
+    if (!info) {
+      console.error("没找到对应固件用于升级");
+      return;
+    }
+
     const ref = this._dialog.open(ProgressDialog, config);
 
     this._firmware.upgrade$
@@ -228,19 +249,6 @@ export class AppComponent implements OnDestroy {
         ref.componentInstance.setValue(100 * (progress.value / progress.total));
         ref.componentInstance.setContent(`${progress.value}/${progress.total} byte`);
       });
-
-    this.deviceInfo = await this._firmware.bl_device_info(device);
-
-    if (!this.firmwareConfig) {
-      this.firmwareConfig = await this._firmware.config(device.productId);
-    }
-
-    const info = this._firmware.firmwareInfo(this.firmwareConfig, this.deviceInfo.mode_code);
-
-    if (!info) {
-      console.error("没找到对应固件用于升级");
-      return;
-    }
 
     this._firmware.onBootloader = false;
     this._firmware.upgrade(device, info, this.firmwareConfig);
@@ -288,13 +296,7 @@ export class AppComponent implements OnDestroy {
   }
 
   private createMenus() {
-    let menus = MENUS.filter((menu) => this._device.isSupport(menu.key));
-
-    if (this._settings.get("HIDInput") === "open") {
-      menus.push(HIDMenu);
-    }
-
-    return menus;
+    return MENUS.filter((menu) => this._device.isSupport(menu.key));
   }
 
   ngOnDestroy(): void {

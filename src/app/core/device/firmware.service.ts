@@ -125,8 +125,12 @@ export class FirmwareService {
   }
 
   async config(pid: number) {
-    const requestConfig = this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}.json`)
-    return await lastValueFrom(requestConfig);
+    try {
+      const requestConfig = this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}.json`)
+      return await lastValueFrom(requestConfig);
+    } catch (error) {
+      return undefined;
+    }
   }
 
   firmwareInfo(config: Firmware, code: number) {
