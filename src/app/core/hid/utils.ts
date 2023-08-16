@@ -131,7 +131,11 @@ export const requestByRead = <T>(
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
 
-  input$.subscribe(({ data }) => {
+  input$.subscribe(({ reportId, data }) => {
+    if (reportId !== 2) {
+      return;
+    }
+
     const buffer = new Uint8Array(data.buffer);
 
     if (option.HIDLog) {
@@ -174,10 +178,12 @@ export async function sendReport2(device: HIDDevice, out_buf: Uint8Array) {
         }),
       );
 
-    input$.subscribe(({ data }) => {
-      done$.next(true);
-      done$.complete();
-      resolve(data.buffer);
+    input$.subscribe(({ reportId, data }) => {
+      if (reportId === 2) {
+        done$.next(true);
+        done$.complete();
+        resolve(data.buffer);
+      }
     });
 
     device.sendReport(Config.reportId, out_buf);
