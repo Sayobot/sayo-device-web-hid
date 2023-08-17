@@ -3,6 +3,6 @@
   {{ config.content }}
 </div>
 <div mat-dialog-actions class="actions">
-  <button mat-flat-button (click)="close()">{{ config.concal ? config.concal : "Concal"}}</button>
+  <button mat-flat-button (click)="close()">{{ config.cancel ? config.cancel : "Concal"}}</button>
   <button mat-flat-button color="warn" cdkFocusInitial (click)="comfirm()">{{ config.ok ? config.ok : "Ok"  }}</button>
 </div>

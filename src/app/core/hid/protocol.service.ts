@@ -144,6 +144,25 @@ export class O2Protocol {
     return this.takeData(device, out_buf, O2Parser.asMetaInfo);
   };
 
+  async get_device_name(device: HIDDevice) {
+    const out_buf = new Uint8Array([O2Core.Cmd.DeviceName, 0x01, 0x00, 0x0b]);
+    return this.takeData(device, out_buf, O2Parser.asDeviceName);
+  }
+
+  async set_device_name(device: HIDDevice, name: string) {
+    const out_array = Array(REQUEST_SIZE).fill(0);
+    out_array[O2Core.Offset.Cmd] = O2Core.Cmd.DeviceName;
+    out_array[O2Core.Offset.Size] = 32;
+    out_array[O2Core.Offset.Method] = O2Core.Method.Write;
+
+    const name_buf = O2Parser.toNameBuffer(name);
+
+    out_array.splice(3, 3 + name_buf.length, ...name_buf);
+
+    const out_buf = this.fillBuffer(out_array);
+    return await this.takeData(device, out_buf, O2Parser.onlyStatu);
+  }
+
   private async takeData<T>(device: HIDDevice, out_buf: Uint8Array, parser: ParserFromFunc<T>): Promise<O2Response<T>> {
     if (this._hidLog) {
       console.log("Out Report Buffer:", out_buf);

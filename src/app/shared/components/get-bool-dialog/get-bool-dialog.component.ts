@@ -5,7 +5,7 @@ interface GetBoolConfig {
   title: string;
   content: string;
   ok?: string;
-  concal?: string;
+  cancel?: string;
 }
 
 @Component({

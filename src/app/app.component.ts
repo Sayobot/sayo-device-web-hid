@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 import { DeviceService } from './core/device/device.service';
 import { DocService } from './core/doc/doc.service';
-import { Cmd, O2Protocol } from './core/hid';
+import { Cmd, O2Protocol, ResponseType } from './core/hid';
 import { Router } from "@angular/router";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
@@ -15,6 +15,7 @@ import { LoaderService } from './shared/components/loading/loader.service';
 import { GetBoolDialog } from './shared/components/get-bool-dialog/get-bool-dialog.component';
 import { ProgressDialog } from './shared/components/progress-dialog/progress-dialog.component';
 import { InformationDialog } from './shared/components/information-dialog/information-dialog.component';
+import { GetStringDialog } from './shared/components/get-string-dialog/get-string-dialog.component';
 
 const isWeChat = navigator.userAgent.toLowerCase().includes("micromessenger");
 const isO3C = (pid: number, mode_code: number) => (pid === 5 && mode_code === 4);
@@ -99,6 +100,7 @@ interface Lang {
 export class AppComponent implements OnDestroy {
   matchSmallScreen = false;
 
+  name = "";
   menus: Menu[] = [];
   langs: Lang[] = [];
   lang: Lang = { key: 'en', title: 'English' };
@@ -178,6 +180,9 @@ export class AppComponent implements OnDestroy {
         if (this._settings.get("HIDInput") === "open") {
           this.menus.push(HIDMenu);
         }
+
+        this.name = await this._device.name(device);
+
         this.toFirstPage();
 
         this._settings.storage$
@@ -332,5 +337,38 @@ export class AppComponent implements OnDestroy {
 
   canSave() {
     return this._device.isConnected() && this._device.isChanged();
+  }
+
+  async onRename() {
+
+    if (!this._device.instance) {
+      return;
+    }
+
+    const { pid } = this._device.info();
+
+    const config: MatDialogConfig = {
+      width: "500px",
+      data: {
+        title: "Hi",
+        content: this._tr.instant("请输入设备新名称"),
+        min: 0,
+        max: pid === 3 ? 15 : 25,
+        value: this.name
+      }
+    }
+
+    const ref = this._dialog.open(GetStringDialog, config);
+
+    ref.afterClosed()
+      .pipe(takeUntil(this.destory$))
+      .subscribe(async (name) => {
+        if (name) {
+          const statu = await this._device.rename(this._device.instance!, name);
+          if (statu === ResponseType.Done) {
+            this.name = name;
+          }
+        }
+      })
   }
 }

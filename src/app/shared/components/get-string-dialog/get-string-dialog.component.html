@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{ config.title }}</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>{{ config.content }}</mat-label>
+    <span matTextSuffix>{{counter}}</span>
+    <input #ref matInput type="text" [minlength]="config.min" [maxlength]="config.max" [(ngModel)]="value">
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-flat-button (click)="close()">{{ config.cancel ? config.cancel : "Concal"}}</button>
+  <button mat-flat-button color="warn" cdkFocusInitial (click)="comfirm()">{{ config.ok ? config.ok : "Ok" }}</button>
+</div>

@@ -10,6 +10,20 @@ const COLOR_LENGTH = 10;
 
 const SUPPORT_START = 8;
 
+export const nameFromBuffer: ParserFromFunc<string> = (data) => {
+  const str_len = data[1];
+  const codes = data.slice(2, str_len);
+
+  const unicodes: string[] = [];
+
+  for (let i = 0; i < codes.length; i += 2) {
+    const codePoint = codes[i] | (codes[i + 1] << 8);
+    unicodes.push(String.fromCodePoint(codePoint));
+  }
+
+  return unicodes.join("");
+}
+
 export const BL_MetaInfoFromBuffer: ParserFromFunc<DeviceInfo> = (data) => {
 
   let info: DeviceInfo = {
@@ -204,6 +218,17 @@ export const OptionFromBuffer: ParserFromFunc<DeviceOption> = (data: Uint8Array)
   return result;
 };
 
+export const NameAsBuffer: ParserAsFunc<string> = (name: string) => {
+  let unicodeCodes = [];
+  for (let i = 0; i < name.length; i++) {
+    const codePoint = name.codePointAt(i);
+    const lowByte = codePoint! & 0xff;
+    const highByte = (codePoint! >> 8) & 0xff;
+    unicodeCodes.push(lowByte, highByte);
+  }
+  return unicodeCodes;
+}
+
 export const OptionAsBuffer: ParserAsFunc<DeviceOption> = (option: DeviceOption) => {
   return [0, ...option.values];
 }
@@ -297,6 +322,7 @@ const onlyStatu: ParserFromFunc<null> = (_) => null;
 
 export default {
   // buffer to data
+  asDeviceName: nameFromBuffer,
   asBLMetaInfo: BL_MetaInfoFromBuffer,
   asMetaInfo: MetaInfoFromBuffer,
   asGBK: GbkFromBuffer,
@@ -310,6 +336,7 @@ export default {
   onlyStatu,
 
   // data to buffer
+  toNameBuffer: NameAsBuffer,
   toGBKBuffer: GbkAsBuffer,
   toUnicodeBuffer: UnicodeAsBuffer,
   toPasswordBuffer: PwdAsBuffer,

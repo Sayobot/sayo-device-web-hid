@@ -25,11 +25,19 @@ import { FooterComponent } from './footer/footer.component';
 import { GetBoolDialog } from './get-bool-dialog/get-bool-dialog.component';
 import { ProgressDialog } from './progress-dialog/progress-dialog.component';
 import { InformationDialog } from './information-dialog/information-dialog.component';
+import { GetStringDialog } from './get-string-dialog/get-string-dialog.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+const Dialogs = [
+  GetBoolDialog,
+  ProgressDialog,
+  InformationDialog,
+  GetStringDialog
+]
 
 const Components = [
   VirtualKeyComponent,
@@ -43,9 +51,7 @@ const Components = [
   LoadingComponent,
   ColorPickerControlComponent,
   FooterComponent,
-  GetBoolDialog,
-  ProgressDialog,
-  InformationDialog
+  ...Dialogs
 ];
 
 @NgModule({

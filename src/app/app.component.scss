@@ -29,8 +29,15 @@ main {
   margin: 0 1rem;
 }
 
-.doc {
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
+.device-name {
+  font-size: 1rem;
+  margin-right: 3rem;
+  display: flex;
+  align-items: center;
+
+  .mat-icon {
+    cursor: pointer;
+    margin-left: 8px;
+    @include mixin.icon(16px);
+  }
 }

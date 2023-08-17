@@ -5,6 +5,13 @@
 
     <span class="spacer"></span>
 
+    <ng-container *ngIf="name">
+      <div class="device-name">
+        <span>{{name}}</span>
+        <mat-icon (click)="onRename()">edit</mat-icon>
+      </div>
+    </ng-container>
+
     <button mat-raised-button color="warn" (click)="save()" [disabled]="!canSave()">
       {{ '保存到设备' | translate}}</button>
 
@@ -23,7 +30,6 @@
     <router-outlet></router-outlet>
   </div>
 
-  <a class="doc" href="https://manual.sayodevice.com" target="_blank">{{"遇到问题了？点击这里去看看文档吧！" | translate}}</a>
 </main>
 
 <global-loading></global-loading>

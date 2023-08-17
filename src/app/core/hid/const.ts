@@ -35,6 +35,7 @@ export enum Cmd {
   EraseFlash = 0x04,
   FirmwareVerify = 0x05,
   SimpleKey = 0x06,
+  DeviceName = 0x08,
   Password = 0x0B,
   Text = 0x0C,
   Light = 0x10,

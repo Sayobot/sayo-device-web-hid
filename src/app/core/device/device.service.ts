@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { O2Protocol } from '../hid';
+import { O2Protocol, ResponseType } from '../hid';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,26 @@ export class DeviceService {
 
   changed$ = new BehaviorSubject<Boolean>(false);
 
-  constructor(private _o2p: O2Protocol) {}
+  constructor(
+    private protocol: O2Protocol
+  ) {
+
+  }
+
+  async rename(device: HIDDevice, name: string) {
+    const res = await this.protocol.set_device_name(device, name);
+    this.setChanged(true);
+    return res.statu;
+  }
+
+  async name(device: HIDDevice) {
+    const res = await this.protocol.get_device_name(device);
+    if (res.statu !== ResponseType.Done) {
+      console.error("获取设备名称失败");
+    }
+
+    return res.data;
+  }
 
   isSupport(code: number) {
     if (!this.instance || !this._info) return false;
@@ -43,7 +62,7 @@ export class DeviceService {
       return;
     }
 
-    this._o2p.save(this.instance!, (ok: boolean) => {
+    this.protocol.save(this.instance!, (ok: boolean) => {
       if (ok) this.setChanged(false);
     });
   }
@@ -51,7 +70,7 @@ export class DeviceService {
   updateInfo() {
     if (!this.instance) return;
 
-    this._o2p.get_metaInfo(this.instance, (info: DeviceInfo) => {
+    this.protocol.get_metaInfo(this.instance, (info: DeviceInfo) => {
       this._info = info;
 
       this._info.pid = this.instance?.productId!;
