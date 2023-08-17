@@ -657,5 +657,6 @@
   "当前设备已经进入 Bootloader 状态，请重新搜索并连接名称中包含 bootloader 或者 DEV 的设备，连接后将会自动开始固件升级。": "The current device has entered the Bootloader State, Please re-search and connect the device that contains the Bootloader or DEV in its name, and firmware upgrade will start automatically.",
   "Web 版本暂不支持屏幕编辑，请下载桌面版编辑。": "The Web version does not support screen editing. Please download the desktop version for editing",
   "屏幕编辑": "Screen Edit",
-  "设备选项": "Device Option"
+  "设备选项": "Device Option",
+  "遇到问题了？点击这里去看看文档吧！": "Problem? Click here to see the document!"
 }
