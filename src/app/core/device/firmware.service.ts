@@ -70,9 +70,9 @@ export class FirmwareService {
     for (let addr = 0; addr < total; addr += WRITE_BLOCK_SIZE) {
       if (device.productId == 3) addr_len = 2; // TODO: 移除，这里是因为 config 文件漏了 addr_len
 
-      if (device.productId == 3 && afterMemoryEmpty(arr_buf, addr)) {
-        break;
-      }
+      // if (device.productId == 3 && afterMemoryEmpty(arr_buf, addr)) {
+      //   break;
+      // }
 
       const temp_buf = arr_buf.slice(addr, WRITE_BLOCK_SIZE + addr);
       await this._protocol.write_memory(device, addr, addr_len, temp_buf);
@@ -80,12 +80,12 @@ export class FirmwareService {
     }
 
     // PID 3 需要写入校验码
-    if (device.productId == 3) {
-      const addr = info.rom_size - 4;
-      const temp_buf = arr_buf.slice(addr, WRITE_BLOCK_SIZE + addr);
-      await this._protocol.write_memory(device, addr, addr_len, temp_buf);
-      this.handleUpgradeProgress(total, total);
-    }
+    // if (device.productId == 3) {
+    //   const addr = info.rom_size - 4;
+    //   const temp_buf = arr_buf.slice(addr, WRITE_BLOCK_SIZE + addr);
+    //   await this._protocol.write_memory(device, addr, addr_len, temp_buf);
+    //   this.handleUpgradeProgress(total, total);
+    // }
 
     // 验证固件是否错误
     const varify = await this._protocol.verify_firmware(device);
@@ -126,7 +126,7 @@ export class FirmwareService {
 
   async config(pid: number) {
     try {
-      const requestConfig = this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}.json`)
+      const requestConfig = this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}/config.json`)
       return await lastValueFrom(requestConfig);
     } catch (error) {
       return undefined;

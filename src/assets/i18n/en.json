@@ -658,5 +658,6 @@
   "Web 版本暂不支持屏幕编辑，请下载桌面版编辑。": "The Web version does not support screen editing. Please download the desktop version for editing",
   "屏幕编辑": "Screen Edit",
   "设备选项": "Device Option",
-  "遇到问题了？点击这里去看看文档吧！": "Problem? Click here to see the document!"
+  "遇到问题了？点击这里去看看文档吧！": "Problem? Click here to see the document!",
+  "请输入设备新名称": "please enter new device name"
 }
