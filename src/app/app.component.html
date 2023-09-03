@@ -47,10 +47,6 @@
       <mat-icon>{{ menu.icon }}</mat-icon>
       {{ menu.name | translate }}
     </button>
-    <button class="menu-bar-item" mat-menu-item routerLink="/setting">
-      <mat-icon>settings</mat-icon>
-      {{ '设置' | translate }}
-    </button>
   </mat-menu>
 </ng-template>
 
@@ -63,10 +59,5 @@
   <button *ngFor="let menu of menus" class="menu-bar-item" mat-button [routerLink]="menu.link">
     <mat-icon>{{ menu.icon }}</mat-icon>
     {{ menu.name | translate }}
-  </button>
-
-  <button class="menu-bar-item" mat-button routerLink="/setting">
-    <mat-icon>settings</mat-icon>
-    {{ '设置' | translate }}
   </button>
 </ng-template>

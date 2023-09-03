@@ -87,6 +87,13 @@ const HIDMenu: Menu = {
   key: 0
 }
 
+const SettingMenu: Menu= {
+  link: "/setting",
+  icon: "settings",
+  name: "设置",
+  key: 0
+}
+
 interface Lang {
   key: string;
   title: string;
@@ -176,10 +183,7 @@ export class AppComponent implements OnDestroy {
           await this._doc.load(this._device.filename());
         }
 
-        this.menus = [...this.createMenus()];
-        if (this._settings.get("HIDInput") === "open") {
-          this.menus.push(HIDMenu);
-        }
+        this.updateMenu();
 
         this.name = await this._device.name(device);
 
@@ -191,14 +195,27 @@ export class AppComponent implements OnDestroy {
             this._protocol.setHIDLogEnable(result["HIDLog"] === "open");
 
             if (this._device.isConnected()) {
-              this.menus = [...this.createMenus()];
-
-              if (this._settings.get("HIDInput") === "open") {
-                this.menus.push(HIDMenu);
-              }
+              this.updateMenu();
             }
           })
       });
+
+      navigator.hid.addEventListener("disconnect", ({ device }) => {
+        if(device === this._device.instance) {
+          alert(`HID disconnected: ${device.productName}`);
+          location.reload();
+        }
+      });
+  }
+
+  private updateMenu() {
+    this.menus = [...this.createMenus()];
+
+    if (this._settings.get("HIDInput") === "open") {
+      this.menus.push(HIDMenu);
+    }
+
+    this.menus.push(SettingMenu);
   }
 
   private caniuse() {
