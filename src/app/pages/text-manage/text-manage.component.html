@@ -10,11 +10,10 @@
 </mat-radio-group>
 
 <div cdkDropList class="text-list" (cdkDropListDropped)="drop($event)">
-  <ng-container *ngFor="let item of (texts$ | async)">
-    <string-edit cdkDrag [id]="item.id | order" [text]="item.content" charset="All"
-      (textChanged)="onTextChanged(item.id, $event)">
-    </string-edit>
-  </ng-container>
+
+  <string-edit *ngFor="let item of (texts$ | async)" [id]="item.id | order" [text]="item.content" charset="All"
+    (textChanged)="onTextChanged(item.id, $event)">
+  </string-edit>
 
   <app-footer></app-footer>
 </div>
