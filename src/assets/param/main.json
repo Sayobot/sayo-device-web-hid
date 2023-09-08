@@ -64,11 +64,43 @@
         {
           "name": "一键密码",
           "code": 8,
-          "note": "自动输入一系列的字符，请在“高级”选项卡修改",
+          "note": "软件版本<=100",
+          "version_max": 100,
           "values": [
             "pwd.json",
             "auto_enter.json",
-            "pwd_interval_time.json"
+            "pwd_interval_time.json",
+            "u8.json"
+          ]
+        },
+        {
+          "name": "一键密码v2",
+          "code": 8,
+          "note": "软件版本>=101",
+          "version_min": 101,
+          "values": [
+            "pwd.json"
+          ]
+        },
+        {
+          "name": "一键网页",
+          "code": 35,
+          "note": "软件版本>=101",
+          "version_min": 101,
+          "values": [
+            "pwd.json"
+          ]
+        },
+        {
+          "name": "短按长按2功能",
+          "code": 34,
+          "note": "软件版本>=101",
+          "version_min": 101,
+          "values": [
+            "modifier_keys.json",
+            "general_keys.json",
+            "modifier_keys.json",
+            "general_keys.json"
           ]
         },
         {

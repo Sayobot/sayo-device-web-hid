@@ -3,6 +3,8 @@ declare interface DocMode {
   code: number;
   note: string;
   files: string[];
+  version_max?: number;
+  version_min?: number;
 }
 
 declare interface DocCmd {
@@ -29,6 +31,8 @@ declare interface ModeJson {
   code: number;
   note: string;
   values: (string | string)[];
+  version_max?: number;
+  version_min?: number;
 }
 
 declare interface CmdJson {

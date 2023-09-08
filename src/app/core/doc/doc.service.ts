@@ -274,16 +274,25 @@ export class DocService {
   private _parseCmdDoc(json: CmdJson) {
     const name = json.title || " ";
 
+    const { version } = this.device.info();
+
     let doc: DocCmd = {
       name: this._tr.instant(name),
       code: json.cmd_code,
       modeMap: new Map(),
     };
 
-    json.mode.forEach((element) => {
-      const mode = this._parseModeDoc(element);
+    for (let i = 0; i < json.mode.length; i++) {
+      const el = json.mode[i];
+      const mode = this._parseModeDoc(el);
+
+      // 版本过滤
+      if (mode.version_max && version > mode.version_max || mode.version_min && version < mode.version_min) {
+        continue;
+      }
+
       doc.modeMap.set(mode.code, mode);
-    });
+    }
 
     return doc;
   }
@@ -296,6 +305,8 @@ export class DocService {
       code: json.code,
       note: json?.note || '',
       files: json.values,
+      version_max: json.version_max,
+      version_min: json.version_min
     };
     return doc;
   }
