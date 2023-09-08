@@ -22,9 +22,9 @@ export class PwdManageComponent implements OnInit {
     }
   }
 
-  onTextChanged(id: number, text: string) {
-    const item = { id: id, content: text };
-    this._pwd.setItem(item);
+  onTextChanged(item: Password, content: string) {
+    const newItem = { ...item, content };
+    this._pwd.setItem(newItem);
   }
 
   drop(event: CdkDragDrop<string[]>) {

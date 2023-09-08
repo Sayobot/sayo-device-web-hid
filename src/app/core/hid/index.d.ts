@@ -80,6 +80,7 @@ declare interface LightColor {
 declare interface Password {
   id: number;
   content: string;
+  max: number;
 }
 
 declare interface DeviceOption {

@@ -125,6 +125,9 @@ export const KeyFromBuffer: ParserFromFunc<Key> = (data: Uint8Array) => {
 };
 
 export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
+  const dataSize = data[1] - 4;
+  const max = dataSize < 32 ? 32 : dataSize;
+
   data = data.slice(2);
 
   const id = data[1];
@@ -138,7 +141,7 @@ export const PwdFromBuffer: ParserFromFunc<Password> = (data: Uint8Array) => {
     contentArr.push(String.fromCharCode(str[i]));
   }
 
-  return <Password>{ id, content: contentArr.join('') };
+  return <Password>{ id, content: contentArr.join(''), max };
 };
 
 export const GbkFromBuffer: ParserFromFunc<IText> = (data: Uint8Array) => {
