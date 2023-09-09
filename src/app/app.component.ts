@@ -87,7 +87,7 @@ const HIDMenu: Menu = {
   key: 0
 }
 
-const SettingMenu: Menu= {
+const SettingMenu: Menu = {
   link: "/setting",
   icon: "settings",
   name: "设置",
@@ -106,6 +106,8 @@ interface Lang {
 })
 export class AppComponent implements OnDestroy {
   matchSmallScreen = false;
+
+  onUpgrade = false;
 
   name = "";
   menus: Menu[] = [];
@@ -164,7 +166,7 @@ export class AppComponent implements OnDestroy {
         if (isO3C(pid, mode_code) && version < O3C_MIN_VERSION) {
           const ok = await this.confirmUpdate(this._tr.instant("设备版本过低，必须升级固件后才能正常使用设置程序"));
           if (ok) {
-            this.jumpToBootloader();
+            this.jumpToBootloader(device);
           }
           return;
         }
@@ -174,7 +176,7 @@ export class AppComponent implements OnDestroy {
         if (this.firmwareConfig && this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
           const ok = await this.confirmUpdate(this._tr.instant("当前设备有新固件可以更新"));
           if (ok) {
-            this.jumpToBootloader();
+            this.jumpToBootloader(device);
             return;
           }
         };
@@ -200,12 +202,12 @@ export class AppComponent implements OnDestroy {
           })
       });
 
-      navigator.hid.addEventListener("disconnect", ({ device }) => {
-        if(device === this._device.instance) {
-          alert(`HID disconnected: ${device.productName}`);
-          location.reload();
-        }
-      });
+    navigator.hid.addEventListener("disconnect", ({ device }) => {
+      if (!this.onUpgrade && device === this._device.instance) {
+        alert(`HID disconnected: ${device.productName}`);
+        location.reload();
+      }
+    });
   }
 
   private updateMenu() {
@@ -261,11 +263,23 @@ export class AppComponent implements OnDestroy {
       .subscribe((progress) => {
         if (progress.done) {
           ref.componentInstance.setValue(100);
-          ref.componentInstance.setContent("固件升级结束，窗口关闭后请重新连接设备...");
 
-          setTimeout(() => {
+          setTimeout(async () => {
             ref.close();
-            this._router.navigate(["/device"]);
+            const devices = await navigator.hid.getDevices();
+
+            for (let i = 0; i < devices.length; i++) {
+              const item = devices[i];
+              if (item.productId === device.productId && item.vendorId === device.vendorId) {
+                await item.open();
+                this._device.setDevice(item);
+                this._device.updateInfo();
+                break;
+              }
+            }
+
+            this.onUpgrade = false;
+            this.toFirstPage();
           }, 2000);
 
           return;
@@ -292,23 +306,37 @@ export class AppComponent implements OnDestroy {
     return await lastValueFrom(confirmRef.afterClosed())
   }
 
-  private async jumpToBootloader() {
+  private async jumpToBootloader(device: HIDDevice) {
     if (!this.deviceInfo) return;
-
+    this.onUpgrade = true;
     const config: MatDialogConfig = {
       disableClose: true,
       width: "500px",
       data: {
-        content: this._tr.instant("设备正在进入 Bootloader，稍后请重新选择并连接设备后开始自动在线升级"),
+        content: this._tr.instant("设备稍后将会开始自动在线升级..."),
         title: this._tr.instant("Bootloader")
       }
     }
 
     const ref = this._dialog.open(InformationDialog, config);
-    await this._firmware.bootloader(this._device.instance!, 3000, () => {
-      ref.close();
+
+    await this._firmware.bootloader(device, 3000, () => {
       this._firmware.onBootloader = true;
-      this._router.navigate(["/device"]);
+      ref.close();
+
+      setTimeout(async () => {
+        const devices = await navigator.hid.getDevices();
+
+        for (let i = 0; i < devices.length; i++) {
+          const item = devices[i];
+          if (item.productId === device.productId && item.vendorId === device.vendorId) {
+            await item.open();
+            this._device.setDevice(item);
+            this._device.updateInfo();
+            break;
+          }
+        }
+      }, 2000);
     });
   }
 

@@ -53,7 +53,6 @@ export class DeviceManageComponent implements OnInit {
             throw new Error("could not find hid device.");
           }
 
-
           return target;
         }),
         distinctUntilChanged(),

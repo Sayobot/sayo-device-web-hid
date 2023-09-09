@@ -67,7 +67,10 @@
           "note": "软件版本<=100",
           "version_max": 100,
           "values": [
-            "pwd.json"
+            "pwd.json",
+            "auto_enter.json",
+            "pwd_interval_time.json",
+            "u8.json"
           ]
         },
         {
@@ -77,9 +80,9 @@
           "version_min": 101,
           "values": [
             "pwd.json",
-            "auto_enter.json",
+            "general_keys.json",
             "pwd_interval_time.json",
-            "u8.json"
+            "lock_case.json"
           ]
         },
         {
