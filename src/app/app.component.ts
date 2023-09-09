@@ -314,7 +314,8 @@ export class AppComponent implements OnDestroy {
       width: "500px",
       data: {
         content: this._tr.instant("设备稍后将会开始自动在线升级..."),
-        title: this._tr.instant("Bootloader")
+        title: this._tr.instant("Bootloader"),
+        isBlock: true
       }
     }
 
@@ -326,6 +327,19 @@ export class AppComponent implements OnDestroy {
 
       setTimeout(async () => {
         const devices = await navigator.hid.getDevices();
+
+        if (!devices || devices.length === 0) {
+          this._dialog.open(InformationDialog, {
+            disableClose: true,
+            width: "500px",
+            data: {
+              content: this._tr.instant("检测到未开始自动更新，可能是因为首次连接设备，请手动连接设备以便让更新继续。"),
+              title: this._tr.instant("提示"),
+              isBlock: false
+            }
+          })
+          return;
+        }
 
         for (let i = 0; i < devices.length; i++) {
           const item = devices[i];

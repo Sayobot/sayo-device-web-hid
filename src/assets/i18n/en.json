@@ -658,5 +658,6 @@
   "屏幕编辑": "Screen Edit",
   "设备选项": "Device Option",
   "遇到问题了？点击这里去看看文档吧！": "Problem? Click here to see the document!",
-  "请输入设备新名称": "please enter new device name"
+  "请输入设备新名称": "please enter new device name",
+  "检测到未开始自动更新，可能是因为首次连接设备，请手动连接设备以便让更新继续。": "Automatic update has not been started, possibly because the device is connected for the first time. Manually connect the device to allow the update to continue."
 }

@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 interface InformationConfig {
   title: string;
   content: string;
+  isBlock: boolean;
 }
 
 @Component({

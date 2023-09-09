@@ -2,3 +2,6 @@
 <div mat-dialog-content>
   {{ config.content }}
 </div>
+<div *ngIf="!config.isBlock" mat-dialog-actions class="actions">
+  <button mat-flat-button matDialogClose>ok</button>
+</div>
