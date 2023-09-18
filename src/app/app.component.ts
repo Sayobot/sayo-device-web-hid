@@ -328,7 +328,20 @@ export class AppComponent implements OnDestroy {
       setTimeout(async () => {
         const devices = await navigator.hid.getDevices();
 
-        if (!devices || devices.length === 0) {
+        let flag = false;
+
+        for (let i = 0; i < devices.length; i++) {
+          const item = devices[i];
+          if (item.productId === device.productId && item.vendorId === device.vendorId) {
+            await item.open();
+            this._device.setDevice(item);
+            this._device.updateInfo();
+            flag = true;
+            break;
+          }
+        }
+
+        if (!flag) {
           this._dialog.open(InformationDialog, {
             disableClose: true,
             width: "500px",
@@ -338,18 +351,8 @@ export class AppComponent implements OnDestroy {
               isBlock: false
             }
           })
-          return;
         }
 
-        for (let i = 0; i < devices.length; i++) {
-          const item = devices[i];
-          if (item.productId === device.productId && item.vendorId === device.vendorId) {
-            await item.open();
-            this._device.setDevice(item);
-            this._device.updateInfo();
-            break;
-          }
-        }
       }, 2000);
     });
   }
