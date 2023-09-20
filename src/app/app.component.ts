@@ -173,7 +173,7 @@ export class AppComponent implements OnDestroy {
 
         this.firmwareConfig = await this._firmware.config(pid);
 
-        if (this.firmwareConfig && this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
+        if (this._device.isSupport(Cmd.Bootloader) && this.firmwareConfig && this._firmware.canUpdate(this.firmwareConfig, this.deviceInfo)) {
           const ok = await this.confirmUpdate(this._tr.instant("当前设备有新固件可以更新"));
           if (ok) {
             this.jumpToBootloader(device);
