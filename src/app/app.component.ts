@@ -10,16 +10,13 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Settings } from './core/device/settings.service';
 import { FirmwareService } from './core/device/firmware.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import * as platform from 'platform';
 import { LoaderService } from './shared/components/loading/loader.service';
 import { GetBoolDialog } from './shared/components/get-bool-dialog/get-bool-dialog.component';
 import { ProgressDialog } from './shared/components/progress-dialog/progress-dialog.component';
 import { InformationDialog } from './shared/components/information-dialog/information-dialog.component';
 import { GetStringDialog } from './shared/components/get-string-dialog/get-string-dialog.component';
 
-const isWeChat = navigator.userAgent.toLowerCase().includes("micromessenger");
 const isO3C = (pid: number, mode_code: number) => (pid === 5 && mode_code === 4);
-const WEB_HID_MIN_VERSION_FOR_CHROME = 89;
 
 const O3C_MIN_VERSION = 98;
 
@@ -132,10 +129,6 @@ export class AppComponent implements OnDestroy {
     private _dialog: MatDialog,
     private _loading: LoaderService,
   ) {
-    if (!this.caniuse()) {
-      return;
-    }
-
     this._bpo.observe([SMALL_SCREEN]).pipe(takeUntil(this.destory$))
       .subscribe(result => {
         this.matchSmallScreen = result.breakpoints[SMALL_SCREEN];
@@ -218,19 +211,6 @@ export class AppComponent implements OnDestroy {
     }
 
     this.menus.push(SettingMenu);
-  }
-
-  private caniuse() {
-    const primaryVersion = platform.version?.split(".")[0]!;
-
-    if (isWeChat || !navigator.hid || Number(primaryVersion) < WEB_HID_MIN_VERSION_FOR_CHROME) {
-      const url = "https://caniuse.com/?search=webhid";
-      const tip = `${this._tr.instant("请使用支持 Web HID 的浏览器，支持列表可查询")}:${url}`;
-      alert(tip);
-      return false;
-    }
-
-    return true;
   }
 
   private async upgrade(device: HIDDevice) {
