@@ -16,8 +16,8 @@ export class PwdService implements O2Service<Password> {
     private _o2p: O2Protocol,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next([]);
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next([]);
     });
   }
 
@@ -28,8 +28,11 @@ export class PwdService implements O2Service<Password> {
       } else {
         console.info("初始化密码数据");
 
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
-        this._o2p.get_pwd(this._device.instance!, (pwds) => {
+        this._o2p.get_pwd(dev, (pwds) => {
           this.data$.next(pwds);
           resolve("init password successful.");
           this._loader.complete();
@@ -40,9 +43,10 @@ export class PwdService implements O2Service<Password> {
   }
 
   setItem(pwd: Password) {
-    if (!this._device.isConnected()) return;
+    const dev = this._device.instance();
+    if (!dev) return;
 
-    this._o2p.set_pwd(this._device.instance!, pwd, (ok: boolean) => {
+    this._o2p.set_pwd(dev, pwd, (ok: boolean) => {
       setItemHandler(this.data$, pwd, ok);
       this._device.setChanged(ok);
     });

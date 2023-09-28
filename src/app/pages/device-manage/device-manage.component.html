@@ -8,9 +8,24 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="isBootloader()">
-    <div class="upgrade-tip">
-      {{"设备即将开始升级，请稍等..." | translate}}
+  <ng-container *ngIf="upgradeEvent">
+    <div class="upgrade-tip" [ngSwitch]="upgradeEvent.event">
+      <ng-container *ngSwitchCase="'start'">
+        <div>{{"设备即将开始升级，请稍等..." | translate}}</div>
+        <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+      </ng-container>
+      <ng-container *ngSwitchCase="'blocking'">
+        <div>{{"检测到未开始自动更新，可能是因为首次连接设备，请手动连接设备以便让更新继续。" | translate}}</div>
+        <img class="how-upgroup" src="/assets/upgroup.jpg" alt="How to manually select a device upgrade">
+      </ng-container>
+      <ng-container *ngSwitchCase="'Failure'">
+        {{upgradeEvent.message}}
+      </ng-container>
+      <ng-container *ngSwitchCase="'upgrading'">
+        <div>{{"固件升级中，请不要断开连接或者关闭窗口..." | translate}}<span
+            class="progress-statu">{{upgradeEvent.value}}/{{upgradeEvent.total}}</span></div>
+      </ng-container>
+      <ng-container *ngSwitchDefault></ng-container>
     </div>
   </ng-container>
 

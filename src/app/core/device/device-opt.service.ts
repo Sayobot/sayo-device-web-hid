@@ -15,8 +15,8 @@ export class DeviceOptService implements O2Service<DeviceOption> {
     private _o2p: O2Protocol,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next({ id: 0, values: [] });
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next({ id: 0, values: [] });
     });
   }
 
@@ -27,8 +27,12 @@ export class DeviceOptService implements O2Service<DeviceOption> {
       } else {
         console.info("初始化设备选项数据");
 
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
-        this._o2p.get_option_byte(this._device.instance!, (option) => {
+
+        this._o2p.get_option_byte(dev, (option) => {
           this.data$.next(option[0]);
 
           resolve("init option byte successful.");
@@ -41,7 +45,10 @@ export class DeviceOptService implements O2Service<DeviceOption> {
   setItem(option: DeviceOption) {
     if (!this._device.isConnected()) return;
 
-    this._o2p.set_option_byte(this._device.instance!, option, (ok) => {
+    const dev = this._device.instance();
+    if (!dev) return;
+
+    this._o2p.set_option_byte(dev, option, (ok) => {
       if (ok) {
         this.data$.next(option);
         this._device.setChanged(ok);

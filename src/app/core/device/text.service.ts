@@ -18,8 +18,8 @@ export class TextService implements O2Service<IText> {
     private o2p: O2Protocol,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next([]);
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next([]);
     });
   }
 
@@ -30,17 +30,20 @@ export class TextService implements O2Service<IText> {
       } else {
         console.info('初始化字符串数据');
 
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
         switch (this.encode) {
           case 'GBK':
-            this.o2p.get_gbk(this._device.instance!, (data: IText[]) => {
+            this.o2p.get_gbk(dev, (data: IText[]) => {
               this.data$.next(data);
               resolve("init GBK successful.");
               this._loader.complete();
             });
             break;
           case 'Unicode':
-            this.o2p.get_unicode(this._device.instance!, (data: IText[]) => {
+            this.o2p.get_unicode(dev, (data: IText[]) => {
               this.data$.next(data);
               resolve("init Unicode successful.");
               this._loader.complete();
@@ -67,17 +70,18 @@ export class TextService implements O2Service<IText> {
   }
 
   setItem(text: IText) {
-    if (!this._device.isConnected()) return;
+    const dev = this._device.instance();
+    if (!dev) return;
 
     switch (this._encode) {
       case 'GBK':
-        this.o2p.set_gbk(this._device.instance!, text, (ok: boolean) => {
+        this.o2p.set_gbk(dev, text, (ok: boolean) => {
           setItemHandler(this.data$, text, ok);
           this._device.setChanged(ok);
         });
         break;
       case 'Unicode':
-        this.o2p.set_unicode(this._device.instance!, text, (ok: boolean) => {
+        this.o2p.set_unicode(dev, text, (ok: boolean) => {
           setItemHandler(this.data$, text, ok);
           this._device.setChanged(ok);
         });

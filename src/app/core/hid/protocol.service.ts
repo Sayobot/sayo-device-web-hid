@@ -100,11 +100,6 @@ export class O2Protocol {
 
     const out_buf = this.fillBuffer(out_array);
 
-    // console.log("addr: ", i);
-    // console.log("Num array : ", [...out_buf].map(n => n).join(" "));
-    // console.log("HEX buffer: ", [...out_buf].map(n => (n > 15 ? n.toString(16) : `0${n.toString(16)}`)).join(" "));
-    // console.log("out index : ", [...out_buf].map((n, i) => i > 9 ? i : `0${i}`).join(" "));
-
     return await this.takeData(device, out_buf, O2Parser.onlyStatu);
   }
 
@@ -139,7 +134,7 @@ export class O2Protocol {
     return await this.takeData(device, out_buf, O2Parser.onlyStatu);
   }
 
-  async get_metaInfo_2(device: HIDDevice) {
+  async get_metaInfo(device: HIDDevice) {
     const out_buf = new Uint8Array([O2Core.Cmd.MetaInfo, 0x00, 0x02]);
     return this.takeData(device, out_buf, O2Parser.asMetaInfo);
   };
@@ -186,22 +181,6 @@ export class O2Protocol {
     result[checkOffset] = O2Utils.calcCheckSum(result.slice(0, checkOffset));
 
     return new Uint8Array(result);
-  }
-
-  get_metaInfo(device: HIDDevice, handler: GetHandler<DeviceInfo>) {
-    const reportData = new Uint8Array([O2Core.Cmd.MetaInfo, 0x00, 0x02]);
-
-    const option: ReadItemOption<DeviceInfo> = {
-      key: "Device Info",
-      cmd: O2Core.Cmd.MetaInfo,
-      parser: O2Parser.asMetaInfo,
-      buffer: reportData,
-      handler: handler,
-      log: this._log,
-      HIDLog: this._hidLog,
-    }
-
-    O2Utils.requestByRead(device, option);
   }
 
   get_simplekey(device: HIDDevice, handler: GetHandler<SimpleKey[]>) {

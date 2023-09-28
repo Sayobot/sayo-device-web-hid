@@ -8,94 +8,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-
+  <script src="./assets/caniuse.js"></script>
 </head>
 
 <body class="mat-typography">
   <app-root></app-root>
   <div id="google_translate_element"></div>
 
-  <script>
-    var borwers = [
-      { name: "chrome", min_version: 89 },
-      { name: "edg", min_version: 89 },
-      { name: "edge", min_version: 89 },
-      { name: "opera", min_version: 76 }
-    ]
-
-    function isSupportBorwer() {
-
-      if (!navigator.hid) {
-        return false;
-      }
-
-      var info = navigator.userAgent.toLowerCase();
-
-      var brower_info = {
-        name: "",
-        version: 0
-      }
-
-      for (var i = 0; i < borwers.length; i++) {
-        var brower = borwers[i];
-        brower_info.name = brower.name;
-        if (info.indexOf(brower.name) != -1) {
-          var reg_str = brower.name + "/([\\d]+)";
-          var reg = new RegExp(reg_str, "ig");
-
-          var matchs = info.match(reg);
-
-          if (matchs.length > 0) {
-            var brower_arr = matchs[0].split("/");
-
-            if (brower_arr.length > 1) {
-              brower_info.version = brower_arr[1];
-              if (brower_info.version >= brower.min_version) {
-                console.log(`brower name: ${brower_info.name}, version: ${brower_info.version}`);
-                return true;
-              }
-            }
-          }
-        }
-      }
-
-      return false;
-    }
-
-    function caniuse() {
-      if (!isSupportBorwer()) {
-        if (navigator.language === "zh-CN") {
-          alert("请使用支持 Web HID 的浏览器，支持列表可查询: " + "https://caniuse.com/?search=webhid");
-        } else {
-          alert("Please use a support Web HID browser, the support list can be queried: " + "https://caniuse.com/?search=webhid");
-        }
-
-      }
-    }
-
-    caniuse();
-  </script>
-
-
-  <script>
-    const github = `
-
-    Github:
-
-    https://github.com/SoulDee/WebSayoDevice
-
-    `;
-    console.log(github);
-  </script>
-
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'zh-CN' }, 'google_translate_element');
-    }
-  </script>
-
-  <script async type="text/javascript"
-    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="./assets/log.js"></script>
+  <script src="./assets/google.js"></script>
+  <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

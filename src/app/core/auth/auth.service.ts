@@ -8,8 +8,8 @@ export class AuthService {
   private opened = false;
 
   constructor(private _device: DeviceService) {
-    this._device.device$.subscribe((device: HIDDevice) => {
-      this.opened = device.opened;
+    this._device.device$.subscribe(device => {
+      if (device) this.opened = device.opened;
     });
   }
 

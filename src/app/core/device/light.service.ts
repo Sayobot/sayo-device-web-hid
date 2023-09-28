@@ -18,8 +18,8 @@ export class LightService implements O2Service<Light> {
     private _o2p: O2Protocol,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next([]);
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next([]);
     });
   }
 
@@ -30,8 +30,11 @@ export class LightService implements O2Service<Light> {
       } else {
         console.info("初始化灯光数据");
 
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
-        this._o2p.get_light(this._device.instance!, (lights) => {
+        this._o2p.get_light(dev, (lights) => {
           this.data$.next(lights);
           resolve("init light successful.");
           this._loader.complete();
@@ -41,9 +44,10 @@ export class LightService implements O2Service<Light> {
   }
 
   setItem(data: Light) {
-    if (!this._device.isConnected()) return;
+    const dev = this._device.instance();
+    if (!dev) return;
 
-    this._o2p.set_light(this._device.instance!, data, (ok: boolean) => {
+    this._o2p.set_light(dev, data, (ok: boolean) => {
       setItemHandler(this.data$, data, ok);
       this._device.setChanged(ok);
     });

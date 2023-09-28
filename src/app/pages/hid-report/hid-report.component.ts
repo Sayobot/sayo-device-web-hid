@@ -26,13 +26,13 @@ const Quicks = [
   { name: "字符串 ID 0", value: "0C 02 00 00" },
   { name: "灯光 ID 0", value: "10 02 00 00" },
   { name: "Bootloader", value: "ff 02 72 96" },
-  { name: "恢复出厂", value: "4f 02 72 96"},
+  { name: "恢复出厂", value: "4f 02 72 96" },
 
   // 临时
-  { name: "App", value: "03 00"},
-  { name: "固件擦除", value: "04 00"},
-  { name: "固件验证", value: "05 00"},
-  { name: "设备信息", value: "01 00"}
+  { name: "App", value: "03 00" },
+  { name: "固件擦除", value: "04 00" },
+  { name: "固件验证", value: "05 00" },
+  { name: "设备信息", value: "01 00" }
 ]
 
 @Component({
@@ -76,12 +76,15 @@ export class HidReportComponent implements OnInit {
   }
 
   sendReport() {
-    if (this.control.valid && this._device.instance) {
+    const dev = this._device.instance();
+    if (!dev) return;
+
+    if (this.control.valid && dev) {
       const input = this.control.value?.trim().split(" ").map(hex => parseInt(hex, 16))!;
       const buffer = [...input, parseInt(this.checkSum, 16)];
 
       const done$ = new Subject<boolean>();
-      const input$ = fromEvent<HIDInputReportEvent>(this._device.instance, 'inputreport').pipe(takeUntil(done$));
+      const input$ = fromEvent<HIDInputReportEvent>(dev, 'inputreport').pipe(takeUntil(done$));
 
       input$.subscribe(({ data }) => {
         const req = ["02", ...buffer.map(format)];
@@ -93,7 +96,7 @@ export class HidReportComponent implements OnInit {
         done$.complete();
       });
 
-      sendReport(this._device.instance, new Uint8Array(buffer));
+      sendReport(dev, new Uint8Array(buffer));
     }
   }
 }

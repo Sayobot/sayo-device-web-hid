@@ -18,8 +18,8 @@ export class SimpleKeyService implements O2Service<SimpleKey> {
     private _key: KeyService,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next([]);
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next([]);
     });
   }
 
@@ -28,9 +28,12 @@ export class SimpleKeyService implements O2Service<SimpleKey> {
       if (!this._device.isConnected()) {
         reject("device not connect.");
       } else {
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
 
-        this.o2p.get_simplekey(this._device.instance!, (data: SimpleKey[]) => {
+        this.o2p.get_simplekey(dev, (data: SimpleKey[]) => {
           this.data$.next(data);
           resolve("init simple key successful.");
           this._loader.complete();
@@ -43,9 +46,10 @@ export class SimpleKeyService implements O2Service<SimpleKey> {
   }
 
   setItem(key: SimpleKey) {
-    if (!this._device.isConnected()) return;
+    const dev = this._device.instance();
+    if (!dev) return;
 
-    this.o2p.set_simplekey(this._device.instance!, key, (ok: boolean) => {
+    this.o2p.set_simplekey(dev, key, (ok: boolean) => {
       setItemHandler(this.data$, key, ok);
       this._device.setChanged(ok);
     });

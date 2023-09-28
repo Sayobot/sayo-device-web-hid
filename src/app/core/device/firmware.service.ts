@@ -1,66 +1,98 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, of } from 'rxjs';
 import { O2Protocol, ResponseType } from '../hid';
+import { TranslateService } from '@ngx-translate/core';
+import { DeviceService } from './device.service';
+import { sleep } from 'src/app/utils';
+
+export enum UpgradeEvent {
+  Static = "static",
+  Start = "start",
+  Upgrading = "upgrading",
+  Failure = "failure",
+  Blocking = "blocking",
+  Done = "done"
+}
 
 export interface UpgradeProgress {
-  done: boolean;
-  value: number;
-  total: number;
+  event: UpgradeEvent;
+  value?: number;
+  total?: number;
+  message?: string;
 }
 
 const WRITE_BLOCK_SIZE = 32; // 每次编程的数据大小,必须是 16 32 64 128 等整数
 
-const afterMemoryEmpty = (buf: number[], i: number) => {
-  for (let j = 0; j < WRITE_BLOCK_SIZE; j++) {
-    if (buf[i + j] != 0) {
-      return false;
-    }
-  }
-  return true;
-}
-
 @Injectable({ providedIn: 'root' })
 export class FirmwareService {
-
-  onBootloader: boolean = false;
-
-  upgrade$ = new Subject<UpgradeProgress>();
+  upgrade$ = new BehaviorSubject<UpgradeProgress>({ event: UpgradeEvent.Static });
 
   constructor(
-    private httpClient: HttpClient,
-    private _protocol: O2Protocol
+    private http: HttpClient,
+    private protocol: O2Protocol,
+    private tr: TranslateService,
+    private device: DeviceService
   ) { }
 
   async bl_device_info(device: HIDDevice) {
-    const res = await this._protocol.bootlodaer_model_code(device);
+    const res = await this.protocol.bootlodaer_model_code(device);
     if (res.statu === -1) {
       throw "get bootloader device info error";
     };
     return res.data;
   }
 
-  handleUpgradeProgress(value: number, total: number) {
-    if (value >= total) {
-      this.upgrade$.next({ done: true, value, total })
+  async upgrade(device: HIDDevice) {
+    const bl_info = await this.bl_device_info(device);
+    const config = await this.config(device.productId);
+
+    if (!config) return;
+
+    const info = this.info(config, bl_info.mode_code);
+
+    if (!info) return console.error("没找到对应固件用于升级");
+
+    this.upgrade$.next({ event: UpgradeEvent.Upgrading, value: 0, total: 100 });
+
+    if (config.erase_flash) {
+      if (!(await this.erase(device))) return;
+    }
+
+    await this.write(device, info.file_path, config.addr_len);
+    if (!(await this.verify(device))) return;
+
+    await this.protocol.jump_app(device);
+    this.upgrade$.next({ event: UpgradeEvent.Done });
+
+    await sleep(3000);
+    await this.device.autoConnect();
+    this.upgrade$.next({ event: UpgradeEvent.Static });
+  }
+
+  private async erase(device: HIDDevice) {
+    const { statu } = await this.protocol.erase_firmware(device);
+    if (statu == ResponseType.NotSuppotData) {
+      this.upgrade$.next({ event: UpgradeEvent.Failure, message: this.tr.instant("固件擦除失败") });
+      return of(false);
     } else {
-      this.upgrade$.next({ done: false, value, total });
+      return of(true);
     }
   }
 
-  async upgrade(device: HIDDevice, info: FirmwareInfo, config: Firmware) {
-    if (config.erase_flash) {
-      const { statu } = await this._protocol.erase_firmware(device);
-      if (statu == ResponseType.NotSuppotData) {
-        console.error("固件擦除失败");
-        return;
-      }
+  private async verify(device: HIDDevice) {
+    const { statu } = await this.protocol.verify_firmware(device);
+
+    if (statu === ResponseType.NotSuppotData) {
+      this.upgrade$.next({ event: UpgradeEvent.Failure, message: this.tr.instant("固件擦除失败") });
+      return of(false);
+    } else {
+      return of(true);
     }
+  }
 
-    const { file_path } = info;
-    const buf = await this.firmwareBuffer(device.productId, file_path);
-
-    let addr_len = config.addr_len;
+  private async write(device: HIDDevice, path: string, addr_len: number) {
+    const buf = await this.buffer(device.productId, path);
     const bin_buf = new Uint8Array(buf);
 
     const arr_buf = [...bin_buf];
@@ -70,31 +102,12 @@ export class FirmwareService {
     for (let addr = 0; addr < total; addr += WRITE_BLOCK_SIZE) {
       if (device.productId == 3) addr_len = 2; // TODO: 移除，这里是因为 config 文件漏了 addr_len
 
-      // if (device.productId == 3 && afterMemoryEmpty(arr_buf, addr)) {
-      //   break;
-      // }
-
       const temp_buf = arr_buf.slice(addr, WRITE_BLOCK_SIZE + addr);
-      await this._protocol.write_memory(device, addr, addr_len, temp_buf);
-      this.handleUpgradeProgress(addr + WRITE_BLOCK_SIZE, total);
+      await this.protocol.write_memory(device, addr, addr_len, temp_buf);
+
+      const progress = addr + WRITE_BLOCK_SIZE;
+      this.upgrade$.next({ event: UpgradeEvent.Upgrading, value: progress, total });
     }
-
-    // PID 3 需要写入校验码
-    // if (device.productId == 3) {
-    //   const addr = info.rom_size - 4;
-    //   const temp_buf = arr_buf.slice(addr, WRITE_BLOCK_SIZE + addr);
-    //   await this._protocol.write_memory(device, addr, addr_len, temp_buf);
-    //   this.handleUpgradeProgress(total, total);
-    // }
-
-    // 验证固件是否错误
-    const varify = await this._protocol.verify_firmware(device);
-    if (varify.statu === ResponseType.NotSuppotData) {
-      console.error("固件验证错误");
-      return;
-    }
-
-    await this._protocol.jump_app(device);
   }
 
   async isBootloader(device: HIDDevice) {
@@ -102,20 +115,25 @@ export class FirmwareService {
       throw "Please open device"
     }
 
-    const res = await this._protocol.get_metaInfo_2(device);
+    const res = await this.protocol.get_metaInfo(device);
     return (res.statu !== ResponseType.Done);
   }
 
-  async bootloader(device: HIDDevice, duration: number, callback: () => void) {
+  async bootloader(device: HIDDevice) {
     const timer = setTimeout(async () => {
-      clearTimeout(timer);
-      callback();
-    }, duration);
+      const ok = await this.device.autoConnect();
+      if (!ok) {
+        this.upgrade$.next({ event: UpgradeEvent.Blocking });
+      }
 
-    await this._protocol.jump_bootloader(device);
+      clearTimeout(timer);
+    }, 5000);
+
+    this.upgrade$.next({ event: UpgradeEvent.Start });
+    await this.protocol.jump_bootloader(device);
   }
 
-  async firmwareBuffer(pid: number, path: string) {
+  private async buffer(pid: number, path: string) {
     const response = await fetch(`https://a.sayobot.cn/firmware/update/${pid}/${path}`, {
       method: "GET",
       mode: "cors",
@@ -126,31 +144,31 @@ export class FirmwareService {
 
   async config(pid: number) {
     try {
-      const requestConfig = this.httpClient.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}/config.json`)
+      const requestConfig = this.http.get<Firmware>(`https://a.sayobot.cn/firmware/update/${pid}/config.json`)
       return await lastValueFrom(requestConfig);
     } catch (error) {
       return undefined;
     }
   }
 
-  firmwareInfo(config: Firmware, code: number) {
+  info(config: Firmware, code: number) {
     return config.data.find(item => item.model_code === code);
   }
 
-  canUpdate(config: Firmware, info: DeviceInfo): boolean {
-    const firmwareInfo = this.firmwareInfo(config, info.mode_code);
+  checkUpdate(config: Firmware, deviceInfo: DeviceInfo): boolean {
+    const info = this.info(config, deviceInfo.mode_code);
 
-    if (info.pid === 2) {
+    if (deviceInfo.pid === 2) {
       console.error("PID 为 2 的设备暂不支持在线升级");
       return false;
     }
 
-    if (!firmwareInfo) {
+    if (!info) {
       console.error("未找到匹配该设备的固件：", info);
       return false;
     }
 
-    if (info.version >= firmwareInfo.version) {
+    if (deviceInfo.version >= info.version) {
       console.info("当前设备的固件版本已经是最新: ", info);
       return false;
     }

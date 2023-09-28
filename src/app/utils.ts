@@ -32,3 +32,11 @@ export const DisplaySizeMap: { [size: string]: number } = {
   [Breakpointer.Small]: 600,
   [Breakpointer.XSmall]: 400
 }
+
+export const sleep = (duration: number) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(0);
+    }, duration)
+  })
+}

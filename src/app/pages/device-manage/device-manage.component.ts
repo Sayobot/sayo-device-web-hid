@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { debounceTime, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DeviceService } from 'src/app/core/device/device.service';
-import { FirmwareService } from 'src/app/core/device/firmware.service';
+import { FirmwareService, UpgradeProgress } from 'src/app/core/device/firmware.service';
 import { DocService } from 'src/app/core/doc/doc.service';
 import { Sayo_Device_filters, Config } from "src/app/core/hid";
 
@@ -19,6 +19,8 @@ export class DeviceManageComponent implements OnInit {
   select$ = new Subject<void>();
 
   destory$ = new Subject();
+
+  upgradeEvent?: UpgradeProgress;
 
   constructor(
     private _device: DeviceService,
@@ -54,32 +56,23 @@ export class DeviceManageComponent implements OnInit {
           }
 
           return target;
-        }),
-        distinctUntilChanged(),
-        tap((device: HIDDevice) => this._device.setDevice(device)),
-        switchMap(async (device: HIDDevice) => {
-
-          if (device && !device.opened) {
-
-            await device.open();
-            this.hasMacPermission = isMac() && device.opened;
-          }
-
-          return of();
-        }),
+        })
       )
-      .subscribe((_) => {
-        this._device.updateInfo();
+      .subscribe(async (device: HIDDevice) => {
+        this._device.connect(device);
+        this.hasMacPermission = isMac();
       });
+
+
+    this._firmware.upgrade$
+      .pipe(takeUntil(this.destory$)).subscribe(event => {
+        this.upgradeEvent = event;
+      })
 
     this._doc.loadParamDoc();
   }
 
   ngOnInit(): void { }
-
-  isBootloader() {
-    return this._firmware.onBootloader;
-  }
 
   search() {
     this.select$.next();

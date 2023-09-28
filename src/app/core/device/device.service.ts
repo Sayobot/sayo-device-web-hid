@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { O2Protocol, ResponseType } from '../hid';
+import { sleep } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceService {
   _info?: DeviceInfo;
-  instance?: HIDDevice;
 
-  device$ = new ReplaySubject<HIDDevice>(1);
+  prevDevice: HIDDevice | null = null;
+
+  device$ = new BehaviorSubject<HIDDevice | null>(null);
 
   changed$ = new BehaviorSubject<Boolean>(false);
 
@@ -19,8 +21,37 @@ export class DeviceService {
 
   }
 
-  async rename(device: HIDDevice, name: string) {
-    const res = await this.protocol.set_device_name(device, name);
+  async autoConnect() {
+    if (!this.prevDevice) return false;
+    const devices = await navigator.hid.getDevices();
+
+    for (let i = 0; i < devices.length; i++) {
+      const item = devices[i];
+
+      if (item.productId === this.prevDevice.productId && item.vendorId === this.prevDevice.vendorId) {
+        await this.connect(item);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  disconnect() {
+    const dev = this.device$.getValue();
+    if (dev) this.prevDevice = dev;
+    this.device$.next(null);
+  }
+
+  instance() {
+    return this.device$.getValue();
+  }
+
+  async rename(name: string) {
+    const dev = this.instance();
+    if (!dev) return;
+
+    const res = await this.protocol.set_device_name(dev, name);
     this.setChanged(true);
     return res.statu;
   }
@@ -35,54 +66,47 @@ export class DeviceService {
   }
 
   isSupport(code: number) {
-    if (!this.instance || !this._info) return false;
+    const dev = this.instance();
+    if (!dev || !this._info) return false;
+
     return this._info.api.includes(code);
   }
 
   info() {
-    return this._info!;
+    return this._info;
   }
 
-  setDevice(device: HIDDevice) {
-    if (device) {
-      if (device !== this.instance) {
-        this.instance = device;
-        console.info('连接设备: ', this.instance);
-      } else {
-        console.error('请选择其他设备');
-      }
-    } else {
-      console.error('请连接设备');
+  async connect(device: HIDDevice) {
+    if (!device.opened) await device.open();
+
+    if (!device.opened) return console.error("打开设备失败:", device);
+
+    console.info('连接设备: ', device.productName);
+
+    const res = await this.protocol.get_metaInfo(device);
+    this._info = {
+      ...res.data,
+      pid: device.productId
     }
+
+    this.device$.next(device);
   }
 
   save() {
-    if (!this.instance) {
+    const dev = this.instance();
+
+    if (!dev) {
       console.warn('请连接设备');
       return;
     }
 
-    this.protocol.save(this.instance!, (ok: boolean) => {
+    this.protocol.save(dev, (ok: boolean) => {
       if (ok) this.setChanged(false);
     });
   }
 
-  updateInfo() {
-    if (!this.instance) return;
-
-    this.protocol.get_metaInfo(this.instance, (info: DeviceInfo) => {
-      this._info = info;
-
-      this._info.pid = this.instance?.productId!;
-
-      console.log("设备信息: ", info);
-
-      this.device$.next(this.instance!);
-    });
-  }
-
   isConnected() {
-    return this.instance !== undefined;
+    return !!this.instance();
   }
 
   isChanged() {
@@ -94,8 +118,9 @@ export class DeviceService {
   }
 
   filename() {
-    if (this.instance) {
-      return this.instance!.productId === 3 ? 'main_vid_3.json' : 'main.json';
+    const dev = this.instance();
+    if (dev) {
+      return dev.productId === 3 ? 'main_vid_3.json' : 'main.json';
     } else {
       console.error('device not connect.');
 

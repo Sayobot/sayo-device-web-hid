@@ -83,8 +83,8 @@ export class DocService {
     private device: DeviceService,
     private _loader: LoaderService
   ) {
-    this.device.device$.subscribe(async () => {
-      await this.load(device.filename());
+    this.device.device$.subscribe(async (device) => {
+      if (device) await this.load(this.device.filename());
     });
   }
 
@@ -274,7 +274,11 @@ export class DocService {
   private _parseCmdDoc(json: CmdJson) {
     const name = json.title || " ";
 
-    const { version } = this.device.info();
+    const info = this.device.info();
+
+    if (!info) {
+      throw "Nor found device info";
+    };
 
     let doc: DocCmd = {
       name: this._tr.instant(name),
@@ -287,7 +291,7 @@ export class DocService {
       const mode = this._parseModeDoc(el);
 
       // 版本过滤
-      if (mode.version_max && version > mode.version_max || mode.version_min && version < mode.version_min) {
+      if (mode.version_max && info.version > mode.version_max || mode.version_min && info.version < mode.version_min) {
         continue;
       }
 

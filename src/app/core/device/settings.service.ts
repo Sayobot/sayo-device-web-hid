@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-interface SettingStorage {
+export interface SettingStorage {
   [key: string]: string
 }
 

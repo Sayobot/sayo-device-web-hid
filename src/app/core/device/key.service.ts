@@ -23,8 +23,8 @@ export class KeyService implements O2Service<Key> {
     private _tr: TranslateService,
     private _loader: LoaderService
   ) {
-    this._device.device$.subscribe(async () => {
-      this.data$.next([]);
+    this._device.device$.subscribe(device => {
+      if (device) this.data$.next([]);
     });
   }
 
@@ -33,8 +33,11 @@ export class KeyService implements O2Service<Key> {
       if (!this._device.isConnected()) {
         reject("device not connect.");
       } else {
+        const dev = this._device.instance();
+        if (!dev) return;
+
         this._loader.loading();
-        this._o2p.get_key(this._device.instance!, (data: Key[]) => {
+        this._o2p.get_key(dev, (data: Key[]) => {
           // filter size empty key
           const newDatas = data
             .filter((key => key.pos.size.width !== 0))
@@ -58,9 +61,10 @@ export class KeyService implements O2Service<Key> {
   }
 
   setItem(key: Key) {
-    if (!this._device.isConnected()) return;
+    const dev = this._device.instance();
+    if (!dev) return;
 
-    this._o2p.set_key(this._device.instance!, key, (ok: boolean) => {
+    this._o2p.set_key(dev, key, (ok: boolean) => {
       setItemHandler(this.data$, key, ok);
       this._device.setChanged(ok);
     });
