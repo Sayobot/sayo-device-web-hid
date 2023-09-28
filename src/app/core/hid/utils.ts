@@ -1,5 +1,11 @@
-import { catchError, filter, fromEvent, interval, lastValueFrom, of, Subject, switchMap, takeUntil, tap, timeout } from 'rxjs';
+import { catchError, filter, fromEvent, interval, of, Subject, switchMap, takeUntil, timeout } from 'rxjs';
 import { Cmd, Config, Method, Offset } from './const';
+
+const HID_TIMEOUT = 1000;
+
+const handleTimoutError = () => {
+  alert("您的电脑当前繁忙，请关闭一些应用程序之后再来试试吧。\nYour computer is currently busy, please close some applications and try again later.");
+}
 
 /**
  * 发送请求
@@ -61,16 +67,17 @@ export const loopRequestByRead = <T extends ID>(
   let result: T[] = [];
 
   const done$ = new Subject<boolean>();
-  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(
-    takeUntil(done$),
-    timeout(100),
-    catchError((e) => {
-      console.error(e.message);
-      done$.next(true);
-      done$.complete();
-      return of();
-    }),
-  );
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
+    .pipe(
+      takeUntil(done$),
+      timeout(HID_TIMEOUT),
+      catchError((e) => {
+        handleTimoutError();
+        done$.next(true);
+        done$.complete();
+        return of();
+      }),
+    );
 
   input$.subscribe((report: HIDInputReportEvent) => {
     lock.unlock();
@@ -129,7 +136,14 @@ export const requestByRead = <T>(
   option: ReadItemOption<T>
 ) => {
   const done$ = new Subject<boolean>();
-  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
+    .pipe(
+      takeUntil(done$),
+      timeout(HID_TIMEOUT),
+      catchError(e => {
+        handleTimoutError();
+        return of();
+      }));;
 
   input$.subscribe(({ reportId, data }) => {
     if (reportId !== 2) {
@@ -170,8 +184,9 @@ export async function sendReport2(device: HIDDevice, out_buf: Uint8Array) {
     const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
       .pipe(
         takeUntil(done$),
+        timeout(HID_TIMEOUT),
         catchError((e) => {
-          console.error(e.message);
+          handleTimoutError();
           done$.next(true);
           done$.complete();
           return of();
@@ -202,7 +217,14 @@ export const requestByWrite = (
 ) => {
 
   const done$ = new Subject<boolean>();
-  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport').pipe(takeUntil(done$));
+  const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
+    .pipe(
+      takeUntil(done$),
+      timeout(HID_TIMEOUT),
+      catchError(e => {
+        handleTimoutError();
+        return of();
+      }));
 
   input$.subscribe(({ data }) => {
     const ok = data.getInt8(0) === 0;

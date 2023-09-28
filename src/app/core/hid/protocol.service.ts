@@ -5,7 +5,7 @@
 /// <reference path="./index.d.ts" />
 
 import { Injectable } from '@angular/core';
-import O2Core, { ResponseType as O2ResType, ResponseType } from './const';
+import O2Core, { ResponseType as O2ResType } from './const';
 import O2Utils from './utils';
 import O2Parser from './parser';
 import { lockFactory } from './lock';
@@ -13,14 +13,6 @@ import { lockFactory } from './lock';
 export interface O2Response<T> {
   statu: O2ResType,
   data: T;
-}
-
-function wait(ms: number) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(true);
-    }, ms);
-  });
 }
 
 const REQUEST_SIZE = 63;
