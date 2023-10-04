@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { O2Protocol, ResponseType } from '../hid';
-import { sleep } from 'src/app/utils';
+import { Config, O2Protocol, ResponseType } from '../hid';
 
 @Injectable({
   providedIn: 'root',
@@ -21,20 +20,48 @@ export class DeviceService {
 
   }
 
-  async autoConnect() {
+  async autoConnect(isBoot: boolean) {
     if (!this.prevDevice) return false;
-    const devices = await navigator.hid.getDevices();
+    const devices = await this.getDevices(isBoot);
 
     for (let i = 0; i < devices.length; i++) {
       const item = devices[i];
 
-      if (item.productId === this.prevDevice.productId && item.vendorId === this.prevDevice.vendorId) {
+      if (item.productId === this.prevDevice.productId
+        && item.vendorId === this.prevDevice.vendorId) {
         await this.connect(item);
         return true;
       }
     }
 
     return false;
+  }
+
+  async getDevices(matchBoot: boolean) {
+    const devices = await navigator.hid.getDevices();
+    console.log(devices);
+    const result: HIDDevice[] = devices.filter(dev => {
+      if (matchBoot) {
+        if (dev.collections.length === 0) return false;
+      } else {
+        if (dev.collections.length < 2) return false;
+      }
+
+      for (let i = 0; i < dev.collections.length; i++) {
+        const col = dev.collections[i];
+        if (col.usagePage! >= Config.usagePage) {
+          return true;
+        }
+      }
+
+      return true;
+    });
+
+    if (result.length === 0) {
+      throw new Error("could not find hid device.");
+    }
+
+    return result;
   }
 
   disconnect() {
@@ -81,7 +108,7 @@ export class DeviceService {
 
     if (!device.opened) return console.error("打开设备失败:", device);
 
-    console.info('连接设备: ', device.productName);
+    console.info('连接设备: ', device);
 
     const res = await this.protocol.get_metaInfo(device);
     this._info = {

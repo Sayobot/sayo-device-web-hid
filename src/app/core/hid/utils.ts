@@ -3,8 +3,12 @@ import { Cmd, Config, Method, Offset } from './const';
 
 const HID_TIMEOUT = 1000;
 
-const handleTimoutError = () => {
-  alert("您的电脑当前繁忙，请关闭一些应用程序之后再来试试吧。\nYour computer is currently busy, please close some applications and try again later.");
+const handleTimoutError = (e: any, buffer: Uint8Array) => {
+  console.error("Report: ", buffer);
+
+  if (e?.name === "TimeoutError") {
+    alert("您的电脑当前繁忙，请关闭一些应用程序之后再来试试吧。\r\nYour computer is currently busy, please close some applications and try again later.");
+  }
 }
 
 /**
@@ -14,9 +18,6 @@ const handleTimoutError = () => {
  * @returns
  */
 export const sendReport = (device: HIDDevice, reportData: Uint8Array) => {
-  if (!device) throw new Error("could not connect device.");
-  if (!device.opened) throw new Error("could not open device.");
-
   return device.sendReport(Config.reportId, reportData);
 };
 
@@ -62,6 +63,9 @@ export const loopRequestByRead = <T extends ID>(
   device: HIDDevice,
   option: ReadListOption<T>
 ) => {
+  if (!device) throw new Error("could not connect device.");
+  if (!device.opened) throw new Error("could not open device.");
+
   const lock = option.lock;
   let id = 0;
   let result: T[] = [];
@@ -72,7 +76,7 @@ export const loopRequestByRead = <T extends ID>(
       takeUntil(done$),
       timeout(HID_TIMEOUT),
       catchError((e) => {
-        handleTimoutError();
+        handleTimoutError(e, new Uint8Array([option.cmd]));
         done$.next(true);
         done$.complete();
         return of();
@@ -135,13 +139,16 @@ export const requestByRead = <T>(
   device: HIDDevice,
   option: ReadItemOption<T>
 ) => {
+  if (!device) throw new Error("could not connect device.");
+  if (!device.opened) throw new Error("could not open device.");
+
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
     .pipe(
       takeUntil(done$),
       timeout(HID_TIMEOUT),
       catchError(e => {
-        handleTimoutError();
+        handleTimoutError(e, new Uint8Array([option.cmd]));
         return of();
       }));;
 
@@ -179,14 +186,17 @@ export async function sendReport2(device: HIDDevice, out_buf: Uint8Array) {
   if (!device) throw new Error("could not connect device.");
   if (!device.opened) throw new Error("could not open device.");
 
-  return new Promise<ArrayBuffer>((resolve, reject) => {
+  return new Promise<ArrayBuffer>((resolve) => {
     const done$ = new Subject<boolean>();
     const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
       .pipe(
         takeUntil(done$),
         timeout(HID_TIMEOUT),
         catchError((e) => {
-          handleTimoutError();
+          console.log(out_buf);
+
+          if (out_buf[0] !== Cmd.Bootloader && out_buf[0] !== Cmd.ExecApp) handleTimoutError(e, out_buf);
+
           done$.next(true);
           done$.complete();
           return of();
@@ -215,6 +225,8 @@ export const requestByWrite = (
   device: HIDDevice,
   option: WriteItemOption
 ) => {
+  if (!device) throw new Error("could not connect device.");
+  if (!device.opened) throw new Error("could not open device.");
 
   const done$ = new Subject<boolean>();
   const input$ = fromEvent<HIDInputReportEvent>(device, 'inputreport')
@@ -222,7 +234,7 @@ export const requestByWrite = (
       takeUntil(done$),
       timeout(HID_TIMEOUT),
       catchError(e => {
-        handleTimoutError();
+        handleTimoutError(e, new Uint8Array(option.buffer));
         return of();
       }));
 

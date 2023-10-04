@@ -150,12 +150,13 @@ export class AppComponent implements OnDestroy {
     navigator.hid.addEventListener("disconnect", ({ device }) => {
       const dev = this._device.instance();
 
-      if (dev) this._device.disconnect();
+      this._device.disconnect();
 
-      if (!this.onUpgrade && device === dev) {
+      if (!this.onUpgrade && device.productId === dev?.productId && device.vendorId === dev.vendorId) {
         alert(`HID disconnected: ${device.productName}`);
         location.reload();
       }
+
     });
 
     this._settings.storage$

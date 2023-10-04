@@ -66,8 +66,10 @@ export class FirmwareService {
     this.upgrade$.next({ event: UpgradeEvent.Done });
 
     await sleep(3000);
-    await this.device.autoConnect();
-    this.upgrade$.next({ event: UpgradeEvent.Static });
+    if (await this.device.autoConnect(false)) {
+      this.upgrade$.next({ event: UpgradeEvent.Static });
+    }
+
   }
 
   private async erase(device: HIDDevice) {
@@ -121,7 +123,7 @@ export class FirmwareService {
 
   async bootloader(device: HIDDevice) {
     const timer = setTimeout(async () => {
-      const ok = await this.device.autoConnect();
+      const ok = await this.device.autoConnect(true);
       if (!ok) {
         this.upgrade$.next({ event: UpgradeEvent.Blocking });
       }

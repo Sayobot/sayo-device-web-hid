@@ -25,7 +25,14 @@
         <div>{{"固件升级中，请不要断开连接或者关闭窗口..." | translate}}<span
             class="progress-statu">{{upgradeEvent.value}}/{{upgradeEvent.total}}</span></div>
       </ng-container>
-      <ng-container *ngSwitchDefault></ng-container>
+      <ng-container *ngSwitchCase="'done'">
+        <div>{{"等待自动连接设备..." | translate}}</div>
+        <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <div>{{"如何开始？" | translate}}</div>
+        <img class="how-upgroup" src="/assets/connect.png" alt="How connect device.">
+      </ng-container>
     </div>
   </ng-container>
 
