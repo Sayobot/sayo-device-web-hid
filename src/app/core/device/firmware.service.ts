@@ -68,8 +68,9 @@ export class FirmwareService {
     await sleep(3000);
     if (await this.device.autoConnect(false)) {
       this.upgrade$.next({ event: UpgradeEvent.Static });
+    } else {
+      this.upgrade$.next({ event: UpgradeEvent.Blocking });
     }
-
   }
 
   private async erase(device: HIDDevice) {

@@ -24,6 +24,8 @@ export class DeviceService {
     if (!this.prevDevice) return false;
     const devices = await this.getDevices(isBoot);
 
+    if(devices.length === 0) return false;
+
     for (let i = 0; i < devices.length; i++) {
       const item = devices[i];
 
@@ -39,7 +41,7 @@ export class DeviceService {
 
   async getDevices(matchBoot: boolean) {
     const devices = await navigator.hid.getDevices();
-    console.log(devices);
+
     const result: HIDDevice[] = devices.filter(dev => {
       if (matchBoot) {
         if (dev.collections.length === 0) return false;
@@ -56,10 +58,6 @@ export class DeviceService {
 
       return true;
     });
-
-    if (result.length === 0) {
-      throw new Error("could not find hid device.");
-    }
 
     return result;
   }
@@ -108,7 +106,7 @@ export class DeviceService {
 
     if (!device.opened) return console.error("打开设备失败:", device);
 
-    console.info('连接设备: ', device);
+    console.table(device);
 
     const res = await this.protocol.get_metaInfo(device);
     this._info = {
